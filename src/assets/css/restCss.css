@@ -1,0 +1,73 @@
+/* CSS Document */
+html, body, div, span, object, iframe,h1, h2,
+h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code,del, dfn,
+em, img, ins,kbd, q, samp,small, strong, sub, sup, var,b, i,dl, dt, dd,
+ol, ul, li,fieldset, form, label, legend,table, caption, tbody,
+tfoot,thead,tr, th, td,article, aside, canvas, details, figcaption,
+figure, footer, header, hgroup, menu, nav, section, summary,time, mark,
+audio, video {
+  margin:0;
+  padding:0;
+  border:0;
+  outline:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
+  outline-style:none;/*FF*/
+  font-style: normal;
+  font-weight:normal;
+}
+@font-face {
+  font-family: 'alpht';
+  font-display: swap;
+  src: url('../fonts/AlibabaGSP/webfont.eot'); /* IE9 */
+  src: url('../fonts/AlibabaGSP/webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/AlibabaGSP/webfont.woff2') format('woff2'),
+  url('../fonts/AlibabaGSP/webfont.woff') format('woff'), /* chrome、firefox */
+  url('../fonts/AlibabaGSP/webfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('../fonts/AlibabaGSP/webfont.svg#webfont') format('svg'); /* iOS 4.1- */
+}
+li{
+    list-style-type:none;
+}
+body {
+  line-height:1;
+}
+a{
+  margin:0;
+  padding:0;
+  border:0;
+  font-size:100%;
+  vertical-align:baseline;
+  background:transparent;
+}
+a,a:hover,a:focus{
+  text-decoration:none;
+  bblr:expression(this.onFocus=this.blur());/*IE*/
+  outline-style:none;/*FF*/
+  color:#333;
+}
+table {
+  border-collapse:collapse;
+  border-spacing:0;
+}
+
+input, select {
+  vertical-align:middle;
+}
+/*css为clearfix，清除浮动*/
+.clearfix::before,
+.clearfix::after{
+  content: "";
+  height: 0;
+  line-height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.clearfix:after{clear:both;}
+.clearfix{
+  *zoom:1;/*IE/7/6*/
+}
+/*css隐藏滚动条不支持ie*/
+/*.element::-webkit-scrollbar {display:none}*/

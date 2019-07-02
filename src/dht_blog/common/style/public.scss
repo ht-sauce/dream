@@ -1,0 +1,17 @@
+$font_main_info: #47484B; //父主要字体
+$font_main: #303133; //主要字体
+$font_info: #909399; //阴影,不可编辑,提示
+$font-icon: #1abc9c; //标签字体
+$font_err: #F56C6C; //错误
+$font_warning: #E6A23C; //警告
+$font_success: #67C23A; //成功
+//边框部分
+$border_main: #DCDFE6;
+$border_minor: #F2F6FC;
+//背景色部分
+$background_bai: #ffffff;
+$background_hover: #e7e7e7;
+//阴影部分
+@mixin shadow_main {
+  box-shadow: #c9c9c9 0 0 5px;
+}
