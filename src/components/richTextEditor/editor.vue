@@ -7,7 +7,7 @@
       </template>
     </ul>
     <!--主体内容区域-->
-    <div class="dht-editor-content"></div>
+    <div class="dht-editor-content" contentEditable="true"></div>
   </div>
 </template>
 
@@ -56,6 +56,8 @@ export default {
   .dht-editor-operation,
   .dht-editor-content {
     width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
   }
   //操作功能区域
   .dht-editor-operation {
