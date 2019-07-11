@@ -3,7 +3,9 @@
     <!--功能操作区域-->
     <ul class="dht-editor-operation">
       <template v-for="(item, index) in operationList">
-        <li :key="index" :style="item.backgroundImg" :title="item.title"></li>
+        <li :key="index" @click="item.event" :title="item.title">
+          <span :style="item.backgroundImg"></span>
+        </li>
       </template>
     </ul>
     <!--主体内容区域-->
@@ -21,12 +23,19 @@ export default {
         {
           backgroundImg: {
             backgroundImage: `url(${require("./assets/images/quanping.png")})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "60% 60%",
-            backgroundPosition: "center"
+            backgroundSize: "100% 100%"
           },
           title: "全屏",
-          event: "FullScreen"
+          event: this.FullScreen,
+          rel: "dht_Editor_FullScreen"
+        },
+        {
+          backgroundImg: {
+            background: "black"
+          },
+          title: "颜色选择器",
+          event: this.colorSelect,
+          rel: "dht_Editor_colorSelect"
         }
       ]
     };
@@ -42,7 +51,32 @@ export default {
   beforeDestroy() {},
   destroyed() {},
   errorCaptured() {},
-  methods: {}
+  methods: {
+    //富文本编辑函数
+    //全屏
+    FullScreen() {
+      alert("不知道干嘛");
+      //不知道全屏干嘛暂未定义
+    },
+    //颜色选择器
+    colorSelect() {
+      let input = document.createElement("input");
+      let that = this;
+      input.type = "color";
+      input.click();
+      input.addEventListener("input", watchColorPicker, false);
+      function watchColorPicker(event) {
+        //console.log(event.target.value);
+        let color = event.target.value;
+        that.operationList[1].backgroundImg = {
+          background: color
+        };
+        //移除监听
+        input.removeEventListener("input", watchColorPicker, false);
+        input = "";
+      }
+    }
+  }
 };
 </script>
 
@@ -75,6 +109,15 @@ export default {
     > li {
       width: 35px;
       height: 35px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > span {
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+      }
     }
     > li:hover {
       background: #4d77c0;

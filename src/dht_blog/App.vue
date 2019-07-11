@@ -7,7 +7,6 @@
 <script>
 export default {
   name: "App",
-  components: {},
   data() {
     return {};
   },
@@ -86,5 +85,15 @@ body {
     width: 76rem;
     height: 100%;
   }
+}
+//外部引入的看板娘位置设置
+#waifu {
+  position: fixed;
+  bottom: -12px;
+  left: inherit;
+  right: 13px;
+  z-index: 1;
+  line-height: 0;
+  transition: bottom 0.3s ease-in-out;
 }
 </style>
