@@ -1,15 +1,19 @@
 <template>
   <div class="dht-editor">
     <!--功能操作区域-->
-    <ul class="dht-editor-operation">
+    <div class="dht-editor-operation">
       <template v-for="(item, index) in operationList">
-        <li :key="index" @click="item.event" :title="item.title">
-          <span :style="item.backgroundImg"></span>
-        </li>
+        <a :key="index" @click="item.event" :title="item.title">
+          <img :src="item.iconUrl" :style="item.backgroundImg" alt="" />
+        </a>
       </template>
-    </ul>
+    </div>
     <!--主体内容区域-->
-    <div class="dht-editor-content" contentEditable="true"></div>
+    <div
+      id="dht-editor-content"
+      @keydown.enter.prevent="preventEnter($event)"
+      contentEditable="true"
+    ></div>
   </div>
 </template>
 
@@ -22,20 +26,121 @@ export default {
       operationList: [
         {
           backgroundImg: {
-            backgroundImage: `url(${require("./assets/images/quanping.png")})`,
-            backgroundSize: "100% 100%"
-          },
-          title: "全屏",
-          event: this.FullScreen,
-          rel: "dht_Editor_FullScreen"
-        },
-        {
-          backgroundImg: {
             background: "black"
           },
           title: "颜色选择器",
           event: this.colorSelect,
           rel: "dht_Editor_colorSelect"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/Thickening.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/Thickening.png"),
+          title: "加粗",
+          event: this.Thickening,
+          rel: "Thickening"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/Underline.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/Underline.png"),
+          title: "下划线",
+          event: this.undo,
+          rel: "Underline"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/DeleteLine.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/DeleteLine.png"),
+          title: "删除线",
+          event: {},
+          rel: "DeleteLine"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/h1.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/h1.png"),
+          title: "1号字体",
+          event: "",
+          rel: "H1"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/h2.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/h2.png"),
+          title: "2号字体",
+          event: "",
+          rel: "H2"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/h3.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/h3.png"),
+          title: "3号字体",
+          event: "",
+          rel: "H3"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/textIndent.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/textIndent.png"),
+          title: "首行缩进",
+          event: "",
+          rel: "textIndent"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/code.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/code.png"),
+          title: "插入代码块",
+          event: "",
+          rel: "insertCode"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/Hyperlinks.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/Hyperlinks.png"),
+          title: "增加超链接",
+          event: "",
+          rel: "Hyperlinks"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/insertImage.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/insertImage.png"),
+          title: "插入图片",
+          event: "",
+          rel: "insertImage"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/quanping.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/quanping.png"),
+          title: "全屏",
+          event: this.FullScreen,
+          rel: "dht_Editor_FullScreen"
         }
       ]
     };
@@ -43,16 +148,20 @@ export default {
   beforeCreate() {},
   created() {},
   beforeMount() {},
-  mounted() {},
+  mounted() {
+    document.getElementById("dht-editor-content").focus();
+  },
   beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  errorCaptured() {},
   methods: {
-    //富文本编辑函数
+    //获取当前选区,选区处理
+    CursorAcquisition() {
+      let selection = window.getSelection();
+      let range = selection.getRangeAt(0);
+      return {
+        selection,
+        range
+      };
+    },
     //全屏
     FullScreen() {
       alert("不知道干嘛");
@@ -68,12 +177,87 @@ export default {
       function watchColorPicker(event) {
         //console.log(event.target.value);
         let color = event.target.value;
-        that.operationList[1].backgroundImg = {
+        that.operationList[0].backgroundImg = {
           background: color
         };
         //移除监听
         input.removeEventListener("input", watchColorPicker, false);
         input = "";
+      }
+    },
+    //文字加粗
+    Thickening() {
+      //let selection = window.getSelection();
+      //取得选择的文本
+      //let selectionText = selection.toString();
+      //取得代表选区的范围
+      let range = this.CursorAcquisition().range;
+      //突出显示选择的文本
+      //let rangeClone = range.cloneRange();
+      //获得选中区域dom袁术
+      let rangeText = range.extractContents();
+      //创建新的dom并且结合
+      let span = document.createElement("span");
+      span.appendChild(rangeText);
+      span.style.color = "red";
+      //先移除选中节点
+      range.deleteContents();
+      //再插入节点
+      range.insertNode(span);
+    },
+    //阻止默认回车事件并进行处理
+    preventEnter() {
+      /*event.cancelBubble = false;
+      event.stopPropagation();*/
+      //event.preventDefault();
+      //console.log(event);
+      let range = this.CursorAcquisition().range;
+      let span = document.createElement("span");
+      let rangeText = range.extractContents();
+      span.appendChild(rangeText);
+      span.innerHTML += "<br>" + "<br>";
+      //先移除选中节点
+      range.deleteContents();
+      //再插入节点
+      range.insertNode(span);
+      //核心光标定位
+      range.collapse(false);
+
+      //let dom = document.querySelector("#dht-editor-content");
+      //感谢https://www.jianshu.com/p/50c433ec1c32
+      //来源：https://www.jianshu.com/p/5997a90aab64
+      /*let textEle = range.commonAncestorContainer;
+      range.setEnd(range.endContainer, textEle.length * 2);*/
+    },
+    //撤销最近操作
+    undo() {
+      //放弃撤销功能，暂时不做考虑
+      /*思考思路，每一次函数点击操作都记录下操作轨迹，保存数组，然后撤销的时候找数组最后一次操作反操作。
+      麻烦点：每一步操作都需要记录原情况，并且进行还原。
+      可行考虑：
+      每次操作都保存最近一次的全内容，然后撤销则用上一次的全内容。*/
+      document.execCommand("undo", false, null);
+    },
+    //光标定位到最后
+    placeCaretAtEnd(jsDom) {
+      //来源：https://blog.csdn.net/gyq04551/article/details/80175326
+      //传入光标要去的jsDom节点
+      jsDom.focus();
+      if (
+        typeof window.getSelection != "undefined" &&
+        typeof document.createRange != "undefined"
+      ) {
+        var range = document.createRange();
+        range.selectNodeContents(jsDom);
+        range.collapse(false);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else if (typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(jsDom);
+        textRange.collapse(false);
+        textRange.select();
       }
     }
   }
@@ -88,12 +272,12 @@ export default {
   height: 1300px;
   border: #072539 1px solid;
   .dht-editor-operation,
-  .dht-editor-content {
+  #dht-editor-content {
     width: 100%;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 25px 25px;
   }
-  //操作功能区域
+  //操作功能区域dht-editor-operation
   .dht-editor-operation {
     width: 100%;
     min-height: 45px;
@@ -106,23 +290,27 @@ export default {
     align-items: center;
     padding: 0 15px;
     box-sizing: border-box;
-    > li {
+    > a {
       width: 35px;
       height: 35px;
       box-sizing: border-box;
       display: flex;
       justify-content: center;
       align-items: center;
-      > span {
+      margin-left: 2px;
+      > img {
         display: inline-block;
         width: 26px;
         height: 26px;
       }
     }
-    > li:hover {
+    > a:hover {
       background: #4d77c0;
       transform: scale(1.2);
     }
+  }
+  #dht-editor-content {
+    outline: #2a579a groove 2px;
   }
 }
 </style>
