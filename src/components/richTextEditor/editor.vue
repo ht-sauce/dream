@@ -22,6 +22,7 @@ export default {
   name: "dhtRichEditor",
   data() {
     return {
+      fontSie: 14, //字体大小
       //功能操作列表
       operationList: [
         {
@@ -31,6 +32,26 @@ export default {
           title: "颜色选择器",
           event: this.colorSelect,
           rel: "dht_Editor_colorSelect"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/Underline.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/fontColor.png"),
+          title: "修改当前文字颜色",
+          event: this.fontColor,
+          rel: "fontColor"
+        },
+        {
+          backgroundImg: {
+            //backgroundImage: `url(${require("./assets/images/Underline.png")})`,
+            backgroundSize: "100% 100%"
+          },
+          iconUrl: require("./assets/images/fontBigSmall.png"),
+          title: "修改当前文字颜色",
+          event: this.fontBigSmall,
+          rel: "fontBigSmall"
         },
         {
           backgroundImg: {
@@ -167,6 +188,19 @@ export default {
       alert("不知道干嘛");
       //不知道全屏干嘛暂未定义
     },
+    //字体颜色修改
+    fontColor() {
+      let fontColor = this.operationList[0].backgroundImg.background;
+      let bool = document.execCommand("foreColor", false, fontColor);
+      console.log(fontColor, bool);
+      return bool;
+    },
+    //设置字体大小
+    fontBigSmall() {
+      let bool = document.execCommand("fontSize", false, 30);
+      console.log(bool);
+      return bool;
+    },
     //颜色选择器
     colorSelect() {
       let input = document.createElement("input");
@@ -199,7 +233,7 @@ export default {
       //创建新的dom并且结合
       let span = document.createElement("span");
       span.appendChild(rangeText);
-      span.style.color = "red";
+      span.style.fontWeight = "bold";
       //先移除选中节点
       range.deleteContents();
       //再插入节点
@@ -284,7 +318,7 @@ export default {
     border: #2a579a 1px solid;
     background: #2a579a;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 14px;
     display: flex;
     flex-flow: row;
     align-items: center;
