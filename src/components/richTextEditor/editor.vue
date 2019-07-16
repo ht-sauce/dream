@@ -3,9 +3,42 @@
     <!--功能操作区域-->
     <div class="dht-editor-operation">
       <template v-for="(item, index) in operationList">
-        <a :key="index" @click="item.event" :title="item.title">
-          <img :src="item.iconUrl" :style="item.backgroundImg" alt="" />
-        </a>
+        <template v-if="item.rel === 'fontBigSmall'">
+          <span :key="index" class="dht-editor-a dht-fontBigSmall">
+            <label>
+              <input
+                maxlength="2"
+                v-model="fontSie"
+                class="dht-fontBigSmall-input"
+                type="text"
+              />
+            </label>
+            <a :key="index" @click="item.event" :title="item.title">
+              <img
+                class="dht-editor-icon"
+                :src="item.iconUrl"
+                :style="item.backgroundImg"
+                alt=""
+              />
+            </a>
+          </span>
+        </template>
+        <!--非自定义操作部分-->
+        <template v-else>
+          <a
+            class="dht-editor-a"
+            :key="index"
+            @click="item.event"
+            :title="item.title"
+          >
+            <img
+              class="dht-editor-icon"
+              :src="item.iconUrl"
+              :style="item.backgroundImg"
+              alt=""
+            />
+          </a>
+        </template>
       </template>
     </div>
     <!--主体内容区域-->
@@ -49,7 +82,7 @@ export default {
             backgroundSize: "100% 100%"
           },
           iconUrl: require("./assets/images/fontBigSmall.png"),
-          title: "修改当前文字颜色",
+          title: "修改文字字体大小",
           event: this.fontBigSmall,
           rel: "fontBigSmall"
         },
@@ -197,9 +230,18 @@ export default {
     },
     //设置字体大小
     fontBigSmall() {
-      let bool = document.execCommand("fontSize", false, 30);
-      console.log(bool);
-      return bool;
+      console.log(this.fontSie);
+      //let bool = document.execCommand("fontSize", false, 1);
+      let range = this.CursorAcquisition().range;
+      let rangeText = range.extractContents();
+      //创建新的dom并且结合
+      let span = document.createElement("span");
+      span.appendChild(rangeText);
+      span.style.fontSize = this.fontSie + "px";
+      //先移除选中节点
+      range.deleteContents();
+      //再插入节点
+      range.insertNode(span);
     },
     //颜色选择器
     colorSelect() {
@@ -230,10 +272,12 @@ export default {
       //let rangeClone = range.cloneRange();
       //获得选中区域dom袁术
       let rangeText = range.extractContents();
+
       //创建新的dom并且结合
       let span = document.createElement("span");
       span.appendChild(rangeText);
       span.style.fontWeight = "bold";
+      console.log(span);
       //先移除选中节点
       range.deleteContents();
       //再插入节点
@@ -324,7 +368,7 @@ export default {
     align-items: center;
     padding: 0 15px;
     box-sizing: border-box;
-    > a {
+    .dht-editor-a {
       width: 35px;
       height: 35px;
       box-sizing: border-box;
@@ -332,15 +376,29 @@ export default {
       justify-content: center;
       align-items: center;
       margin-left: 2px;
-      > img {
+      //图片icon
+      .dht-editor-icon {
         display: inline-block;
         width: 26px;
         height: 26px;
       }
+      //字体大小输入框
+      .dht-fontBigSmall-input {
+        height: 24px;
+        width: 30px;
+        margin-right: 10px;
+        text-align: center;
+        font-size: 12px;
+      }
     }
-    > a:hover {
+    //鼠标经过icon变化
+    .dht-editor-a:hover {
       background: #4d77c0;
       transform: scale(1.2);
+    }
+    /*输入字体大小*/
+    .dht-fontBigSmall {
+      width: 80px;
     }
   }
   #dht-editor-content {
