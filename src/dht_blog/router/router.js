@@ -26,6 +26,11 @@ const router = new Router({
       meta: {
         title: "写博客 酱油博客"
       }
+    },
+    //测试文件地址
+    {
+      path: "/test",
+      component: () => import("../test/ceshi.vue")
     }
   ]
 });
