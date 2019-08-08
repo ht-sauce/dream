@@ -46,7 +46,7 @@
       id="dht-editor-content"
       @keydown.enter.prevent="preventEnter($event)"
       contentEditable="true"
-      @paste="Stick"
+      @paste.prevent="Stick"
     ></div>
   </div>
 </template>
@@ -57,10 +57,12 @@ import {
   getSelectionText,
   combinationHtml
 } from "./util/coreDom";
+import { CursorAcquisition } from "./util/selection";
 export default {
   name: "dhtRichEditor",
   data() {
     return {
+      jumpUrl: "", //绑定的地址
       fontSize: 14, //字体大小
       //功能操作列表
       operationList: [
@@ -322,13 +324,19 @@ export default {
     },
     //插入代码块
     insertPre() {
-      let html = `<pre style="border: #d1d4da 1px solid; border-radius: 3px; width: 100%;min-height: 35px;background: #f8f8f8; padding: 10px 10px;box-sizing: border-box;"><code></code></pre><br>`;
-      document.execCommand("insertHTML", false, html);
+      const { range } = CursorAcquisition();
+
+      //获取需要操作的元素进行处理
+      let domst = range.commonAncestorContainer;
+      domst = domst.nodeType === 1 ? domst : domst.parentNode;
+      console.log(domst.nodeName);
+      if (domst.nodeName !== "PRE") {
+        let html = `<pre style="font-size:13px;font-family: Menlo,Monaco,Consolas,Courier New,monospace;margin-bottom:15px; border: #d1d4da 1px solid; border-radius: 3px; width: 100%;min-height: 35px;background: #f8f8f8; padding: 10px 10px;box-sizing: border-box;"><code></code></pre><br>`;
+        document.execCommand("insertHTML", false, html);
+      }
     },
     //插入图片
-    insertImg() {
-      let imgurl =
-        "https://image.zhangxinxu.com/image/blog/201809/cp-up-thumb.jpg";
+    insertImg(imgurl) {
       document.execCommand("insertImage", false, imgurl);
     },
     //还原为普通文字
@@ -338,49 +346,47 @@ export default {
     },
     //监听当前富文本的黏贴效果
     Stick(e) {
+      const { range } = CursorAcquisition();
+      let domst = range.commonAncestorContainer;
+      domst = domst.nodeType === 1 ? domst : domst.parentNode;
+      let nodeName = domst.nodeName;
+
       let text = e.clipboardData.getData("text/plain");
 
-      var cbd = e.clipboardData;
-      console.log(cbd);
-      var ua = window.navigator.userAgent;
-      if (!(cbd && cbd.items)) {
-        return;
-      }
-      //判断浏览器
-      if (
-        cbd.items &&
-        cbd.items.length === 2 &&
-        cbd.items[0].kind === "string" &&
-        cbd.items[1].kind === "file" &&
-        cbd.types &&
-        cbd.types.length === 2 &&
-        cbd.types[0] === "text/plain" &&
-        cbd.typesp[1] === "Files" &&
-        ua.match(/Macintosh/i) &&
-        Number(ua.match(/Chrome\/(\d{2})/i)[1]) < 49
-      ) {
-        return;
-      }
-      //判断是图片渲染
-      for (var i = 0; i < cbd.items.length; i++) {
-        var item = cbd.items[i];
-        if (item.kind == "file") {
-          var blob = item.getAsFile();
-          if (blob.size === 0) {
-            return;
-          }
-          var reader = new FileReader();
-          var imgs = new Image();
-          imgs.file = blob;
-          reader.onload = (function(aImg) {
-            return function(e) {
-              aImg.src = e.target.result;
-            };
-          })(imgs);
-          reader.readAsDataURL(blob);
-          document.execCommand("insertImage", false, imgs);
+      // code 中只能粘贴纯文本
+      if (text) {
+        if (nodeName === "CODE" || nodeName === "PRE") {
+          document.execCommand("insertHTML", false, text);
+          return;
+        } else {
+          document.execCommand("insertHTML", false, `<p>${text}</p>`);
+          return;
         }
       }
+      //获取图片
+      if (e.clipboardData) {
+        console.log("进入图片流程");
+        //某些chrome版本使用的是event.originalEvent
+        var clipboardData = e.clipboardData;
+        if (clipboardData.items) {
+          // for chrome
+          var items = clipboardData.items,
+            len = items.length,
+            blob = null;
+          for (var i = 0; i < len; i++) {
+            //判断为图片才插入
+            if (items[i].type.indexOf("image") !== -1) {
+              //getAsFile() 此方法只是living standard firefox ie11 并不支持
+              blob = items[i].getAsFile();
+              let blobUrl = URL.createObjectURL(blob);
+              //console.log(blobUrl);
+              this.insertImg(blobUrl);
+            }
+          }
+        }
+      }
+      //多插入一个回车
+      document.execCommand("insertHTML", false, `<br>`);
     }
   }
 };
