@@ -1,11 +1,18 @@
 //获取当前选区,选区处理
 const CursorAcquisition = () => {
   let selection = window.getSelection();
-  let range = selection.getRangeAt(0);
+  let getRange = selection.getRangeAt(0);
+
   return {
     selection,
-    range
+    getRange
   };
+};
+// 恢复选区
+const restoreSelection = range => {
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
 };
 //光标定位到最后
 const placeCaretAtEnd = jsDom => {
@@ -29,4 +36,4 @@ const placeCaretAtEnd = jsDom => {
     textRange.select();
   }
 };
-export { CursorAcquisition, placeCaretAtEnd };
+export { CursorAcquisition, placeCaretAtEnd, restoreSelection };

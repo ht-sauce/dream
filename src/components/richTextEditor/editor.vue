@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-popover="http://www.w3.org/1999/xhtml">
   <div class="dht-editor">
     <!--功能操作区域-->
     <div class="dht-editor-operation">
@@ -22,6 +22,40 @@
               />
             </a>
           </span>
+        </template>
+        <template v-else-if="item.rel === 'Hyperlinks'">
+          <el-popover
+            placement="top-start"
+            :key="index"
+            title="输入网站链接"
+            width="350"
+            trigger="click"
+            v-model="urlPopup"
+          >
+            <div>
+              <el-input placeholder="请输入链接地址" v-model="aUrl" clearable>
+              </el-input>
+              <el-button
+                @click="createLink"
+                style="margin-top: 15px"
+                type="primary"
+                >确定</el-button
+              >
+            </div>
+            <a
+              class="dht-editor-a"
+              @click="item.event"
+              slot="reference"
+              :title="item.title"
+            >
+              <img
+                class="dht-editor-icon"
+                :src="item.iconUrl"
+                :style="item.backgroundImg"
+                alt=""
+              />
+            </a>
+          </el-popover>
         </template>
         <!--非自定义操作部分-->
         <template v-else>
@@ -48,6 +82,7 @@
       contentEditable="true"
       @paste.prevent="Stick"
     ></div>
+    <!--外置弹窗部分，原打算自己开发弹窗ui组件，但是最终决定还是配合第三方组件使用-->
   </div>
 </template>
 
@@ -57,11 +92,14 @@ import {
   getSelectionText,
   combinationHtml
 } from "./util/coreDom";
-import { CursorAcquisition } from "./util/selection";
+import { CursorAcquisition, restoreSelection } from "./util/selection";
 export default {
   name: "dhtRichEditor",
   data() {
     return {
+      urlPopup: false,
+      aUrl: "", //创建连接的a标签连接
+      cloneRange: "", //临时存放的range
       jumpUrl: "", //绑定的地址
       fontSize: 14, //字体大小
       //功能操作列表
@@ -177,7 +215,7 @@ export default {
           },
           iconUrl: require("./assets/images/Hyperlinks.png"),
           title: "增加超链接",
-          event: this.createLink,
+          event: this.openCreateLink, //打开弹窗
           rel: "Hyperlinks"
         },
         {
@@ -219,6 +257,7 @@ export default {
   },
   beforeUpdate() {},
   methods: {
+    //popover弹窗显示控制
     //阻止默认回车事件并进行处理
     preventEnter() {
       //屏蔽默认回车，插入换行符
@@ -256,6 +295,7 @@ export default {
         node: "span" //当前插入的span，最终取决于老节点
       };
       let html = combinationHtml(style);
+
       execOperation("insertHTML", html);
     },
     //颜色选择器
@@ -312,15 +352,30 @@ export default {
       execOperation("indent");
     },
     //创建连接
+    openCreateLink() {
+      const { getRange } = CursorAcquisition();
+      this.cloneRange = getRange;
+    },
     createLink() {
+      //未输入地址不能操作
+      if (!this.aUrl) {
+        this.$message("还没有输入连接");
+        return false;
+      }
       let style = {
-        url: "https:www.baidu.com",
-        del: "font-size", //需要剔除的老css元素
-        css: `font-size: ${this.fontSize}px`, //新放入的css
+        url: this.aUrl,
+        del: "color", //需要剔除的老css元素
+        css: `color: #0080FF`, //新放入的css
         node: "a" //当前插入的span，最终取决于老节点
       };
-      let html = combinationHtml(style);
-      execOperation("insertHTML", html);
+      let html = combinationHtml(style, this.cloneRange);
+
+      //恢复选区
+      restoreSelection(this.cloneRange);
+
+      execOperation("insertHTML", html, this.cloneRange);
+      this.urlPopup = false;
+      this.cloneRange = "";
     },
     //插入代码块
     insertPre() {
@@ -398,7 +453,7 @@ export default {
   flex-flow: column;
   width: 1000px;
   height: 1300px;
-  border: #072539 1px solid;
+  border: #0e9498 1px solid;
   .dht-editor-operation,
   #dht-editor-content {
     width: 100%;
@@ -409,8 +464,8 @@ export default {
   .dht-editor-operation {
     width: 100%;
     min-height: 45px;
-    border: #2a579a 1px solid;
-    background: #2a579a;
+    border: #0e9498 1px solid;
+    background: #0e9498;
     color: #ffffff;
     font-size: 14px;
     display: flex;
@@ -443,7 +498,7 @@ export default {
     }
     //鼠标经过icon变化
     .dht-editor-a:hover {
-      background: #4d77c0;
+      background: #167698;
       transform: scale(1.2);
     }
     /*输入字体大小*/
@@ -452,7 +507,7 @@ export default {
     }
   }
   #dht-editor-content {
-    outline: #2a579a groove 2px;
+    outline: #0e9498 groove 2px;
   }
 }
 </style>

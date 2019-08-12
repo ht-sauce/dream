@@ -16,13 +16,6 @@ export default {
   },
   beforeMount() {},
   mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  errorCaptured() {},
   methods: {
     responsive() {
       //响应式rem函数

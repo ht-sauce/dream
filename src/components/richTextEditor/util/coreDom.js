@@ -1,8 +1,12 @@
 import { CursorAcquisition } from "./selection";
 import { delCss } from "./tool";
 //文档片段处理
-const domFragmentHandle = () => {
-  const { range } = CursorAcquisition();
+const domFragmentHandle = cloneRange => {
+  let range = "";
+  const { getRange } = CursorAcquisition();
+
+  //特殊处理，总有失去焦点的时候需要
+  range = cloneRange ? cloneRange : getRange;
 
   //获取需要操作的元素进行处理
   let domst = range.commonAncestorContainer;
@@ -51,8 +55,12 @@ const domFragmentHandle = () => {
   };
 };
 //独立选中区域文字
-const getSelectionText = () => {
-  const { range } = CursorAcquisition();
+const getSelectionText = cloneRange => {
+  let range = "";
+  const { getRange } = CursorAcquisition();
+
+  //特殊处理，总有失去焦点的时候需要
+  range = cloneRange ? cloneRange : getRange;
 
   //获取元素中的css属性
   let cssText = "";
@@ -69,8 +77,12 @@ const getSelectionText = () => {
   };
 };
 //最终执行函数
-const execOperation = (name, value = null) => {
-  const { range } = CursorAcquisition();
+const execOperation = (name, value = null, cloneRange = null) => {
+  let range = "";
+  const { getRange } = CursorAcquisition();
+  //特殊处理，总有失去焦点的时候需要
+  range = cloneRange ? cloneRange : getRange;
+
   if (!range.toString()) {
     console.log("未选中任何元素");
     return false;
@@ -88,8 +100,8 @@ const execOperation = (name, value = null) => {
  * style：del: 需要删除的css名称
  * css：最后应用的css
  * */
-const combinationHtml = style => {
-  const { innerhtml, cssText, nodeName } = domFragmentHandle();
+const combinationHtml = (style, range = "") => {
+  const { innerhtml, cssText, nodeName } = domFragmentHandle(range);
   let delcss = style.del || "";
   let css = style.css || "";
   let node = style.node || "span";
