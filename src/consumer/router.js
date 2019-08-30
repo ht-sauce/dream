@@ -5,10 +5,11 @@ Vue.use(Router);
 
 export default new Router({
   mode: "history",
-  base: process.env.BASE_URL,
+  base: process.env.BASE_URL + "consumer",
   routes: [
     {
-      path: "/"
+      path: "/",
+      component: () => import("@/consumer/views/login.vue")
     }
   ]
 });

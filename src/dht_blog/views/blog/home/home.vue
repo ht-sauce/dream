@@ -205,7 +205,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/dht_blog/common/style/public.scss";
+@import "@/assets/css/public.scss";
 #bloghome {
   .content {
     margin-top: 15px;

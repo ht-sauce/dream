@@ -6,8 +6,8 @@ console.log("当前打包项目名称：" + projectName);
 const multiPageConfig = {
   //index是特殊的项目，不做多余操作，仅仅用于项目分发
   //举例，如判断电脑端和移动端，做首页项目入口
-  index: {
-    name: "海天酱油"
+  consumer: {
+    name: "登录平台"
   },
   dht_blog: {
     name: "海天酱油博客"

@@ -1,10 +1,11 @@
 //批量注册部分
 import Img from "./img/index"; //替代img标签
 import Text from "./text/index"; //替代p标签
+import resizeDiv from "./resizeDiv/index"; //替代p标签
 //需要独立注册部分
 import Loading from "./loading/install"; //加载标签
 //批量注册部分
-const components = [Img, Text];
+const components = [Img, Text, resizeDiv.resizeDivWebkit];
 
 // eslint-disable-next-line no-unused-vars
 const install = function(vue, opts = {}) {
@@ -14,6 +15,7 @@ const install = function(vue, opts = {}) {
   };
   //指令注册部分
   vue.use(Loading.directive);
+  vue.use(resizeDiv.directive);
   //批量组件注册
   components.forEach(component => {
     vue.component(component.name, component);

@@ -2,7 +2,7 @@
   <div id="head" class="shadow">
     <div class="g-width h-nav">
       <h1 @click="pageJump()">
-        海天酱油个人博客
+        海天酱油博客
       </h1>
       <ul class="navigation">
         <template v-for="(item, index) in h2List">
@@ -26,7 +26,7 @@ export default {
         { title: "关于我", url: "/onself", isActive: false },
         { title: "学海无涯", url: "/blogList", isActive: false },
         { title: "享受生活", url: "/enjoyLife", isActive: false },
-        { title: "口下留情", url: "/", isActive: false }
+        { title: "口下留情", url: "/forum", isActive: false }
       ]
     };
   },
@@ -99,6 +99,8 @@ export default {
       align-items: center;
       //每个列的控制
       li {
+        cursor: pointer;
+        user-select: none;
         margin-left: 40px;
         font-size: 16px;
         color: #555;

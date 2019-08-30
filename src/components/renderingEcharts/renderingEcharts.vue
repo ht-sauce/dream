@@ -17,7 +17,9 @@ export default {
     options: Object
   },
   data() {
-    return {};
+    return {
+      echarts: null
+    };
   },
   watch: {
     //数据变化则重新渲染
@@ -34,6 +36,8 @@ export default {
       this.$emit("loadFinish", this.id);
       this.renderingEcharts();
     });
+    //this.echarts.resize();
+    //IntersectionObserver尝试用这个来做监听
   },
   methods: {
     //渲染echarts
@@ -46,6 +50,7 @@ export default {
           let myChart = echarts.init(dom);
           window.onresize = myChart.resize;
           myChart.setOption(this.options);
+          this.echarts = myChart;
           clearInterval(timer);
         }
       }, 500);

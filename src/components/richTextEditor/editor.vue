@@ -379,10 +379,10 @@ export default {
     },
     //插入代码块
     insertPre() {
-      const { range } = CursorAcquisition();
+      const { getRange } = CursorAcquisition();
 
       //获取需要操作的元素进行处理
-      let domst = range.commonAncestorContainer;
+      let domst = getRange.commonAncestorContainer;
       domst = domst.nodeType === 1 ? domst : domst.parentNode;
       console.log(domst.nodeName);
       if (domst.nodeName !== "PRE") {
@@ -464,8 +464,8 @@ export default {
   .dht-editor-operation {
     width: 100%;
     min-height: 45px;
-    border: #0e9498 1px solid;
-    background: #0e9498;
+    border: #05888c 1px solid;
+    background: #05888c;
     color: #ffffff;
     font-size: 14px;
     display: flex;

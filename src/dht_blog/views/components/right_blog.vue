@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@/dht_blog/common/style/public.scss";
+@import "@/assets/css/public.scss";
 .right_blog {
   width: 100%;
   background: #ffffff;

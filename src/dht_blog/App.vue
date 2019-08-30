@@ -61,7 +61,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "@/dht_blog/common/style/public.scss";
+@import "@/assets/css/public.scss";
 //app下编写全局存在的css，进行控制
 //页面宽度布局用rem进行布局，避免因为百分比导致页面缩小页面错乱
 body {
@@ -69,9 +69,8 @@ body {
   overflow-x: hidden;
 }
 #app {
-  font: 14px alpht;
+  font: 14px alpht sans-serif;
   width: 100rem;
-  min-height: 100vh;
   color: $font_main;
   //控制页面全局的宽度
   .g-width {

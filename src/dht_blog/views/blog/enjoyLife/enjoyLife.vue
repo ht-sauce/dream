@@ -1,13 +1,26 @@
 <template>
   <div id="enjoyLife" class="g-width">
-    <ul class="left">
-      <template v-for="(item, index) in leftData">
-        <li :key="index">
-          <span>{{ item.name }}</span>
-        </li>
+    <div class="content">
+      <template v-for="(item, index) in life">
+        <ul :key="index" class="ul-life-list">
+          <template v-for="(li, lifes) in item">
+            <li :key="lifes" class="life-li">
+              <div class="li-img">
+                <dht-img :src="li.img"></dht-img>
+              </div>
+              <span v-show="li.title" class="li-title">{{ li.title }}</span>
+              <span v-show="li.title || li.content" class="li-hr"></span>
+              <dht-text
+                v-show="li.content"
+                :num="100"
+                class="li-content"
+                :text="li.content"
+              ></dht-text>
+            </li>
+          </template>
+        </ul>
       </template>
-    </ul>
-    <div class="right"></div>
+    </div>
   </div>
 </template>
 
@@ -16,63 +29,111 @@ export default {
   name: "enjoyLife",
   data() {
     return {
-      leftData: [
-        { name: "测试", url: "" },
-        { name: "测试", url: "" },
-        { name: "测试", url: "" },
-        { name: "测试", url: "" },
-        { name: "测试", url: "" },
-        { name: "测试", url: "" }
+      life: [
+        [
+          {
+            img: require("../../../assets/images/home/b01.jpg"),
+            title: "公司发大公司的",
+            content: "hgfd和股份公司"
+          },
+          {
+            img: require("../../../assets/images/home/text01.jpg"),
+            title: "给后台范德萨",
+            content: "范德萨发撒"
+          }
+        ],
+        [
+          {
+            img: require("../../../assets/images/home/b01.jpg"),
+            title: "给后台范德萨",
+            content: "范德萨发撒"
+          },
+          {
+            img: require("../../../assets/images/home/text01.jpg"),
+            title: "给后台范德萨",
+            content: "范德萨发撒"
+          }
+        ],
+        [
+          {
+            img: require("../../../assets/images/home/b01.jpg"),
+            title: "给后台范德萨",
+            content: "范德萨发撒"
+          },
+          {
+            img: require("../../../assets/images/home/text01.jpg"),
+            title: "给后台范德萨",
+            content: "范德萨发撒"
+          }
+        ],
+        [
+          {
+            img: require("../../../assets/images/home/b01.jpg"),
+            title: "给后台范德萨",
+            content: "范德萨发撒"
+          },
+          {
+            img: require("../../../assets/images/home/text01.jpg"),
+            title: "给后台范德萨",
+            content: "范德萨发撒"
+          }
+        ]
       ]
     };
   },
   beforeCreate() {},
   created() {},
   beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  errorCaptured() {}
+  mounted() {}
 };
 </script>
 
 <style scoped lang="scss">
-@import "@/dht_blog/common/style/public.scss";
+@import "@/assets/css/public.scss";
 #enjoyLife {
-  display: flex;
-  flex-flow: row;
-  margin: 20px 0 30px 0;
-  justify-content: space-between;
-  .left {
-    width: 200px;
-    > li {
-      padding: 20px;
-      box-sizing: border-box;
-      height: 40px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.5);
+  .content {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    .ul-life-list {
+      width: 24%;
       display: flex;
-      align-items: center;
-      color: #072539;
-      > span {
-        font-weight: bold;
+      flex-flow: column;
+      .life-li {
+        box-shadow: #c9c9c9 0 0 5px;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        background: #ffffff;
+        margin-bottom: 10px;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        .li-img {
+          width: 100%;
+          max-height: 400px;
+          overflow: hidden;
+        }
+        .li-title {
+          width: 95%;
+          color: $font_main_info;
+          font-size: 18px;
+          font-weight: bold;
+          margin-top: 10px;
+        }
+        .li-hr {
+          width: 95%;
+          border-bottom: $font_info 1px solid;
+          margin: 10px;
+        }
+        .li-content {
+          width: 95%;
+          color: $font_main_info;
+        }
       }
     }
-    > li:nth-child(3n) {
-      border-bottom: #bfe9ff 1px solid;
-    }
-    > li:hover {
-      background: rgba(151, 228, 255, 0.1);
-    }
-  }
-  .right {
-    width: calc(100% - 225px);
-    min-height: 100vh;
-    border: red 1px solid;
   }
 }
 </style>

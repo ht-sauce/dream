@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "@/dht_blog/common/style/public.scss";
+@import "@/assets/css/public.scss";
 #onself {
   display: flex;
   flex-flow: row;

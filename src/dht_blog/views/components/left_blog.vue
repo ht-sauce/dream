@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../common/style/public";
+@import "@/assets/css/public.scss";
 .left_blog {
   > li {
     width: 100%;

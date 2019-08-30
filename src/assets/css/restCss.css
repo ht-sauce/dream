@@ -69,5 +69,6 @@ input, select {
 .clearfix{
   *zoom:1;/*IE/7/6*/
 }
+*{box-sizing: border-box;}
 /*css隐藏滚动条不支持ie*/
 /*.element::-webkit-scrollbar {display:none}*/

@@ -3,9 +3,9 @@
     <!--顶部导航部分-->
     <navigation></navigation>
     <!--嵌套路由部分都在这里展示-->
-    <router-view></router-view>
+    <router-view style="min-height: 100vh"></router-view>
     <!--底部版权说明-->
-    <tail></tail>
+    <tail>海天酱油的个人博客</tail>
   </div>
 </template>
 <script>
@@ -16,7 +16,7 @@ export default {
       return import("./navigation/head.vue");
     },
     tail: () => {
-      return import("@/dht_blog/views/blog/navigation/tail.vue");
+      return import("@/components/copyright/tail.vue");
     }
   },
   data() {
