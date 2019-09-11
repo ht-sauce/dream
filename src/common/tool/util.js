@@ -10,7 +10,7 @@ const filterNull = json => {
   return newJson;
 };
 //判断字段空值，空返回0
-function isUndefined(res) {
+function isN(res) {
   let res2 = 0;
   //增加判断NaN，但是需要先做转换字符串处理
   if (res === "undefined" || !res || res === "null") {
@@ -127,7 +127,7 @@ function downloadBase64(fileName, content) {
 }
 export default {
   filterNull,
-  isUndefined,
+  isN,
   arrySort,
   timeStampTurn,
   formatTime,

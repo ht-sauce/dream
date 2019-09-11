@@ -2,20 +2,11 @@
 import Vue from "vue";
 
 //element ui部分
-import {
-  Input,
-  Button,
-  Message,
-  Form,
-  FormItem,
-  Icon,
-  Popover
-} from "element-ui";
+import { Input, Button, Form, FormItem, Icon, Popover } from "element-ui";
 const elementUI = [Input, Button, Form, FormItem, Icon, Popover];
 elementUI.forEach(component => {
   Vue.use(component);
 });
-Vue.prototype.$message = Message;
 Vue.prototype.$ELEMENT = { size: "small", zIndex: 3000 };
 
 //个人开发ui组件，以插件方式开发

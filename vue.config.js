@@ -16,6 +16,7 @@ const multiPageConfig = {
     name: "海天酱油后台系统"
   }
 };
+
 //生成统一的页面配置结构
 const multiPage = function() {
   let page = {};
@@ -32,10 +33,33 @@ const multiPage = function() {
 };
 const page = multiPage();
 //vue下配置文件参数
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const productionGzipExtensions = [
+  "js",
+  "css",
+  "svg",
+  "woff",
+  "ttf",
+  "json",
+  "html"
+];
 const vueConfig = {
   publicPath: process.env.NODE_ENV === "production" ? "/public" : "/", //部署应用包时的基本 URL
   outputDir: "dist", //打包目录
-  pages: projectName ? page[projectName] : page
+  pages: projectName ? page[projectName] : page,
+  productionSourceMap: false, //不输出map文件
+  configureWebpack: {
+    plugins: [
+      //开启gzip压缩
+      new CompressionWebpackPlugin({
+        filename: "[path].gz[query]",
+        test: new RegExp("\\.(" + productionGzipExtensions.join("|") + ")$"),
+        threshold: 10240,
+        minRatio: 1,
+        deleteOriginalAssets: false //是否删除原文件
+      })
+    ]
+  }
 };
 console.log(page);
 module.exports = vueConfig;
