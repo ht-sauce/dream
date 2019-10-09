@@ -48,15 +48,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.dhtText {
-  overflow: hidden;
-  display: inline-block;
-}
-//单行显示处理
-.dhtTextNowrap {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-</style>

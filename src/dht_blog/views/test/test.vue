@@ -1,11 +1,8 @@
 <template>
   <div class="test">
-    <div v-dht-drag>
-      <!--<dht-zoom-divjs></dht-zoom-divjs>-->
-    </div>
-    <div v-dht-drag>
-      <!--<dht-zoom-divjs></dht-zoom-divjs>-->
-    </div>
+    <dht-tree :data="data">
+      <div slot-scope="{ node }">{{ node.label }}</div>
+    </dht-tree>
   </div>
 </template>
 
@@ -14,22 +11,52 @@ export default {
   name: "test-toast",
   props: {},
   data() {
-    return {};
+    return {
+      data: [
+        {
+          id: 1,
+          label: "第1个",
+          children: [
+            {
+              id: 1,
+              label: "二级第1个",
+              children: [
+                {
+                  id: 1,
+                  label: "三级1第1个",
+                  children: [
+                    { id: 1, label: "4", children: [] },
+                    { id: 2, label: "4", children: [] },
+                    { id: 3, label: "4", children: [] },
+                    { id: 4, label: "4", children: [] },
+                    { id: 5, label: "4", children: [] }
+                  ]
+                },
+                { id: 2, label: "三级2第2个", children: [] },
+                { id: 3, label: "三级3第3个", children: [] },
+                { id: 4, label: "三级4第4个", children: [] },
+                { id: 5, label: "三级5第5个", children: [] }
+              ]
+            },
+            { id: 2, label: "二级第2个", children: [] },
+            { id: 3, label: "二级第3个", children: [] },
+            { id: 4, label: "二级第4个", children: [] },
+            { id: 5, label: "二级第5个", children: [] }
+          ]
+        },
+        { id: 2, label: "第2个", children: [] },
+        { id: 3, label: "第3个", children: [] },
+        { id: 4, label: "第4个", children: [] },
+        { id: 5, label: "第5个", children: [] }
+      ]
+    };
   },
   mounted() {},
   methods: {}
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .test {
-  display: flex;
-  flex-flow: column;
-  margin-left: 100px;
-  > div {
-    width: 100px;
-    height: 100px;
-    border: #1abc9c 1px solid;
-  }
 }
 </style>

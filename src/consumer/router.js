@@ -10,6 +10,11 @@ export default new Router({
     {
       path: "/",
       component: () => import("@/consumer/views/login.vue")
+    },
+    {
+      path: "/create-user",
+      component: () =>
+        import("@/consumer/views/login/create-user/create-user.vue")
     }
   ]
 });

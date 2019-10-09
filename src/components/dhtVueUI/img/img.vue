@@ -142,23 +142,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@import "../style/common/let_style";
-.dht-Image {
-  width: 100%;
-  height: 100%;
-  .dht-showimg {
-    @extend .dht-Image;
-  }
-  .dht-errImgInfo {
-    width: 100%;
-    height: 100%;
-    font-size: 12px;
-    color: $font_info;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-</style>

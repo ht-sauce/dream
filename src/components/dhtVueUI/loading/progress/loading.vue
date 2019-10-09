@@ -54,37 +54,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.dht-loading {
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  height: 3px;
-  border-radius: 1.5px;
-  background: #07b970;
-  transition: width 500ms;
-  .dht-loading-animation {
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.5);
-    animation: load 1s ease infinite;
-    @keyframes load {
-      0% {
-        width: 0;
-      }
-      100% {
-        width: 100%;
-      }
-    }
-  }
-  //触摸穿透蒙版
-  .dht-loading-mask {
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 2000;
-    pointer-events: auto;
-  }
-}
-</style>

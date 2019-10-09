@@ -1,0 +1,35 @@
+.dhtMask {
+  position: absolute;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  flex-flow: column;
+}
+.dhtMask-FullScreen {
+  @extend .dhtMask;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  background: (0, 0, 0, 0.5);
+}
+.dht-loading-icon {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+  margin-bottom: 5px;
+  animation: dht-rotate 2s linear infinite;
+  @keyframes dht-rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

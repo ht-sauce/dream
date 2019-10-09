@@ -2,10 +2,19 @@
 import Img from "./img/index"; //替代img标签
 import Text from "./text/index"; //替代p标签
 import resizeDiv from "./resizeDiv/index"; //替代p标签
+import swiper from "./swiper/index"; //轮播组件
+import tree from "./tree/index"; //树形组件
 //需要独立注册部分
 import Loading from "./loading/install"; //加载标签
 //批量注册部分
-const components = [Img, Text, resizeDiv.resizeDivWebkit];
+const components = [
+  Img,
+  Text,
+  resizeDiv.resizeDivWebkit,
+  swiper.side,
+  swiper.sideItem,
+  tree
+];
 
 // eslint-disable-next-line no-unused-vars
 const install = function(vue, opts = {}) {

@@ -114,7 +114,7 @@ export default {
       };
       //x: 254, y: 109
       let mx = random(127, 244),
-        bx = random(10, 128),
+        bx = random(10, 107),
         y = random(10, 99);
 
       this.slider = { mx, bx };
@@ -146,9 +146,9 @@ export default {
         document.removeEventListener("mouseup", up);
         dom.style.left = "";
 
-        console.log(x, checkx);
-        let max = checkx - 5;
-        let min = checkx - 10;
+        let max = checkx + 5;
+        let min = checkx - 5;
+        console.log(x, checkx, max, min);
         //允许正负误差1
         if ((max >= x && x >= min) || x === checkx) {
           console.log("滑动解锁成功");

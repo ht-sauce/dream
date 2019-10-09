@@ -14,6 +14,12 @@ const multiPageConfig = {
   },
   dht_platform: {
     name: "海天酱油后台系统"
+  },
+  interface: {
+    name: "接口管理平台"
+  },
+  nosqlModel: {
+    name: "nosql建模工具"
   }
 };
 

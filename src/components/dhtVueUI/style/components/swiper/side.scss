@@ -1,0 +1,26 @@
+.dht-swiper-side {
+  position: absolute;
+  z-index: 2000;
+  right: 0;
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+}
+
+.dht-swiper-side-item {
+  position: absolute;
+  transition: all 1s ease;
+  transform: translateX(1000px);
+  // 抖动动画
+  @keyframes mymove {
+    0% {
+      left: 0;
+    }
+    50% {
+      left: 15px;
+    }
+    100% {
+      left: 0;
+    }
+  }
+}

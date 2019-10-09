@@ -1,0 +1,36 @@
+.dht-zoom-div-webkit {
+  width: 100%;
+  height: 100%;
+  resize: horizontal;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: inherit;
+  }
+  &::-webkit-resizer {
+    background: #409eff;
+  }
+  &:hover {
+    .content {
+      .line {
+        background: #1a87ff;
+      }
+    }
+  }
+  .content {
+    pointer-events: none;
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    display: flex;
+    flex-flow: row;
+    .line {
+      pointer-events: none;
+      position: absolute;
+      width: 3px;
+      height: 100%;
+      background: #095a49;
+      right: 0;
+    }
+  }
+}
