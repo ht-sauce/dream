@@ -2,6 +2,7 @@
   <div id="app">
     <!--不可变化部分-->
     <router-view />
+    <dht-cat></dht-cat>
   </div>
 </template>
 <script>

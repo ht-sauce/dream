@@ -1,0 +1,14 @@
+.dht-cat-container {
+  position: fixed;
+  right: 50px;
+  bottom: 100px;
+  color: #00adb5;
+  #dht-cat {
+    position: fixed;
+    opacity: 0.9;
+    right: 0;
+    bottom: -20px;
+    z-index: 99999;
+    pointer-events: none;
+  }
+}

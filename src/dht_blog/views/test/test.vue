@@ -1,7 +1,7 @@
 <template>
   <div class="test">
     <dht-tree :data="data">
-      <div slot-scope="{ node }">{{ node.label }}</div>
+      <span slot-scope="{ node }" class="dhtceshi">{{ node.label }}</span>
     </dht-tree>
   </div>
 </template>
@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       data: [
+        { id: 2, label: "第2个", children: [] },
         {
           id: 1,
           label: "第1个",
@@ -25,11 +26,11 @@ export default {
                   id: 1,
                   label: "三级1第1个",
                   children: [
-                    { id: 1, label: "4", children: [] },
-                    { id: 2, label: "4", children: [] },
-                    { id: 3, label: "4", children: [] },
+                    { id: 1, label: "1", children: [] },
+                    { id: 2, label: "2", children: [] },
+                    { id: 3, label: "3", children: [] },
                     { id: 4, label: "4", children: [] },
-                    { id: 5, label: "4", children: [] }
+                    { id: 5, label: "5", children: [] }
                   ]
                 },
                 { id: 2, label: "三级2第2个", children: [] },
@@ -44,7 +45,6 @@ export default {
             { id: 5, label: "二级第5个", children: [] }
           ]
         },
-        { id: 2, label: "第2个", children: [] },
         { id: 3, label: "第3个", children: [] },
         { id: 4, label: "第4个", children: [] },
         { id: 5, label: "第5个", children: [] }
@@ -58,5 +58,8 @@ export default {
 
 <style lang="scss">
 .test {
+  .dhtceshi {
+    color: red;
+  }
 }
 </style>

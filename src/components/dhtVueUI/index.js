@@ -4,6 +4,7 @@ import Text from "./text/index"; //替代p标签
 import resizeDiv from "./resizeDiv/index"; //替代p标签
 import swiper from "./swiper/index"; //轮播组件
 import tree from "./tree/index"; //树形组件
+import cat from "./livetd/index"; //live2d猫
 //需要独立注册部分
 import Loading from "./loading/install"; //加载标签
 //批量注册部分
@@ -13,7 +14,8 @@ const components = [
   resizeDiv.resizeDivWebkit,
   swiper.side,
   swiper.sideItem,
-  tree
+  tree,
+  cat
 ];
 
 // eslint-disable-next-line no-unused-vars

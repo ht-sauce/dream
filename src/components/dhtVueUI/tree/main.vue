@@ -2,8 +2,12 @@
   <div class="dht-tree-main">
     <twig-node
       v-for="(item, index) in data"
-      :key="getNodeKey(item, index)"
+      :key="index"
       :child="item"
+      :level="1"
+      :data-location="[1, index]"
+      :indent="indent"
+      :aheight="aheight"
     >
     </twig-node>
   </div>
@@ -18,11 +22,21 @@ export default {
   props: {
     data: {
       type: Array
+    },
+    indent: {
+      // 每一层缩进多少像素
+      type: Number,
+      default: 18
+    },
+    aheight: {
+      // 动画效果下，每一级的高度
+      type: Number,
+      default: 25
     }
   },
   data() {
     return {
-      renderContent: Function
+      active: true
     };
   },
   beforeCreate() {},
@@ -30,7 +44,10 @@ export default {
     this.isTree = true;
   },
   beforeMount() {},
-  mounted() {},
+  mounted() {
+    //是否有子元素作为模板
+    this.slot = !!this.$scopedSlots.default;
+  },
   destroyed() {},
   methods: {
     getNodeKey(node, index) {

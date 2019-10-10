@@ -7,7 +7,6 @@
       :level="1"
       :data-location="[1, index]"
       :indent="indent"
-      :aheight="aheight"
     >
     </twig-node>
   </div>
@@ -27,11 +26,6 @@ export default {
       // 每一层缩进多少像素
       type: Number,
       default: 18
-    },
-    aheight: {
-      // 动画效果下，每一级的高度
-      type: Number,
-      default: 25
     }
   },
   data() {
