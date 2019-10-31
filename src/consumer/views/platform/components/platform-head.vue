@@ -11,11 +11,15 @@
           </a>
         </template>
       </div>
+      <div>
+        <el-button @click="logout">退出登录</el-button>
+      </div>
     </div>
   </header>
 </template>
 
 <script>
+import control from "@/common/control_center/index";
 export default {
   data() {
     return {
@@ -30,7 +34,13 @@ export default {
   created() {},
   beforeMount() {},
   mounted() {},
-  destroyed() {}
+  destroyed() {},
+  methods: {
+    // 退出登录
+    logout() {
+      control.logout();
+    }
+  }
 };
 </script>
 
@@ -50,14 +60,14 @@ export default {
     display: flex;
     align-items: center;
     .logo > a {
-      font-size: 24px;
+      font-size: 22px;
     }
     .platform-list {
       margin-left: auto;
       display: flex;
       align-items: center;
       > a {
-        font-size: 20px;
+        font-size: 18px;
         margin-left: 20px;
       }
     }

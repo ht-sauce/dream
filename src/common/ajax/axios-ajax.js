@@ -6,6 +6,7 @@ import VueAxios from "vue-axios";
 import { Notification, Loading } from "element-ui";
 import apiList from "./api-list"; //接口列表数据
 const store = require("store");
+import control from "@/common/control_center/index";
 // axios全局导入设置
 Vue.use(VueAxios, axios);
 Vue.prototype.$api = apiList; //将接口列表数据绑定到vue全局
@@ -23,7 +24,7 @@ let customMsg = {
   //错误信息提示
   errIfno(info) {
     Notification({
-      title: "打错了呢",
+      title: "答错了呢",
       type: "error",
       message: info
     });
@@ -54,9 +55,8 @@ const ajax = ({
   // 授权函数封装
   const authorize = herders => {
     const user_info = store.get("user_info");
-
     if (user_info && user_info.sign) {
-      herders.Authorization = `Bearer ${user_info.sign}`;
+      herders.Authorization = user_info.sign;
       return herders;
     } else {
       return herders;
@@ -76,6 +76,11 @@ const ajax = ({
     })
       .then(response => {
         loadingInstance && loadingInstance.close();
+        // 刷新口令以及接口判断是否退出登录
+        if (!control.refresh_sign_or_out(response)) {
+          customMsg.errIfno("数据异常，退出登录");
+          err(response);
+        }
 
         const res = response.data;
         //自定义成功失败处理，code值代表后端接口数据处理成功或者失败

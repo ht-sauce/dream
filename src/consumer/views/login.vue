@@ -138,9 +138,13 @@ export default {
   methods: {
     // 登录按钮
     loginButton() {
-      this.visible = true;
-      this.puzzle = false;
-      this.tips = "拖动左边滑块完成上方拼图";
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          this.visible = true;
+          this.puzzle = false;
+          this.tips = "拖动左边滑块完成上方拼图";
+        }
+      });
     },
     //拼图验证码初始化
     canvasInit() {
@@ -275,29 +279,23 @@ export default {
         password: userLoginPassword(this.logindata.password)
       };
       this.logining = true;
-      this.$refs["ruleForm"].validate(valid => {
-        if (valid) {
-          this.axios
-            .ajax({
-              url: this.$api.consumer().user.login,
-              data: data,
-              method: "post"
-            })
-            .then(e => {
-              this.logining = false;
-              // 存储用户数据到缓存
-              store.set("user_info", e);
-              console.log(e);
-            })
-            .catch(e => {
-              this.logining = false;
-              console.log(e);
-            });
-        } else {
+      this.axios
+        .ajax({
+          url: this.$api.consumer().user.login,
+          data: data,
+          method: "post"
+        })
+        .then(e => {
           this.logining = false;
-          return false;
-        }
-      });
+          // 存储用户数据到缓存
+          store.clearAll();
+          store.set("user_info", e.data);
+          console.log(e.data);
+        })
+        .catch(e => {
+          this.logining = false;
+          console.log(e);
+        });
     }
   }
 };

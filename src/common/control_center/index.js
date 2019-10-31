@@ -1,5 +1,7 @@
 "use strict";
 import { Notification } from "element-ui";
+import axios from "../ajax/axios-ajax.js";
+import api from "../ajax/api-list";
 
 const store = require("store");
 export default {
@@ -15,7 +17,7 @@ export default {
           message: "即将回到登录中心"
         });
         setTimeout(() => {
-          window.location.href = "/consumer";
+          this.logout();
         }, 300);
         return false;
       } else {
@@ -24,5 +26,35 @@ export default {
     } else {
       return true;
     }
+  },
+  // 退出登录
+  logout() {
+    axios
+      .ajax({
+        url: api.consumer().user.logout
+      })
+      .then()
+      .catch();
+    window.location.href = "/consumer";
+    store.clearAll(); // 清理缓存
+  },
+  // 刷新口令以及判断数据类型来判断是否退出登录
+  refresh_sign_or_out(res) {
+    console.log(res);
+    if (!res || !res.data) {
+      this.logout();
+      return false;
+    }
+    // type类型为1必定退出登录
+    if (res.data.type === 1) {
+      this.logout();
+      return false;
+    }
+    if (res.headers.authorization) {
+      const user_info = store.get("user_info");
+      user_info.sign = res.headers.authorization;
+      store.set("user_info", user_info);
+    }
+    return true;
   }
 };
