@@ -62,8 +62,8 @@ export default {
   display: flex;
   flex-flow: row;
   > li {
-    width: 20.2rem;
-    height: 28rem;
+    width: 20.2vw;
+    height: 28vw;
     overflow: hidden;
     .backli {
       width: 100%;

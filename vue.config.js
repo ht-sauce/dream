@@ -11,15 +11,6 @@ const multiPageConfig = {
   },
   dht_blog: {
     name: "海天酱油博客"
-  },
-  dht_platform: {
-    name: "海天酱油后台系统"
-  },
-  interface: {
-    name: "接口管理平台"
-  },
-  nosqlModel: {
-    name: "nosql建模工具"
   }
 };
 
@@ -65,6 +56,14 @@ const vueConfig = {
         deleteOriginalAssets: false //是否删除原文件
       })
     ]
+  },
+  devServer: {
+    proxy: {
+      "/dream-admin": {
+        target: "http://127.0.0.1:7001",
+        changeOrigin: false
+      }
+    }
   }
 };
 console.log(page);

@@ -1,8 +1,13 @@
 <template>
   <div class="test">
-    <dht-tree :data="data">
-      <span slot-scope="{ node }" class="dhtceshi">{{ node.label }}</span>
-    </dht-tree>
+    <iframe
+      style="display:none"
+      id="ifrm"
+      src=""
+      width="0px"
+      height="0px"
+    ></iframe>
+    <span class="buttom" @click="ceshi">测试</span>
   </div>
 </template>
 
@@ -12,54 +17,76 @@ export default {
   props: {},
   data() {
     return {
-      data: [
-        { id: 2, label: "第2个", children: [] },
-        {
-          id: 1,
-          label: "第1个",
-          children: [
-            {
-              id: 1,
-              label: "二级第1个",
-              children: [
-                {
-                  id: 1,
-                  label: "三级1第1个",
-                  children: [
-                    { id: 1, label: "1", children: [] },
-                    { id: 2, label: "2", children: [] },
-                    { id: 3, label: "3", children: [] },
-                    { id: 4, label: "4", children: [] },
-                    { id: 5, label: "5", children: [] }
-                  ]
-                },
-                { id: 2, label: "三级2第2个", children: [] },
-                { id: 3, label: "三级3第3个", children: [] },
-                { id: 4, label: "三级4第4个", children: [] },
-                { id: 5, label: "三级5第5个", children: [] }
-              ]
-            },
-            { id: 2, label: "二级第2个", children: [] },
-            { id: 3, label: "二级第3个", children: [] },
-            { id: 4, label: "二级第4个", children: [] },
-            { id: 5, label: "二级第5个", children: [] }
-          ]
-        },
-        { id: 3, label: "第3个", children: [] },
-        { id: 4, label: "第4个", children: [] },
-        { id: 5, label: "第5个", children: [] }
-      ]
+      list: []
     };
   },
-  mounted() {},
-  methods: {}
+  mounted() {
+    /*$.ajax({
+      type: "Get",
+      url: "PrintCookie.aspx?checkInstall=9f2b1726-d2e8-433d-86b6-d72b1ef27eab",
+      success: function (strResult) {
+        if (strResult.indexOf("PrintControlInstall") == -1) {
+          if (confirm("检测到打印控件未安装，您是否下载安装？")) {
+            document.getElementById("downPrintControl").click();
+          }
+        }
+      }
+    });
+
+
+    function topwebPrint(_url){
+      $("#ifrm")[0].src = "ChuLinPrint:"+_url;
+    }
+    $(document).ready(function () {
+
+      /!* This is basic - uses default settings *!/
+
+      $("a.single_image").fancybox();
+
+      /!* Using custom settings *!/
+
+      $("a#inline").fancybox({
+        'hideOnContentClick': true
+      });
+
+      /!* Apply fancybox to multiple items *!/
+
+      $("a.group").fancybox({
+        'transitionIn': 'elastic',
+        'transitionOut': 'elastic',
+        'speedIn': 600,
+        'speedOut': 200,
+        'overlayShow': false
+      });
+    });*/
+  },
+  methods: {
+    ceshi() {
+      let ifrm = document.querySelector("#ifrm");
+      ifrm.src = "ChuLinPrint:" + "http://www.clprint.cn/file/4.txt";
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 .test {
-  .dhtceshi {
-    color: red;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .buttom {
+    display: inline-block;
+    background: #409eff;
+    color: #ffffff;
+    width: 80px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    &:active {
+      background: #93e0ff;
+    }
   }
 }
 </style>

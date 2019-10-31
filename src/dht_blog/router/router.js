@@ -1,6 +1,7 @@
 import Vue from "vue";
 import vuex from "../vuex/store";
 import Router from "vue-router";
+import control from "@/common/control_center/index";
 Vue.use(Router);
 
 //主站博客路由维护
@@ -11,7 +12,10 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      redirect: "/blog"
+      redirect: "/blog",
+      meta: {
+        auth: false
+      }
     },
     {
       path: "/test",
@@ -22,7 +26,10 @@ const router = new Router({
       path: "/blog",
       component: () => import("../views/blog/Home.vue"),
       redirect: "/index",
-      children: [...blog]
+      children: [...blog],
+      meta: {
+        auth: false
+      }
     },
     //编辑器路由
     {
@@ -33,7 +40,8 @@ const router = new Router({
           title: "博客编辑器",
           keywords: "博客编辑器",
           description: "博客编辑器"
-        }
+        },
+        auth: false
       }
     }
   ]
@@ -49,6 +57,8 @@ router.beforeEach((to, from, next) => {
 });
 //后置守卫
 // eslint-disable-next-line no-unused-vars
-router.afterEach((to, from) => {});
+router.afterEach((to, from) => {
+  control.go_home(to.meta.auth);
+});
 
 export default router;

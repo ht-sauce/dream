@@ -15,3 +15,18 @@ $background_hover: #e7e7e7;
 @mixin shadow_main {
   box-shadow: #c9c9c9 0 0 5px;
 }
+//页面动画过渡部分
+.page-transition-enter-active {
+  animation: slide-out 0.3s reverse;
+}
+.page-transition-leave-active {
+  animation: slide-in 0.3s reverse;
+}
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

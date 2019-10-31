@@ -121,12 +121,12 @@ export default {
         margin-right: 10px;
       }
       .icon_img {
-        width: 0.9rem;
-        height: 0.9rem;
+        width: 0.9vw;
+        height: 0.9vw;
       }
       .icon_img2 {
-        width: 1.1rem;
-        height: 0.9rem;
+        width: 1.1vw;
+        height: 0.9vw;
       }
       .icon_text {
         color: #096;
