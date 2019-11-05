@@ -131,7 +131,11 @@ export default {
       }
     }
   },
-  beforeCreate() {},
+  beforeCreate() {
+    // 已登录用户进入用户中心
+    const user_info = store.get("user_info");
+    if (user_info) this.$router.push({ path: "/user_center" });
+  },
   created() {},
   beforeMount() {},
   mounted() {},
@@ -290,6 +294,7 @@ export default {
           // 存储用户数据到缓存
           store.clearAll();
           store.set("user_info", e.data);
+          this.$router.push({ path: "/user_center" });
           console.log(e.data);
         })
         .catch(e => {

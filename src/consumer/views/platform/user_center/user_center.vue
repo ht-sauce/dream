@@ -1,5 +1,5 @@
 <template>
-  <div class="create-user">
+  <div class="user_center">
     <el-form
       class="register"
       :model="data"
@@ -12,7 +12,7 @@
         <!--必填信息-->
         <div class="left">
           <el-form-item label="账号" prop="account">
-            <el-input v-model="data.account" clearable></el-input>
+            <el-input v-model="data.account" disabled clearable></el-input>
           </el-form-item>
           <el-form-item label="昵称" prop="nickname">
             <el-input v-model="data.nickname" clearable></el-input>
@@ -36,6 +36,23 @@
         </div>
         <!--非必填-->
         <div class="right">
+          <el-form-item label="头像" prop="portrait">
+            <el-upload
+              class="avatar-uploader"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img
+                v-if="data.portrait"
+                :src="data.portraitShow"
+                class="avatar"
+                alt="头像"
+              />
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="data.sex">
               <el-radio label="男"></el-radio>
@@ -75,9 +92,8 @@
           type="primary"
           :loading="loading"
           @click="registerUser('ruleForm')"
-          >确认注册</el-button
+          >确认修改</el-button
         >
-        <el-button><router-link to="/">返回登录</router-link></el-button>
       </div>
     </el-form>
   </div>
@@ -86,6 +102,7 @@
 <script>
 import { regionData } from "element-china-area-data";
 import { userLoginPassword } from "@/common/crypto/crypto";
+import store from "store";
 export default {
   data() {
     let englishOrNumbers = (rule, value, callback) => {
@@ -140,7 +157,6 @@ export default {
         ],
         password: [
           {
-            required: true,
             message: "请输入密码，最小6位",
             max: 20,
             min: 6,
@@ -149,7 +165,6 @@ export default {
         ],
         password2: [
           {
-            required: true,
             message: "请确认密码，最小6位",
             max: 20,
             min: 6,
@@ -172,21 +187,43 @@ export default {
     };
   },
   beforeCreate() {},
-  created() {},
+  created() {
+    // 数据初始化
+    const user_info = store.get("user_info");
+    user_info.userInfo.province_and_city = user_info.userInfo.province_and_city
+      ? user_info.userInfo.province_and_city.split(",")
+      : [];
+    this.data = Object.assign(this.data, user_info.userInfo);
+  },
   beforeMount() {},
   mounted() {},
   destroyed() {},
   methods: {
+    handleAvatarSuccess(res, file) {
+      this.data.portraitShow = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG和PNG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    },
     registerUser(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.createUserAjax();
+          this.updateUserAjax();
         } else {
           return false;
         }
       });
     },
-    createUserAjax() {
+    updateUserAjax() {
       let data = {
         account: this.data.account, //账号
         nickname: this.data.nickname, //nickname
@@ -202,15 +239,19 @@ export default {
       };
       this.axios
         .ajax({
-          url: this.$api.consumer().user.create,
+          url: this.$api.consumer().user.update,
           data: data,
           method: "post",
           loading: true,
-          success: "用户创建成功"
+          success: "修改成功"
         })
         .then(e => {
           console.log(e);
-          this.$router.push({ path: "/" });
+          const user_info = store.get("user_info");
+          user_info.userInfo = Object.assign(user_info.userInfo, data);
+          delete user_info.userInfo.password;
+          delete user_info.userInfo.password2;
+          store.set("user_info", user_info);
         })
         .catch(e => {
           console.log(e);
@@ -225,24 +266,12 @@ export default {
 }
 </style>
 <style scoped lang="scss">
-.create-user {
+.user_center {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   .register {
-    width: 70vw;
-    min-width: 960px;
-    margin: 10px 0;
-    height: 650px;
-    min-height: 85vh;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: #ffffff 0 0 3px;
-    padding: 40px 20px;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
     .dingwei {
       display: flex;
       .left,
@@ -280,7 +309,6 @@ export default {
       }
     }
     .checkButton {
-      margin-top: 50px;
       display: flex;
       justify-content: center;
     }

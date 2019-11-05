@@ -12,7 +12,7 @@
         </template>
       </div>
       <div>
-        <el-button @click="logout">退出登录</el-button>
+
       </div>
     </div>
   </header>
@@ -23,11 +23,7 @@ import control from "@/common/control_center/index";
 export default {
   data() {
     return {
-      platformList: [
-        { name: "用户平台中心", url: "/consumer" },
-        { name: "博客", url: "/dht_blog" },
-        { name: "主后台", url: "/dht_platform" }
-      ]
+      platformList: []
     };
   },
   beforeCreate() {},
@@ -60,7 +56,7 @@ export default {
     display: flex;
     align-items: center;
     .logo > a {
-      font-size: 22px;
+      font-size: 20px;
     }
     .platform-list {
       margin-left: auto;

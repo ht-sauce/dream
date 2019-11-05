@@ -42,6 +42,13 @@ const ajax = ({
   error = true, //错误信息提示
   timeout = 2000
 }) => {
+  // 数据过滤，过滤字段中空数据等
+  const filter = record => {
+    for (let key in record) {
+      !record[key] && delete record[key];
+    }
+    return record;
+  };
   //接口全局加载提示
   let loadingInstance = "";
   if (loading !== false) {
@@ -71,7 +78,7 @@ const ajax = ({
       url: url,
       headers: headers,
       method: method,
-      [method === "post" ? "data" : "params"]: data,
+      [method === "post" ? "data" : "params"]: filter(data),
       timeout: timeout
     })
       .then(response => {

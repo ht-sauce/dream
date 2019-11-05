@@ -22,6 +22,19 @@ const router = new Router({
       }
     },
     {
+      path: "/create-user",
+      component: () =>
+        import("@/consumer/views/login/create-user/create-user.vue"),
+      meta: {
+        metaInfo: {
+          title: "新建用户",
+          keywords: "新建用户",
+          description: "新建用户"
+        },
+        auth: false
+      }
+    },
+    {
       path: "/platform",
       component: () => import("@/consumer/views/platform/index.vue"),
       meta: {
@@ -34,16 +47,16 @@ const router = new Router({
       },
       children: [
         {
-          path: "/create-user",
+          path: "/user_center",
           component: () =>
-            import("@/consumer/views/login/create-user/create-user.vue"),
+            import("@/consumer/views/platform/user_center/user_center.vue"),
           meta: {
             metaInfo: {
-              title: "新建用户",
-              keywords: "新建用户",
-              description: "新建用户"
+              title: "用户中心",
+              keywords: "用户中心",
+              description: "用户中心"
             },
-            auth: false
+            auth: true
           }
         }
       ]
