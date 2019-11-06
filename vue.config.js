@@ -11,6 +11,9 @@ const multiPageConfig = {
   },
   dht_blog: {
     name: "海天酱油博客"
+  },
+  interface: {
+    name: "接口平台"
   }
 };
 
