@@ -39,7 +39,8 @@
           <el-form-item label="头像" prop="portrait">
             <el-upload
               class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
+              :headers="headers"
+              :action="uploadImg"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
@@ -119,7 +120,10 @@ export default {
         callback();
       }
     };
+    const user_info = store.get("user_info");
     return {
+      headers: { Authorization: user_info.sign },
+      uploadImg: this.$api.static().upload_pictures + "?source=头像",
       options: regionData,
       data: {
         account: "", //账号
@@ -194,13 +198,18 @@ export default {
       ? user_info.userInfo.province_and_city.split(",")
       : [];
     this.data = Object.assign(this.data, user_info.userInfo);
+    // 头像处理
+    this.data.portraitShow =
+      this.$api.static().visit + user_info.userInfo.portrait;
   },
   beforeMount() {},
   mounted() {},
   destroyed() {},
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.data.portraitShow = URL.createObjectURL(file.raw);
+    handleAvatarSuccess(res) {
+      console.log(res.data);
+      this.data.portrait = res.data;
+      this.data.portraitShow = this.$api.static().visit + res.data;
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg" || file.type === "image/png";

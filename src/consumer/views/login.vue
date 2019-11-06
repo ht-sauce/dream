@@ -10,6 +10,7 @@
           prefix-icon="el-icon-user"
           placeholder="登录名"
           v-model="logindata.userName"
+          @keyup.enter.native="loginButton"
         ></el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -19,6 +20,7 @@
           placeholder="密码"
           type="password"
           v-model="logindata.password"
+          @keyup.enter.native="loginButton"
         ></el-input>
       </el-form-item>
       <el-form-item class="login-item">

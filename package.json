@@ -17,7 +17,8 @@
     "vue-axios": "^2.1.5",
     "vue-meta": "^2.2.1",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.7.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",

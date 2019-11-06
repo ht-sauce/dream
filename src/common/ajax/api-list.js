@@ -2,20 +2,28 @@
 
 export default {
   baseURL: "/dream-admin",
-  prefix() {
-    return {
-      consumer: "/consumer"
-    };
-  },
+  // 用户中心
   consumer() {
-    const prefix = this.prefix().consumer;
+    const prefix = "/consumer";
     return {
       user: {
         create: `/noauth${prefix}/createUser`, //创建用户
         login: `/noauth${prefix}/login`, //用户登录
         logout: `/noauth${prefix}/logout`,
         update: `${prefix}/update_user` //修改用户基本信息
+      },
+      power: {
+        items: `${prefix}/item_list` // 项目列表
       }
+    };
+  },
+  // 静态文件管理
+  static() {
+    const prefix = "/static";
+    return {
+      visit: "http://127.0.0.1:7001", // 访问路径
+      // 上传单个静态图片
+      upload_pictures: `${this.baseURL + prefix}/upload_pictures`
     };
   }
 };

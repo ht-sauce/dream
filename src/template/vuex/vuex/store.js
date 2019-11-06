@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+// vuex数据持久化处理
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
 
@@ -19,5 +21,6 @@ const mutations = {
 export default new Vuex.Store({
   state,
   mutations,
-  actions: {}
+  actions: {},
+  plugins: [createPersistedState()]
 });
