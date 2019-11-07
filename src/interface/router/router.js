@@ -11,12 +11,24 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      //redirect: "/home"
+      redirect: "/project",
       meta: {
         metaInfo: {
           title: "接口平台",
           keywords: "接口平台",
           description: "接口平台"
+        },
+        auth: true
+      }
+    },
+    {
+      path: "/project",
+      component: () => import("@/interface/views/projects/project.vue"),
+      meta: {
+        metaInfo: {
+          title: "接口项目列表",
+          keywords: "接口项目列表",
+          description: "接口项目列表"
         },
         auth: true
       }

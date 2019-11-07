@@ -4,7 +4,7 @@ import store from "./vuex/store";
 import router from "./router";
 import axios from "@/common/ajax/axios-ajax";
 
-import "../assets/css/restCss.css"; //全局css样式重置
+import "@/assets/css/restCss.css"; //全局css样式重置
 
 //组件注册全部依赖于该文件
 import gcomponents from "./components/components.js"; //全局组件

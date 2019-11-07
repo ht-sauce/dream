@@ -4,6 +4,11 @@ import router from "./router/router";
 import store from "./vuex/store";
 import axios from "@/common/ajax/axios-ajax";
 
+import "@/assets/css/restCss.css"; //全局css样式重置
+//组件注册全部依赖于该文件
+import gcomponents from "./components/components.js"; //全局组件
+Vue.use(gcomponents);
+
 //vuemeta头部标签管理
 import VueMeta from "vue-meta";
 Vue.use(VueMeta);

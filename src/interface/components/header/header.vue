@@ -1,16 +1,6 @@
 <template>
   <header class="platform-head">
     <div class="center">
-      <div class="logo">
-        <router-link to="/"><h1>海天酱油用户平台中心</h1></router-link>
-      </div>
-      <div class="platform-list">
-        <template v-for="(item, index) in platformList">
-          <a :key="index" :href="item.url">
-            <h2>{{ item.name }}</h2>
-          </a>
-        </template>
-      </div>
       <div>
         <el-popover
           placement="bottom"
@@ -45,6 +35,16 @@
           </div>
         </el-popover>
       </div>
+      <ul class="menu">
+        <template v-for="(item, index) in menu">
+          <li :key="index">
+            <span :class="item.icon" class="menu-icon"></span>
+            <span @click="jump_page(item.url)" class="title">{{
+              item.title
+            }}</span>
+          </li>
+        </template>
+      </ul>
     </div>
   </header>
 </template>
@@ -55,7 +55,6 @@ import store from "store";
 export default {
   data() {
     return {
-      platformList: [],
       user_info: {},
       user_power: [
         {
@@ -65,7 +64,8 @@ export default {
             this.logout();
           }
         }
-      ]
+      ],
+      menu: [{ title: "项目", icon: "el-icon-notebook-2", url: "/project" }]
     };
   },
   beforeCreate() {},
@@ -73,7 +73,6 @@ export default {
     this.user_info = store.get("user_info").userInfo;
     this.user_info.portrait =
       this.$api.static().visit + this.user_info.portrait;
-    this.power_list();
   },
   beforeMount() {},
   mounted() {},
@@ -83,20 +82,8 @@ export default {
     logout() {
       control.logout();
     },
-    // 权限列表
-    power_list() {
-      this.axios
-        .ajax({
-          url: this.$api.consumer().power.items,
-          data: {
-            account: this.user_info.account
-          }
-        })
-        .then(e => {
-          console.log(e.data);
-          this.platformList = e.data;
-        })
-        .catch();
+    jump_page(url) {
+      url && this.$router.push({ path: url });
     }
   }
 };
@@ -111,31 +98,18 @@ export default {
 <style scoped lang="scss">
 .platform-head {
   width: 100vw;
-  height: 65px;
-  background: rgba(255, 255, 255, 0.9);
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: #ffffff 0 0 3px;
+  background: rgba(255, 191, 45, 0.5);
   .center {
     min-width: 960px;
     width: 70vw;
     height: 100%;
     display: flex;
     align-items: center;
-    .logo > a {
-      font-size: 20px;
-    }
-    .platform-list {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      margin-right: 25px;
-      > a {
-        font-size: 16px;
-        margin-left: 20px;
-      }
-    }
     .user-info {
       font-size: 12px;
       display: flex;
@@ -150,6 +124,30 @@ export default {
         border-radius: 50%;
         line-height: 30px;
         text-align: center;
+      }
+    }
+    .menu {
+      margin-left: 30px;
+      display: flex;
+      > li {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #6f6f6f;
+        margin-right: 20px;
+        cursor: pointer;
+        &:hover {
+          color: black;
+        }
+        .menu-icon {
+          font-size: 20px;
+          margin-right: 2.5px;
+          font-weight: bold;
+        }
+        .title {
+          line-height: 18px;
+          font-weight: bold;
+        }
       }
     }
   }
