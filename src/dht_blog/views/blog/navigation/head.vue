@@ -14,11 +14,19 @@
         </template>
       </ul>
     </div>
+    <herader-user
+      v-if="$store.state.user_info"
+      :noshow="$store.state.core"
+    ></herader-user>
   </div>
 </template>
 
 <script>
 export default {
+  components: {
+    heraderUser: () =>
+      import("@/components/project/header_user/header-user.vue")
+  },
   data() {
     return {
       h2List: [
@@ -34,15 +42,6 @@ export default {
   created() {
     this.onloadPage();
   },
-  beforeMount() {},
-  mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  errorCaptured() {},
   methods: {
     //页面跳转
     pageJump(index) {
@@ -88,6 +87,7 @@ export default {
     display: flex;
     flex-flow: row;
     line-height: $height - 3px;
+    margin-right: 20px;
     h1 {
       font-size: 28px;
       margin-right: auto;

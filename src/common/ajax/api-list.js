@@ -25,5 +25,17 @@ export default {
       // 上传单个静态图片
       upload_pictures: `${this.baseURL + prefix}/upload_pictures`
     };
+  },
+  interface() {
+    const prefix = "/interface";
+    return {
+      // 项目列表的增删改查
+      project: {
+        list: `${this.baseURL + prefix}/project_list`,
+        info: `${this.baseURL + prefix}/project_info`,
+        add: `${this.baseURL + prefix}/project_add`,
+        modify: `${this.baseURL + prefix}/project_modify`
+      }
+    };
   }
 };

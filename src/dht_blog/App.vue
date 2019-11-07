@@ -8,6 +8,7 @@
   </div>
 </template>
 <script>
+import store from "store";
 export default {
   name: "App",
   data() {
@@ -15,7 +16,12 @@ export default {
   },
   watch: {},
   beforeCreate() {},
-  created() {},
+  created() {
+    // 将用户数据存入到vuex便于后续操作
+    this.$store.commit("set_data", {
+      user_info: store.get("user_info").userInfo
+    });
+  },
   beforeMount() {},
   mounted() {},
   methods: {}

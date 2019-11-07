@@ -11,12 +11,24 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      component: () => import("@/consumer/views/login.vue"),
+      redirect: "/user_center",
       meta: {
         metaInfo: {
           title: "海天酱油用户平台",
           keywords: "海天酱油用户平台",
           description: "海天酱油用户平台"
+        },
+        auth: false
+      }
+    },
+    {
+      path: "/login",
+      component: () => import("@/consumer/views/login.vue"),
+      meta: {
+        metaInfo: {
+          title: "登录中心",
+          keywords: "登录中心",
+          description: "登录中心"
         },
         auth: false
       }

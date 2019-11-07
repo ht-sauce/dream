@@ -10,7 +10,6 @@
   </div>
 </template>
 <script>
-// eslint-disable-next-line no-unused-vars
 import store from "store";
 export default {
   name: "interface",

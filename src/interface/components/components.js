@@ -3,6 +3,7 @@ import Vue from "vue";
 
 //element ui部分
 import {
+  Dialog,
   Icon,
   Popover,
   Input,
@@ -17,6 +18,7 @@ import {
   CascaderPanel
 } from "element-ui";
 const elementUI = [
+  Dialog,
   Icon,
   Popover,
   Input,

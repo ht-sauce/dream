@@ -36,7 +36,7 @@ export default {
       .then()
       .catch();
     store.clearAll(); // 清理缓存
-    window.location.href = "/consumer";
+    window.location.href = "/consumer/login";
   },
   // 刷新口令以及判断数据类型来判断是否退出登录
   refresh_sign_or_out(res) {
