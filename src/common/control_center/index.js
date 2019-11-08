@@ -40,7 +40,7 @@ export default {
   },
   // 刷新口令以及判断数据类型来判断是否退出登录
   refresh_sign_or_out(res) {
-    console.log(res);
+    // console.log(res);
     if (!res || !res.data) {
       this.logout();
       return false;

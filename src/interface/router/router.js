@@ -32,6 +32,19 @@ const router = new Router({
         },
         auth: true
       }
+    },
+    {
+      path: "/modular",
+      name: "/modular",
+      component: () => import("@/interface/views/modular/modular.vue"),
+      meta: {
+        metaInfo: {
+          title: "项目模块",
+          keywords: "项目模块",
+          description: "项目模块"
+        },
+        auth: true
+      }
     }
   ]
 });

@@ -14,7 +14,9 @@ const state = {
   },
   core: "interface",
   // 用户数据
-  user_info: {}
+  user_info: {},
+  // 模块页面的模块信息数据
+  modular_params: ""
 };
 const mutations = {
   getMetaInfo(state, metaInfo) {
