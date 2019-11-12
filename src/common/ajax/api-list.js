@@ -36,6 +36,20 @@ export default {
         add: `${prefix}/project_add`,
         modify: `${prefix}/project_modify`,
         delete: `${prefix}/project_delete`
+      },
+      // 项目模块下增删改查
+      modular: {
+        add: `${prefix}/project/modular/add`,
+        list: `${prefix}/project/modular/list`,
+        del: `${prefix}/project/modular/del`,
+        modify: `${prefix}/project/modular/modify`
+      },
+      // 模块下api接口增删改查
+      api: {
+        add: `${prefix}/project/modular/api/add`,
+        list: `${prefix}/project/modular/api/list`,
+        del: `${prefix}/project/modular/api/del`,
+        modify: `${prefix}/project/modular/api/modify`
       }
     };
   }

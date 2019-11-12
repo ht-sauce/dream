@@ -255,16 +255,22 @@ export default {
     },
     // 删除
     delete_project(name) {
-      this.axios
-        .ajax({
-          url: this.$api.interface().project.delete,
-          data: {
-            name: name
-          },
-          loading: true
-        })
-        .then(this.item_list())
-        .catch();
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.axios
+          .ajax({
+            url: this.$api.interface().project.delete,
+            data: {
+              name: name
+            },
+            loading: true
+          })
+          .then(this.item_list())
+          .catch();
+      });
     },
     // 进入项目
     get_into_project(name) {

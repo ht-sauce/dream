@@ -17,7 +17,11 @@ import {
   Radio,
   RadioGroup,
   Cascader,
-  CascaderPanel
+  CascaderPanel,
+  MessageBox,
+  Notification,
+  Select,
+  Option
 } from "element-ui";
 const elementUI = [
   Tabs,
@@ -34,7 +38,9 @@ const elementUI = [
   Radio,
   RadioGroup,
   Cascader,
-  CascaderPanel
+  CascaderPanel,
+  Select,
+  Option
 ];
 Vue.prototype.$ELEMENT = { size: "small", zIndex: 3000 };
 
@@ -49,9 +55,12 @@ function install() {
   elementUI.forEach(component => {
     Vue.use(component);
   });
+  Vue.prototype.$notify = Notification;
+  Vue.prototype.$msgbox = MessageBox;
+  Vue.prototype.$alert = MessageBox.alert;
+  Vue.prototype.$confirm = MessageBox.confirm;
+  Vue.prototype.$prompt = MessageBox.prompt;
   Vue.use(cat);
 }
-
-//Vue.prototype.$notify = Notification;
 
 export default install;
