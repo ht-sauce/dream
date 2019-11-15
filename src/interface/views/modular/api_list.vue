@@ -151,6 +151,7 @@ export default {
   watch: {
     modularInfo: {
       handler() {
+        this.re_data(false);
         this.api_list_ajax();
       },
       immediate: true
@@ -162,6 +163,12 @@ export default {
   updated() {},
   destroyed() {},
   methods: {
+    // 统一返回数据函数
+    re_data(data, type = 1) {
+      if (type === 1) {
+        this.$emit("api-info", data);
+      }
+    },
     // 弹窗关闭事件
     dialog_close() {
       this.$refs["ruleForm"] && this.$refs["ruleForm"].resetFields();
@@ -240,7 +247,7 @@ export default {
         .then(() => {
           this.dialog.show = false;
           this.api_list_ajax();
-          this.$emit("api-info", "");
+          this.re_data("");
         })
         .catch();
     },
@@ -270,7 +277,7 @@ export default {
         return val;
       });
       this.api_list[index].show = true;
-      this.$emit("api-info", this.api_list[index]);
+      this.re_data(this.api_list[index]);
     },
     // 删除接口
     del_api(id) {

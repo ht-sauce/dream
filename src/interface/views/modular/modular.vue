@@ -88,6 +88,8 @@
         v-if="apiInfo"
         class="api_field"
         :api-info="apiInfo"
+        :project-info="params"
+        :modular-info="modular_info"
       ></api-field>
     </section>
   </div>
@@ -253,6 +255,9 @@ export default {
             loading: true
           })
           .then(() => {
+            if (this.modular_info.id === id) {
+              this.modular_info = "";
+            }
             this.list_modular();
           })
           .catch();

@@ -3,9 +3,14 @@
     <header>
       <div class="left-title">
         <span class="title">{{ apiInfo.name }}</span>
-        <span
-          >地址：<span class="url">{{ apiInfo.url }}</span></span
-        >
+        <span>
+          <span class="url">地址：{{ apiInfo.url }}</span>
+          <span class="url"
+            >实际地址(项目前缀+模块前缀+接口地址)：{{
+              projectInfo.prefix + modularInfo.prefix + apiInfo.url
+            }}</span
+          >
+        </span>
         <span>headers：{{ apiInfo.headers }}</span>
         <span class="tag">
           <span>类型：{{ apiInfo.type }}</span>
@@ -19,11 +24,20 @@
       <!--请求区域-->
       <div class="request">
         <span>请求数据（request）</span>
-        <dht-table-tree></dht-table-tree>
+        <dht-table-tree
+          :tree-field="request"
+          :api-info="apiInfo"
+          reaction="request"
+        ></dht-table-tree>
       </div>
       <!--响应区域-->
       <div class="response">
         <span>响应数据（response）</span>
+        <dht-table-tree
+          :tree-field="response"
+          :api-info="apiInfo"
+          reaction="response"
+        ></dht-table-tree>
       </div>
     </section>
   </article>
@@ -37,10 +51,25 @@ export default {
       default() {
         return {};
       }
+    },
+    projectInfo: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    modularInfo: {
+      type: Object,
+      default() {
+        return {};
+      }
     }
   },
   data() {
-    return {};
+    return {
+      request: [], //请求的字段列表
+      response: [] // 响应的字段列表
+    };
   },
   components: {
     dhtTableTree: () => import("./table_tree/main.vue")
@@ -49,14 +78,38 @@ export default {
     apiInfo: {
       handler() {
         console.log(this.apiInfo);
+        this.field_list();
       },
       immediate: true
     }
   },
-  beforeCreate() {},
   created() {},
-  mounted() {},
-  destroyed() {}
+  methods: {
+    field_list() {
+      this.axios
+        .ajax({
+          url: this.$api.interface().fields.list,
+          data: {
+            api_id: this.apiInfo.id
+          },
+          loading: true
+        })
+        .then(e => {
+          this.request = [];
+          this.response = [];
+          e.data.map(val => {
+            val.is_edit = false;
+            val.isnull = val.isnull === "1";
+            if (val.reaction === "request") {
+              this.request.push(val);
+            } else {
+              this.response.push(val);
+            }
+          });
+        })
+        .catch();
+    }
+  }
 };
 </script>
 
@@ -80,6 +133,7 @@ export default {
       }
       .url {
         color: #0057ff;
+        margin-right: 15px;
       }
       .tag {
         span {

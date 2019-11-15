@@ -21,7 +21,8 @@ import {
   MessageBox,
   Notification,
   Select,
-  Option
+  Option,
+  Checkbox
 } from "element-ui";
 const elementUI = [
   Tabs,
@@ -40,7 +41,8 @@ const elementUI = [
   Cascader,
   CascaderPanel,
   Select,
-  Option
+  Option,
+  Checkbox
 ];
 Vue.prototype.$ELEMENT = { size: "small", zIndex: 3000 };
 

@@ -50,6 +50,13 @@ export default {
         list: `${prefix}/project/modular/api/list`,
         del: `${prefix}/project/modular/api/del`,
         modify: `${prefix}/project/modular/api/modify`
+      },
+      // api接口的字段增删改查
+      fields: {
+        add: `${prefix}/project/modular/api/fields/add`,
+        list: `${prefix}/project/modular/api/fields/list`,
+        del: `${prefix}/project/modular/api/fields/del`,
+        modify: `${prefix}/project/modular/api/fields/modify`
       }
     };
   }
