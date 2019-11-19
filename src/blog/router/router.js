@@ -5,10 +5,10 @@ import control from "@/common/control_center/index";
 Vue.use(Router);
 
 //主站博客路由维护
-import blog from "@/dht_blog/router/dhtBlog/blog";
+import blog from "@/blog/router/dhtBlog/blog";
 const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL + "dht_blog",
+  base: process.env.BASE_URL + "blog",
   routes: [
     {
       path: "/",
@@ -19,7 +19,7 @@ const router = new Router({
     },
     {
       path: "/test",
-      component: () => import("@/dht_blog/views/test/test.vue")
+      component: () => import("@/blog/views/test/test.vue")
     },
     //担心主站访问会存在需要多种页面布局需要，将博客主站部分所有路由放在home层级下面
     {
@@ -34,14 +34,14 @@ const router = new Router({
     //编辑器路由
     {
       path: "/richTextEditor",
-      component: () => import("@/dht_blog/views/richTextEditor/blogEditor.vue"),
+      component: () => import("@/blog/views/richTextEditor/quill.vue"),
       meta: {
         metaInfo: {
           title: "博客编辑器",
           keywords: "博客编辑器",
           description: "博客编辑器"
         },
-        auth: false
+        auth: true
       }
     }
   ]

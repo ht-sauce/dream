@@ -3,6 +3,7 @@
     <el-form class="loginFrom" :model="logindata" :rules="rules" ref="ruleForm">
       <el-form-item class="login-item">
         <h1 class="login-title">海天酱油登录中心</h1>
+        <a class="blog" href="/blog">直接进博客</a>
       </el-form-item>
       <el-form-item prop="userName">
         <el-input
@@ -408,6 +409,16 @@ export default {
         font-size: 16px;
       }
     }
+  }
+}
+.blog {
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  color: #ffffff;
+  &:hover {
+    color: #ff4758;
   }
 }
 /*该样式最终是以弹窗插入*/

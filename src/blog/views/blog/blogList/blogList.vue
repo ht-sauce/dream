@@ -1,66 +1,45 @@
 <template>
-  <div id="bloghome">
-    <!--首部大图广告-->
-    <div class="banner">
-      <home-banner></home-banner>
+  <div id="blogList" class="g-width">
+    <div class="left">
+      <left-blog :list="leftBlogData"></left-blog>
     </div>
-    <!--中间主数据部分-->
-    <div class="content">
-      <div class="g-width">
-        <!--      左边博客列表-->
-        <div class="left">
-          <!--避免页面太过复杂，抽离成为单独的模板文件-->
-          <left-blog :list="leftBlogData"></left-blog>
+    <div class="right">
+      <div class="operation">
+        <div class="self">
+          <dht-img class="headPortrait" :src="onselfData.img"></dht-img>
+          <span>{{ onselfData.name }}</span>
         </div>
-        <!--      右边个性推荐-->
-        <div class="right">
-          <!--个人信息展示-->
-          <div class="right-oneself">
-            <dht-img
-              class="right-oneself-bgimg"
-              :src="require('@/dht_blog/assets/images/home/banner.png')"
-            ></dht-img>
-            <dht-img
-              class="oneself-img"
-              :src="require('@/dht_blog/assets/images/home/avatar.jpg')"
-            ></dht-img>
-            <div class="right-oneself-cont">
-              <div class="onself-name">
-                {{ oneselfData.name }}
-              </div>
-              <div class="onself-icon">
-                {{ oneselfData.icon }}
-              </div>
-              <dht-text
-                class="onself-content"
-                :text="oneselfData.content"
-              ></dht-text>
-            </div>
+        <div class="share">
+          <div>原创：45</div>
+          <div>转载：10</div>
+        </div>
+        <div class="census">
+          <div>访问量：10</div>
+          <div>访问人：3</div>
+        </div>
+        <div class="writing">
+          <div>
+            <router-link to="/richTextEditor?editor_type=add"
+              >写博客</router-link
+            >
           </div>
-          <!--底部推荐-->
-          <right-blog
-            class="right-blog-list"
-            title="点击排行"
-            :list="rightBlogData"
-          ></right-blog>
-          <right-blog
-            class="right-blog-list"
-            title="酱油推荐"
-            :list="rightBlogData"
-          ></right-blog>
+          <div>编辑</div>
         </div>
       </div>
+      <right-blog title="点击排行" :list="rightBlogData"></right-blog>
     </div>
   </div>
 </template>
 
 <script>
-import leftBlog from "@/dht_blog/views/components/left_blog";
-import RightBlog from "@/dht_blog/views/components/right_blog";
 export default {
-  name: "blogHome",
+  name: "blogList",
   data() {
     return {
+      onselfData: {
+        img: require("@/blog/assets/images/home/avatar.jpg"),
+        name: "海天酱油"
+      },
       //左侧博客数据流
       leftBlogData: [
         {
@@ -144,21 +123,14 @@ export default {
           browse: "20"
         }
       ],
-      //个人面板数据
-      oneselfData: {
-        name: "haitianSauce | 戴海天",
-        icon: "前端开发、javascript工程师",
-        content:
-          "一个94年草根男前端。闲的没事自己维护维护自己的小站点，虽然力量很小，但是也要分享的心。网站不足之处请谅解。",
-        img: require("@/dht_blog/assets/images/home/text01.jpg")
-      },
+      //右侧点击量排行
       rightBlogData: [
         {
           id: 1,
           title: "陌上花开，缓缓归矣",
           text:
             "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          img: require("@/dht_blog/assets/images/home/text01.jpg"),
+          img: require("@/blog/assets/images/home/text01.jpg"),
           time: "2019-05-20",
           browse: "20"
         },
@@ -167,7 +139,7 @@ export default {
           title: "陌上花开，缓缓归矣",
           text:
             "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          img: require("@/dht_blog/assets/images/home/text01.jpg"),
+          img: require("@/blog/assets/images/home/text01.jpg"),
           time: "2019-05-20",
           browse: "20"
         },
@@ -176,7 +148,7 @@ export default {
           title: "陌上花开，缓缓归矣",
           text:
             "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          img: require("@/dht_blog/assets/images/home/text01.jpg"),
+          img: require("@/blog/assets/images/home/text01.jpg"),
           time: "2019-05-20",
           browse: "20"
         }
@@ -184,10 +156,11 @@ export default {
     };
   },
   components: {
-    RightBlog,
-    leftBlog,
-    homeBanner: () => {
-      return import("../home/banner.vue");
+    leftBlog: () => {
+      return import("@/blog/views/components/left_blog.vue");
+    },
+    rightBlog: () => {
+      return import("@/blog/views/components/right_blog.vue");
     }
   },
   beforeCreate() {},
@@ -204,78 +177,56 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import "@/assets/css/public.scss";
-#bloghome {
-  .content {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: center;
-    > div {
+#blogList {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  margin: 20px 0 30px 0;
+  .left {
+    width: 69%;
+    box-sizing: border-box;
+  }
+  .right {
+    width: 29%;
+    .operation {
+      width: 100%;
       display: flex;
-      flex-flow: row;
-      justify-content: space-between;
-      //左侧博客列表
-      .left {
-        width: 69%;
-      }
-      //右侧列表
-      .right {
-        width: 29%;
+      flex-flow: column;
+      background: #ffffff;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+      padding: 20px;
+      font-size: 16px;
+      color: $font_main_info;
+      > div {
         display: flex;
-        flex-flow: column;
-        .right-oneself {
-          width: 100%;
-          background: #ffffff;
-          height: 430px;
-          display: flex;
-          flex-flow: column;
-          align-items: center;
-          overflow: hidden;
-          .right-oneself-bgimg {
-            width: 100%;
-            height: 145px;
-          }
-          .oneself-img {
-            width: 110px;
-            height: 110px;
-            margin-top: -60px;
-            /deep/ .dht-showimg {
-              border-radius: 50%;
-            }
-          }
-          .right-oneself-cont {
-            width: 100%;
-            height: 185px;
-            box-sizing: border-box;
-            padding: 25px 50px;
-            margin-top: -5px;
-            color: $font_main;
-            text-align: center;
-            .onself-name {
-              font-size: 16px;
-              font-weight: bold;
-              width: 100%;
-            }
-            .onself-icon {
-              font-size: 14px;
-              color: $font-icon;
-              margin-top: 5px;
-            }
-            .onself-content {
-              margin-top: 17px;
-              font-size: 14px;
-              color: $font_main_info;
-              text-align: left;
-              letter-spacing: 1.5px;
-            }
+        flex-flow: row;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: $border_main 1px solid;
+      }
+      .self {
+        .headPortrait {
+          width: 55px;
+          height: 55px;
+          margin-right: 20px;
+          /deep/ .dht-showimg {
+            border-radius: 50%;
           }
         }
-        .right-blog-list {
-          width: 100%;
-          margin-top: 20px;
-        }
+      }
+      .share {
+        height: 30px;
+        padding: 10px 0;
+        justify-content: space-around;
+      }
+      .census {
+        @extend .share;
+      }
+      .writing {
+        @extend .share;
       }
     }
   }

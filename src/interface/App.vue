@@ -36,7 +36,7 @@ export default {
 <style lang="scss">
 @import "@/assets/css/public.scss";
 #interface {
-  font: 14px alpht sans-serif;
+  font: 14px "Microsoft YaHei UI" sans-serif;
   color: $font_main;
   width: 100%;
   height: 100%;

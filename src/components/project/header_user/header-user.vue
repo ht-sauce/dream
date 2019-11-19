@@ -29,7 +29,7 @@
       </template>
       <div @click="logout" class="reference-content-li">
         <span class="reference-content-li-icon el-icon-s-unfold"></span>
-        <span>退出</span>
+        <span>{{ user.nickname ? "退出" : "登录" }}</span>
       </div>
     </div>
   </el-popover>

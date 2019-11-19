@@ -40,7 +40,7 @@ const ajax = ({
   baseURL = apiList.baseURL, //基础路由前缀
   success = false, //成功信息提示
   error = true, //错误信息提示
-  timeout = 2000
+  timeout = 1000
 }) => {
   // 数据过滤，过滤字段中空数据等
   const filter = record => {

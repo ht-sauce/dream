@@ -21,7 +21,10 @@ export default {
   static() {
     const prefix = "/static";
     return {
-      visit: "http://127.0.0.1:7001", // 访问路径
+      visit:
+        process.env.NODE_ENV === "production"
+          ? "https://www.dht.red"
+          : "http://127.0.0.1:7001", // 访问路径
       // 上传单个静态图片
       upload_pictures: `${this.baseURL + prefix}/upload_pictures`
     };
@@ -57,6 +60,21 @@ export default {
         list: `${prefix}/project/modular/api/fields/list`,
         del: `${prefix}/project/modular/api/fields/del`,
         modify: `${prefix}/project/modular/api/fields/modify`
+      }
+    };
+  },
+  blog() {
+    const prefix = "/blog";
+    return {
+      article: {
+        add: `${prefix}/article/add`,
+        // 文章修改，涉及到了文章发布，草稿状态改变，文章修改
+        modify: `${prefix}/article/modify`,
+        del: `${prefix}/article/del`,
+        // 文章分类
+        classify: {
+          list: `${prefix}/article/classify/list`
+        }
       }
     };
   }

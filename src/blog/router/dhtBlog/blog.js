@@ -1,7 +1,7 @@
 let router = [
   {
     path: "/index",
-    component: () => import("@/dht_blog/views/blog/home/home.vue"),
+    component: () => import("@/blog/views/blog/home/home.vue"),
     meta: {
       metaInfo: {
         title: "海天酱油博客",
@@ -13,7 +13,7 @@ let router = [
   },
   {
     path: "/onself",
-    component: () => import("@/dht_blog/views/blog/onself/onself.vue"),
+    component: () => import("@/blog/views/blog/onself/onself.vue"),
     meta: {
       metaInfo: {
         title: "海天酱油自荐",
@@ -25,7 +25,7 @@ let router = [
   },
   {
     path: "/blogList",
-    component: () => import("@/dht_blog/views/blog/blogList/blogList.vue"),
+    component: () => import("@/blog/views/blog/blogList/blogList.vue"),
     meta: {
       metaInfo: {
         title: "海天酱油的博客列表",
@@ -37,7 +37,7 @@ let router = [
   },
   {
     path: "/enjoyLife",
-    component: () => import("@/dht_blog/views/blog/enjoyLife/enjoyLife.vue"),
+    component: () => import("@/blog/views/blog/enjoyLife/enjoyLife.vue"),
     meta: {
       metaInfo: {
         title: "享受生活",
@@ -49,7 +49,7 @@ let router = [
   },
   {
     path: "/forum",
-    component: () => import("@/dht_blog/views/blog/forum/forum.vue"),
+    component: () => import("@/blog/views/blog/forum/forum.vue"),
     meta: {
       metaInfo: {
         title: "生活讨论区",

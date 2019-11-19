@@ -207,9 +207,13 @@ export default {
   destroyed() {},
   methods: {
     handleAvatarSuccess(res) {
-      console.log(res.data);
-      this.data.portrait = res.data;
-      this.data.portraitShow = this.$api.static().visit + res.data;
+      if (res.code === 0) {
+        this.data.portrait = res.data;
+        this.data.portraitShow = this.$api.static().visit + res.data;
+      } else {
+        // 提示信息，需引入Message
+        this.$message.error("图片上传失败");
+      }
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg" || file.type === "image/png";

@@ -36,7 +36,7 @@ body {
   overflow-x: hidden;
 }
 #app {
-  font: 14px alpht sans-serif;
+  font: 14px "Microsoft YaHei UI" sans-serif;
   width: 100vw;
   color: $font_main;
   //控制页面全局的宽度

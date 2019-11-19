@@ -14,10 +14,7 @@
         </template>
       </ul>
     </div>
-    <herader-user
-      v-if="$store.state.user_info"
-      :noshow="$store.state.core"
-    ></herader-user>
+    <herader-user :noshow="$store.state.core"></herader-user>
   </div>
 </template>
 

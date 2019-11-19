@@ -5,6 +5,7 @@
 </template>
 
 <script>
+//自研富文本，放弃继续深入开发，改用quill
 export default {
   name: "blogEditor",
   data() {

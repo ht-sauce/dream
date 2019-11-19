@@ -17,16 +17,6 @@ audio, video {
   font-style: normal;
   font-weight:normal;
 }
-@font-face {
-  font-family: 'alpht';
-  font-display: swap;
-  src: url('../fonts/AlibabaGSP/webfont.eot'); /* IE9 */
-  src: url('../fonts/AlibabaGSP/webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../fonts/AlibabaGSP/webfont.woff2') format('woff2'),
-  url('../fonts/AlibabaGSP/webfont.woff') format('woff'), /* chrome、firefox */
-  url('../fonts/AlibabaGSP/webfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('../fonts/AlibabaGSP/webfont.svg#webfont') format('svg'); /* iOS 4.1- */
-}
 li{
     list-style-type:none;
 }

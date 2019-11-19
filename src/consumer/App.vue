@@ -13,7 +13,7 @@ export default {
   name: "App",
   data() {
     return {
-      blog: "/dht_blog/index",
+      blog: "/blog/index",
       platform: "/dht_platform/home",
       prefix: ""
     };
@@ -36,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/css/public.scss";
 #consumer {
-  font: 14px alpht sans-serif;
+  font: 14px "Microsoft YaHei UI" sans-serif;
   color: $font_main;
   width: 100%;
   height: 100%;

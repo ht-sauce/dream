@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 //获取命令行参数
 const projectName = process.argv[3];
 console.log("当前打包项目名称：" + projectName);
@@ -9,7 +10,7 @@ const multiPageConfig = {
   consumer: {
     name: "登录平台"
   },
-  dht_blog: {
+  blog: {
     name: "海天酱油博客"
   },
   interface: {
@@ -44,7 +45,7 @@ const productionGzipExtensions = [
   "html"
 ];
 const vueConfig = {
-  publicPath: process.env.NODE_ENV === "production" ? "/public" : "/", //部署应用包时的基本 URL
+  publicPath: process.env.NODE_ENV === "production" ? "/" : "/", //部署应用包时的基本 URL
   outputDir: "dist", //打包目录
   pages: projectName ? page[projectName] : page,
   productionSourceMap: false, //不输出map文件
@@ -57,6 +58,10 @@ const vueConfig = {
         threshold: 10240,
         minRatio: 1,
         deleteOriginalAssets: false //是否删除原文件
+      }),
+      new webpack.ProvidePlugin({
+        "window.Quill": "quill/dist/quill.js",
+        Quill: "quill/dist/quill.js"
       })
     ]
   },

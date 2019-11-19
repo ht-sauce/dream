@@ -2,8 +2,25 @@
 import Vue from "vue";
 
 //element ui部分
-import { Popover, Input, Upload, Button, Message } from "element-ui";
-const elementUI = [Popover, Input, Upload, Button];
+import {
+  Popover,
+  Input,
+  Upload,
+  Button,
+  Message,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup
+} from "element-ui";
+const elementUI = [
+  Popover,
+  Input,
+  Upload,
+  Button,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup
+];
 elementUI.forEach(component => {
   Vue.use(component);
 });
@@ -17,6 +34,7 @@ Vue.use(dhtui, { zIndex: 4000 });
 
 import cat from "@/components/livetd/index";
 Vue.use(cat);
+
 //全局框架范围组件
 function components() {
   /*Vue.component("dht-rendering-echarts", () =>

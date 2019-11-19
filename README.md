@@ -12,7 +12,7 @@ components 公共组件部分
             组件目录约定
                 index.js或install.js为单个组件安装引入文件
     richTextEditor 富文本编辑器ui插件开发
-dht_blog 多页面项目之一（个人博客部分）
+blog 多页面项目之一（个人博客部分）
 dht_platform 项目二（后台管理）
 index 项目三（分发平台项目，起到项目路由分发控制浏览）
 test 测试文件（暂无测试模块）

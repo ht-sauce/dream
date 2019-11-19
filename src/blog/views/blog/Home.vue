@@ -1,5 +1,5 @@
 <template>
-  <div id="dht_blog">
+  <div id="blog">
     <!--顶部导航部分-->
     <navigation></navigation>
     <!--嵌套路由部分都在这里展示-->
@@ -35,7 +35,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 //注意全局列表排列和左右居中
-#dht_blog {
+#blog {
   display: flex;
   flex-flow: column;
   align-items: center;
