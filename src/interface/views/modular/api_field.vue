@@ -3,6 +3,7 @@
     <header>
       <div class="left-title">
         <span class="title">{{ apiInfo.name }}</span>
+        <span>备注：{{ apiInfo.remarks }}</span>
         <span>
           <span class="url">地址：{{ apiInfo.url }}</span>
           <span class="url"

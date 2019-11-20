@@ -213,6 +213,7 @@ export default {
       all_class: [],
       // 图片上传类型，1文章图片上传，2封面图上传
       upload_type: 1,
+      draft: "", //当前文章是否处于草稿状态
       visible: false,
       draft_tips: "存储为草稿" //存储草稿内容修改，用以提示存储成功
     };
@@ -365,6 +366,8 @@ export default {
     },
     // 修改文章状态，包含发布等操作，注意当draft为0的时候代表文章不再是草稿，必须发布，否则引起逻辑错误
     article_modify(draft = "1", loading = true) {
+      // 当页面存在草稿状态的时候以草稿状态为准
+      draft = this.draft ? this.draft : draft;
       let data = {
         id: this.id,
         title: this.title ? this.title : "无标题",
@@ -410,6 +413,7 @@ export default {
         })
         .then(e => {
           this.id = e.data.id;
+          this.draft = e.data.draft;
           this.content = e.data.content;
           this.title = e.data.title;
           this.cover = e.data.cover;

@@ -54,6 +54,17 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
+          <el-form-item label="个人标签" prop="tag">
+            <el-input v-model="data.tag" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="个人说明" prop="synopsis">
+            <el-input
+              type="textarea"
+              v-model="data.synopsis"
+              autosize=""
+              clearable
+            ></el-input>
+          </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="data.sex">
               <el-radio label="男"></el-radio>
@@ -126,6 +137,7 @@ export default {
       uploadImg: this.$api.static().upload_pictures + "?source=头像",
       options: regionData,
       data: {
+        synopsis: "", //简介
         account: "", //账号
         nickname: "", //nickname
         password: "",
@@ -185,6 +197,20 @@ export default {
             message: "请输入正确的邮箱地址",
             trigger: ["blur", "change"]
           }
+        ],
+        synopsis: [
+          {
+            message: "最大500个字",
+            max: 500,
+            trigger: "blur"
+          }
+        ],
+        tag: [
+          {
+            message: "最大100个字",
+            max: 100,
+            trigger: "blur"
+          }
         ]
       },
       loading: false
@@ -238,6 +264,8 @@ export default {
     },
     updateUserAjax() {
       let data = {
+        tag: this.data.tag, //个人标签
+        synopsis: this.data.synopsis, //个人简介
         account: this.data.account, //账号
         nickname: this.data.nickname, //nickname
         password: userLoginPassword(this.data.password), //对密码进行加密传输
