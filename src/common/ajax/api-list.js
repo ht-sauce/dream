@@ -71,6 +71,7 @@ export default {
         // 文章修改，涉及到了文章发布，草稿状态改变，文章修改
         modify: `${prefix}/article/modify`,
         del: `${prefix}/article/del`,
+        details: `${prefix}/article/details`,
         // 文章分类
         classify: {
           list: `${prefix}/article/classify/list`

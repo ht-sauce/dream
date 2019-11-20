@@ -9,7 +9,7 @@
             <span
               v-show="editor_type === 'add'"
               @click="article_modify('1', true)"
-              >存储为草稿</span
+              >{{ draft_tips }}</span
             >
           </div>
           <span @click="article_modify('0', true)">发布</span>
@@ -23,7 +23,7 @@
                 点击添加封面图片
               </div>
               <div v-show="cover" class="cover-picture">
-                <img alt="封面图" :src="cover" />
+                <img alt="封面图" :src="cover_url" />
                 <span
                   @click="
                     () => {
@@ -58,11 +58,16 @@
         maxlength="40"
         rows="1"
         ref="textarea"
+        @change="onEditorChange"
       >
       </textarea>
       <div class="classify">
         <span>分类：</span>
-        <el-checkbox-group v-model="classify" size="small">
+        <el-checkbox-group
+          @change="onEditorChange"
+          v-model="classify"
+          size="small"
+        >
           <el-checkbox-button
             v-for="item in all_class"
             :label="item.id"
@@ -99,6 +104,7 @@
 
 <script>
 import util from "@/common/tool/util.js";
+import { antiShake } from "@/common/tool/antiShakingAndThrottling.js";
 const store = require("store");
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -207,13 +213,16 @@ export default {
       all_class: [],
       // 图片上传类型，1文章图片上传，2封面图上传
       upload_type: 1,
-      visible: false
+      visible: false,
+      draft_tips: "存储为草稿" //存储草稿内容修改，用以提示存储成功
     };
   },
   beforeCreate() {},
   created() {
+    const query = this.$route.query;
     //编辑器初始化工作
-    const editor_type = this.$route.query.editor_type;
+    const editor_type = query.editor_type;
+    const id = query.id;
     if (!editor_type) {
       this.$message({
         message: "编辑器缺少必要参数",
@@ -226,14 +235,24 @@ export default {
       // 当不同类型下，编辑器需要做不同的初始化操作
       if (editor_type === "add") {
         console.log("创作新文章");
-        // this.create();
+        // 创作状态下需要判断页面是否存在缓存，如果存在缓存则取缓存数据，调用详情接口
+        const storeid = store.get("article_id");
+        if (storeid) {
+          this.id = storeid;
+          this.details();
+        }
       }
       if (editor_type === "update") {
         console.log("修饰文章");
+        this.id = id;
+        this.details();
       }
     }
   },
-  beforeMount() {},
+  destroyed() {
+    // 离开页面需要清理数据
+    store.remove("article_id");
+  },
   mounted() {
     // textarea高度自适应
     util.autoTextarea(this.$refs.textarea);
@@ -242,16 +261,28 @@ export default {
   },
   methods: {
     // 焦点离开
-    onEditorBlur() {
-      // 监听焦点离开，离合则保存文章
-      this.article_modify("1", false);
-    },
+    onEditorBlur() {},
     // 获取焦点
     onEditorFocus() {},
     // 准备富文本编辑器
     onEditorReady() {},
     // 内容改变事件
-    onEditorChange() {},
+    // 引入防抖函数避免重复的调用接口数据
+    onEditorChange: antiShake(
+      function() {
+        if (this.id) {
+          this.article_modify("1", false);
+        } else {
+          this.create()
+            .then(() => {
+              this.article_modify("1", false);
+            })
+            .catch();
+        }
+      },
+      1000,
+      false
+    ),
     // 图片上传成功
     handleAvatarSuccess(res) {
       console.log(res.data);
@@ -274,8 +305,10 @@ export default {
         }
         // 封面图片上传
         if (this.upload_type === 2) {
-          this.cover_url = res.data;
-          this.cover = this.$api.static().visit + res.data;
+          this.cover_url = this.$api.static().visit + res.data;
+          this.cover = res.data;
+          // 触发下文章保存
+          this.onEditorChange();
         }
       } else {
         // 提示信息，需引入Message
@@ -306,58 +339,87 @@ export default {
         })
         .catch();
     },
-    //--------------------------------创作新文章初始化开始-----------------------------------------
     // 创作一篇新文章
     create() {
-      this.axios
-        .ajax({
-          url: this.$api.blog().article.add,
-          data: {
-            title: "无标题"
-          },
-          method: "post",
-          loading: true
-        })
-        .then(e => {
-          // 当前文章的id必须有
-          this.id = e.data;
-        })
-        .catch();
+      return new Promise((suc, err) => {
+        this.axios
+          .ajax({
+            url: this.$api.blog().article.add,
+            data: {
+              title: this.title ? this.title : "无标题"
+            },
+            method: "post",
+            loading: true
+          })
+          .then(e => {
+            // 当前文章的id必须有
+            this.id = e.data;
+            // 存入缓存
+            store.set("article_id", e.data);
+            suc(e.data);
+          })
+          .catch(() => {
+            err();
+          });
+      });
     },
-    //--------------------------------创作新文章初始化结束-----------------------------------------
-    //--------------------------------修饰新开始-----------------------------------------
-    //--------------------------------修饰新结束-----------------------------------------
     // 修改文章状态，包含发布等操作，注意当draft为0的时候代表文章不再是草稿，必须发布，否则引起逻辑错误
     article_modify(draft = "1", loading = true) {
-      if (!this.id) {
-        // 没有文章id则退出编辑页面，回到首页
-        this.$message({
-          message: "编辑器缺少id",
-          type: "error",
-          duration: 3000
-        });
-        this.$router.push({ path: "/" });
-      }
       let data = {
         id: this.id,
-        title: this.title,
+        title: this.title ? this.title : "无标题",
         draft: draft,
         content: this.content,
-        cover: this.cover
+        cover: this.cover,
+        classify: this.classify.toString()
       };
+      draft === "1" ? (this.draft_tips = "存储草稿中……") : "";
       this.axios
         .ajax({
           url: this.$api.blog().article.modify,
           data: data,
           method: "post",
           loading: loading,
-          success: "发布文章成功"
+          success: draft === "0" ? "文章发布成功" : false
         })
         .then(() => {
+          draft === "1" ? (this.draft_tips = "存储草稿成功") : "";
+          setTimeout(() => {
+            this.draft_tips = "存储草稿";
+          }, 500);
           if (draft === "0") {
             // 发布成功
             this.$router.push({ path: "/" });
           }
+        })
+        .catch(() => {
+          draft === "1" ? (this.draft_tips = "存储草稿失败") : "";
+          setTimeout(() => {
+            this.draft_tips = "存储草稿";
+          }, 500);
+        });
+    },
+    details() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().article.details,
+          loading: true,
+          data: {
+            id: this.id
+          }
+        })
+        .then(e => {
+          this.id = e.data.id;
+          this.content = e.data.content;
+          this.title = e.data.title;
+          this.cover = e.data.cover;
+          this.cover_url = e.data.cover
+            ? this.$api.static().visit + e.data.cover
+            : "";
+          this.classify = e.data.classify.split(",").map(val => {
+            val = Number(val);
+            return val;
+          });
         })
         .catch();
     }
