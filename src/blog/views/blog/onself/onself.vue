@@ -2,17 +2,19 @@
   <div id="onself" class="g-width">
     <div class="left">
       <h3 class="self-tit">酱油的自语</h3>
-      <dht-text :text="selfTalk"></dht-text>
-      <dht-text :text="selfTalk2"></dht-text>
-      <dht-text :text="selfTalk3"></dht-text>
       <div></div>
     </div>
-    <div class="right"></div>
+    <div class="right">
+      <user-mianbane></user-mianbane>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  components: {
+    userMianbane: () => import("@/blog/views/components/user_mianbane.vue")
+  },
   name: "onself",
   data() {
     return {

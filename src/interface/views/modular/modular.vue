@@ -45,7 +45,7 @@
     </el-dialog>
     <header class="header">
       <i class="el-icon-s-order"></i>
-      <h2 class="title" @click="list_modular">{{ params.name }}</h2>
+      <span class="title" @click="list_modular">{{ params.name }}</span>
       <span>项目前缀：{{ params.prefix }}</span>
       <div class="modular_info">
         <span>模块前缀：{{ modular_info.prefix }}</span>
@@ -271,16 +271,18 @@ export default {
 .modular {
   .header {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     i {
       color: #1abc9c;
       font-size: 24px;
-      margin-right: 10px;
+      margin-right: 5px;
+      margin-left: 10px;
     }
-    h2 {
+    .title {
       font-size: 20px;
       color: #212121;
       cursor: pointer;
+      margin-left: 0;
     }
     span {
       margin-left: 20px;

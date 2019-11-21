@@ -4,10 +4,20 @@
     <ul class="blog-list">
       <template v-for="(item, index) in list">
         <li :key="index">
-          <div class="li-tit">{{ item.title }}</div>
+          <router-link :to="'/blog_content?article_id=' + item.id">
+            <div class="li-tit">{{ item.title }}</div>
+          </router-link>
           <div class="li-cont">
-            <dht-img class="li-img" :src="item.img"></dht-img>
-            <dht-text class="li-text" :text="item.text" :num="57"></dht-text>
+            <dht-img
+              v-if="item.cover"
+              class="li-img"
+              :src="item.cover"
+            ></dht-img>
+            <dht-text
+              class="li-text"
+              :text="item.synopsis"
+              :num="70"
+            ></dht-text>
           </div>
         </li>
       </template>
@@ -81,11 +91,12 @@ export default {
         align-items: center;
         height: 100%;
         .li-img {
+          flex-shrink: 0;
           width: 100px;
           height: 90px;
         }
         .li-text {
-          width: calc(100% - 100px);
+          width: 100%;
           height: 90px;
           color: $font_info;
           box-sizing: border-box;

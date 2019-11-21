@@ -2,7 +2,7 @@
   <header class="platform-head">
     <div class="center">
       <div class="logo">
-        <router-link to="/"><h1>海天酱油用户平台中心</h1></router-link>
+        <router-link to="/">海天酱油用户平台中心</router-link>
       </div>
       <div class="platform-list">
         <template v-for="(item, index) in platformList">
@@ -11,7 +11,7 @@
             v-if="item.type !== $store.state.core"
             :href="item.url"
           >
-            <h2>{{ item.name }}</h2>
+            <span>{{ item.name }}</span>
           </a>
         </template>
       </div>

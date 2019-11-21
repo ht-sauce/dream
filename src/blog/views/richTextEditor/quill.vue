@@ -58,13 +58,13 @@
         maxlength="40"
         rows="1"
         ref="textarea"
-        @change="onEditorChange"
+        @change="save_article"
       >
       </textarea>
       <div class="classify">
         <span>分类：</span>
         <el-checkbox-group
-          @change="onEditorChange"
+          @change="save_article"
           v-model="classify"
           size="small"
         >
@@ -211,6 +211,7 @@ export default {
       cover: "", //封面图显示的
       cover_url: "", // 封面图上传的图片
       all_class: [],
+      synopsis: "", //文章简介
       // 图片上传类型，1文章图片上传，2封面图上传
       upload_type: 1,
       draft: "", //当前文章是否处于草稿状态
@@ -269,7 +270,12 @@ export default {
     onEditorReady() {},
     // 内容改变事件
     // 引入防抖函数避免重复的调用接口数据
-    onEditorChange: antiShake(
+    onEditorChange(e) {
+      this.synopsis = e.text ? e.text.substring(0, 300) : ""; //存储文章的简介
+      this.save_article();
+    },
+    // 保存文章
+    save_article: antiShake(
       function() {
         if (this.id) {
           this.article_modify("1", false);
@@ -337,6 +343,9 @@ export default {
         })
         .then(e => {
           this.all_class = e.data;
+          this.$store.commit("set_data", {
+            all_class: e.data
+          });
         })
         .catch();
     },
@@ -347,7 +356,8 @@ export default {
           .ajax({
             url: this.$api.blog().article.add,
             data: {
-              title: this.title ? this.title : "无标题"
+              title: this.title ? this.title : "无标题",
+              user_id: this.$store.state.user_info.userid
             },
             method: "post",
             loading: true
@@ -367,14 +377,15 @@ export default {
     // 修改文章状态，包含发布等操作，注意当draft为0的时候代表文章不再是草稿，必须发布，否则引起逻辑错误
     article_modify(draft = "1", loading = true) {
       // 当页面存在草稿状态的时候以草稿状态为准
-      draft = this.draft ? this.draft : draft;
       let data = {
         id: this.id,
         title: this.title ? this.title : "无标题",
         draft: draft,
         content: this.content,
         cover: this.cover,
-        classify: this.classify.toString()
+        classify: this.classify.toString(),
+        synopsis: this.synopsis,
+        user_id: this.$store.state.user_info.userid
       };
       draft === "1" ? (this.draft_tips = "存储草稿中……") : "";
       this.axios
@@ -420,10 +431,12 @@ export default {
           this.cover_url = e.data.cover
             ? this.$api.static().visit + e.data.cover
             : "";
-          this.classify = e.data.classify.split(",").map(val => {
-            val = Number(val);
-            return val;
-          });
+          if (e.data.classify) {
+            this.classify = e.data.classify.split(",").map(val => {
+              val = Number(val);
+              return val;
+            });
+          }
         })
         .catch();
     }

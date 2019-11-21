@@ -20,20 +20,17 @@
               class="right-oneself-bgimg"
               :src="require('@/blog/assets/images/home/banner.png')"
             ></dht-img>
-            <dht-img
-              class="oneself-img"
-              :src="require('@/blog/assets/images/home/avatar.jpg')"
-            ></dht-img>
+            <dht-img class="oneself-img" :src="oneselfData.portrait"></dht-img>
             <div class="right-oneself-cont">
               <div class="onself-name">
-                {{ oneselfData.name }}
+                {{ oneselfData.nickname }}
               </div>
               <div class="onself-icon">
-                {{ oneselfData.icon }}
+                {{ oneselfData.tag }}
               </div>
               <dht-text
                 class="onself-content"
-                :text="oneselfData.content"
+                :text="oneselfData.synopsis"
               ></dht-text>
             </div>
           </div>
@@ -43,11 +40,11 @@
             title="点击排行"
             :list="rightBlogData"
           ></right-blog>
-          <right-blog
+          <!--<right-blog
             class="right-blog-list"
             title="酱油推荐"
             :list="rightBlogData"
-          ></right-blog>
+          ></right-blog>-->
         </div>
       </div>
     </div>
@@ -66,119 +63,24 @@ export default {
         {
           id: 1,
           title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          icon: ["css", "html", "javascript"],
-          img: require("../../../assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
+          content: "",
+          classify: "",
+          cover: "",
+          created_at: "",
+          visit: "20"
         }
       ],
       //个人面板数据
-      oneselfData: {
-        name: "haitianSauce | 戴海天",
-        icon: "前端开发、javascript工程师",
-        content:
-          "一个94年草根男前端。闲的没事自己维护维护自己的小站点，虽然力量很小，但是也要分享的心。网站不足之处请谅解。",
-        img: require("@/blog/assets/images/home/text01.jpg")
-      },
+      oneselfData: this.$store.state.blogger,
       rightBlogData: [
         {
           id: 1,
           title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          img: require("@/blog/assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          img: require("@/blog/assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
-        },
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          text:
-            "用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板",
-          img: require("@/blog/assets/images/home/text01.jpg"),
-          time: "2019-05-20",
-          browse: "20"
+          content: "",
+          classify: "",
+          cover: "",
+          created_at: "",
+          visit: "20"
         }
       ]
     };
@@ -191,16 +93,35 @@ export default {
     }
   },
   beforeCreate() {},
-  created() {},
+  created() {
+    this.blog_list();
+  },
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  errorCaptured() {}
+  methods: {
+    // 博客列表
+    blog_list(limit = 10, page = 1) {
+      const data = {
+        limit: limit,
+        page: page
+      };
+      this.axios
+        .ajax({
+          url: this.$api.blog().article.list,
+          data: data
+        })
+        .then(e => {
+          const blog = e.data.list.map(val => {
+            val.cover = val.cover ? this.$api.static().visit + val.cover : "";
+            return val;
+          });
+          this.leftBlogData = blog;
+          this.rightBlogData = blog;
+        })
+        .catch();
+    }
+  }
 };
 </script>
 

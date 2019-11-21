@@ -58,6 +58,18 @@ let router = [
       },
       auth: false
     }
+  },
+  {
+    path: "/blog_content",
+    component: () => import("@/blog/views/blog/blog_content/blog_content.vue"),
+    meta: {
+      metaInfo: {
+        title: "博客内容",
+        keywords: "博客内容",
+        description: "博客内容"
+      },
+      auth: false
+    }
   }
 ];
 export default router;

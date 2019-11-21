@@ -1,9 +1,11 @@
 .dhtText {
   overflow: hidden;
   display: inline-block;
+  line-height: 25px;
 }
 //单行显示处理
 .dhtTextNowrap {
   white-space: nowrap;
   text-overflow: ellipsis;
+  line-height: 25px;
 }

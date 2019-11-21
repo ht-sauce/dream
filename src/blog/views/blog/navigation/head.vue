@@ -1,14 +1,14 @@
 <template>
   <div id="head" class="shadow">
     <div class="g-width h-nav">
-      <h1 @click="pageJump()">
+      <span @click="pageJump()">
         海天酱油博客
-      </h1>
+      </span>
       <ul class="navigation">
         <template v-for="(item, index) in h2List">
           <li :key="index" @click="pageJump(index)">
             <span :class="{ nav_isactive: item.isActive }">
-              <h2>{{ item.title }}</h2>
+              <span class="h2-t">{{ item.title }}</span>
             </span>
           </li>
         </template>
@@ -36,9 +36,7 @@ export default {
     };
   },
   beforeCreate() {},
-  created() {
-    this.onloadPage();
-  },
+  created() {},
   methods: {
     //页面跳转
     pageJump(index) {
@@ -46,19 +44,6 @@ export default {
         val.isActive = false;
       });
       if (index) {
-        this.h2List[index].isActive = true;
-        let url = this.h2List[index].url;
-        this.$router.push({ path: url, query: { page: index } });
-      } else {
-        this.$router.push({ path: "/" });
-        this.h2List[0].isActive = true;
-      }
-    },
-    //刷新的时候需要保持状态
-    onloadPage() {
-      let index = this.$route.query.page;
-      if (index) {
-        this.h2List[0].isActive = false;
         this.h2List[index].isActive = true;
         let url = this.h2List[index].url;
         this.$router.push({ path: url, query: { page: index } });
@@ -85,7 +70,7 @@ export default {
     flex-flow: row;
     line-height: $height - 3px;
     margin-right: 20px;
-    h1 {
+    span {
       font-size: 28px;
       margin-right: auto;
     }
@@ -101,6 +86,9 @@ export default {
         margin-left: 40px;
         font-size: 16px;
         color: #555;
+        .h2-t {
+          font-size: 16px;
+        }
       }
       //当点击之后的效果
       .nav_isactive {

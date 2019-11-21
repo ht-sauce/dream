@@ -10,7 +10,8 @@ import {
   Message,
   Checkbox,
   CheckboxButton,
-  CheckboxGroup
+  CheckboxGroup,
+  MessageBox
 } from "element-ui";
 const elementUI = [
   Popover,
@@ -33,13 +34,17 @@ import dhtui from "@/components/dhtVueUI/index";
 Vue.use(dhtui, { zIndex: 4000 });
 
 import cat from "@/components/livetd/index";
-Vue.use(cat);
 
 //全局框架范围组件
 function components() {
   /*Vue.component("dht-rendering-echarts", () =>
     import("@/components/renderingEcharts/renderingEcharts.vue")
   );*/
+  Vue.use(cat);
+  Vue.prototype.$msgbox = MessageBox;
+  Vue.prototype.$alert = MessageBox.alert;
+  Vue.prototype.$confirm = MessageBox.confirm;
+  Vue.prototype.$prompt = MessageBox.prompt;
 }
 
 //Vue.prototype.$notify = Notification;

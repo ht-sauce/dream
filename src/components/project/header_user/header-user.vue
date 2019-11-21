@@ -59,7 +59,12 @@ export default {
     };
   },
   created() {
-    let user_info = store.get("user_info").userInfo;
+    const user = store.get("user_info");
+    let user_info;
+    if (!user) {
+      return false;
+    }
+    user_info = user.userInfo;
     user_info.portrait = this.$api.static().visit + user_info.portrait;
     this.user = user_info;
 

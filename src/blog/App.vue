@@ -17,14 +17,46 @@ export default {
   watch: {},
   beforeCreate() {},
   created() {
+    const user = store.get("user_info");
     // 将用户数据存入到vuex便于后续操作
     this.$store.commit("set_data", {
-      user_info: store.get("user_info").userInfo
+      user_info: user ? user.userInfo : null
     });
+    this.classify_list_all();
+    this.blogger();
   },
   beforeMount() {},
   mounted() {},
-  methods: {}
+  methods: {
+    // 文章所有分类列表
+    classify_list_all() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().article.classify.list
+        })
+        .then(e => {
+          this.$store.commit("set_data", {
+            all_class: e.data
+          });
+        })
+        .catch();
+    },
+    // 博主信息接口
+    blogger() {
+      this.axios
+        .ajax({
+          url: this.$api.consumer().user.blogger
+        })
+        .then(e => {
+          console.log(e.data);
+          e.data.portrait = this.$api.static().visit + e.data.portrait;
+          this.$store.commit("set_data", {
+            blogger: e.data
+          });
+        })
+        .catch();
+    }
+  }
 };
 </script>
 <style lang="scss">

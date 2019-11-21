@@ -11,6 +11,8 @@ import control from "@/common/control_center/index";
 Vue.use(VueAxios, axios);
 Vue.prototype.$api = apiList; //将接口列表数据绑定到vue全局
 
+axios.defaults.baseURL = apiList.baseURL;
+
 //自定义消息提示函数信息
 let customMsg = {
   //成功信息提示
@@ -37,7 +39,6 @@ const ajax = ({
   data = {},
   headers = { "Content-Type": "application/json;charset=UTF-8" }, //头部信息处理
   method = "get",
-  baseURL = apiList.baseURL, //基础路由前缀
   success = false, //成功信息提示
   error = true, //错误信息提示
   timeout = 1000
@@ -74,7 +75,6 @@ const ajax = ({
     method = method.toLocaleLowerCase(); //转化为小写
     headers = authorize(headers);
     axios({
-      baseURL: baseURL,
       url: url,
       headers: headers,
       method: method,

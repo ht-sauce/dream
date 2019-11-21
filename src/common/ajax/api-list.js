@@ -7,6 +7,7 @@ export default {
     const prefix = "/consumer";
     return {
       user: {
+        blogger: `/noauth${prefix}/blogger`,
         create: `/noauth${prefix}/createUser`, //创建用户
         login: `/noauth${prefix}/login`, //用户登录
         logout: `/noauth${prefix}/logout`,
@@ -71,10 +72,11 @@ export default {
         // 文章修改，涉及到了文章发布，草稿状态改变，文章修改
         modify: `${prefix}/article/modify`,
         del: `${prefix}/article/del`,
-        details: `${prefix}/article/details`,
+        details: `/noauth${prefix}/article/details`,
+        list: `/noauth${prefix}/article/list`, //最新文章列表
         // 文章分类
         classify: {
-          list: `${prefix}/article/classify/list`
+          list: `/noauth${prefix}/article/classify/list`
         }
       }
     };
