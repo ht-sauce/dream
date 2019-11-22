@@ -10,6 +10,12 @@
     </div>
     <div v-if="!author" class="share">
       <div>创作：{{ onselfData.count }}</div>
+      <router-link
+        style="color: #409eff;"
+        v-if="$store.state.user_info"
+        to="/draft"
+        >草稿箱</router-link
+      >
     </div>
     <div class="census">
       <div>访问量：10</div>

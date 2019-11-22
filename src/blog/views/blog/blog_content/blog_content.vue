@@ -8,7 +8,9 @@
       </div>
       <img v-if="info.cover" :src="info.cover" alt="封面" />
       <hr />
-      <section v-html="info.content"></section>
+      <div class="ql-snow">
+        <section class="ql-editor" v-html="info.content"></section>
+      </div>
     </article>
     <div class="author">
       <user-mianbane :author="info"></user-mianbane>
@@ -73,28 +75,29 @@ export default {
           e.data.cover = this.static_p(e.data.cover);
           e.data.portrait = this.static_p(e.data.portrait);
           this.info = e.data;
+
+          this.$store.commit("getMetaInfo", {
+            title: e.data.title,
+            keywords: e.data.title,
+            description: e.data.synopsis
+          });
         })
         .catch();
     }
   }
 };
 </script>
-<style>
-img,
-pre {
-  max-width: 100%;
-}
-</style>
 <style scoped lang="scss">
 .blog_content {
   min-width: 1000px;
-  width: 70vw;
-  min-height: 500px;
+  width: 80vw;
+  min-height: 90vh;
   background: #ffffff;
   margin-top: 20px;
   display: flex;
+  justify-content: space-between;
   .article {
-    width: 71%;
+    width: 75%;
     padding: 20px;
     display: flex;
     flex-flow: column;
@@ -129,15 +132,12 @@ pre {
     }
     > section {
       width: 100%;
-      /deep/ p {
-        max-width: 100%;
-        line-height: 30px;
-      }
     }
   }
   .author {
-    width: 29%;
-    min-width: 300px;
+    width: 25%;
+    max-width: 300px;
+    min-width: 250px;
   }
 }
 </style>

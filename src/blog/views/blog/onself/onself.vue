@@ -1,11 +1,19 @@
 <template>
-  <div id="onself" class="g-width">
-    <div class="left">
-      <h3 class="self-tit">酱油的自语</h3>
-      <div></div>
-    </div>
-    <div class="right">
-      <user-mianbane></user-mianbane>
+  <div class="blog_content">
+    <article class="article">
+      <h1>{{ info.title }}</h1>
+      <div class="tag">
+        <span>{{ info.created_at }}</span>
+        <span class="classify">标签：{{ info.classify }}</span>
+      </div>
+      <img v-if="info.cover" :src="info.cover" alt="封面" />
+      <hr />
+      <div class="ql-snow">
+        <section class="ql-editor" v-html="info.content"></section>
+      </div>
+    </article>
+    <div class="author">
+      <user-mianbane :author="info"></user-mianbane>
     </div>
   </div>
 </template>
@@ -15,54 +23,122 @@ export default {
   components: {
     userMianbane: () => import("@/blog/views/components/user_mianbane.vue")
   },
-  name: "onself",
   data() {
     return {
-      //自语
-      selfTalk: `放后面，这里以博客富文本传值`,
-      selfTalk2: `简历`,
-      selfTalk3: `人生`
+      info: {}
     };
   },
   beforeCreate() {},
-  created() {},
+  created() {
+    const query = this.$route.query;
+    this.details(query.article_id);
+  },
   beforeMount() {},
   mounted() {},
-  beforeUpdate() {},
-  updated() {},
-  activated() {},
-  deactivated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  errorCaptured() {}
-};
-</script>
+  methods: {
+    // 分类转换
+    blogIconTaps(val) {
+      if (!val) {
+        return val;
+      }
+      const tag = val.split(",");
+      let nval = [];
+      this.$store.state.all_class.map(v => {
+        tag.map(t => {
+          if (v.id === Number(t)) {
+            nval.push(v.name);
+          }
+        });
+      });
+      let tags = "";
+      nval.map(li => {
+        tags = tags + " | " + li;
+        return li;
+      });
+      return tags.substring(2, tags.length);
+    },
+    static_p(val) {
+      return val ? this.$api.static().visit + val : null;
+    },
+    // 规定死id=1就是个人博客数据。
+    details() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().article.details,
+          loading: true,
+          data: {
+            id: 1
+          }
+        })
+        .then(e => {
+          console.log(e.data);
+          e.data.classify = this.blogIconTaps(e.data.classify);
+          e.data.cover = this.static_p(e.data.cover);
+          e.data.portrait = this.static_p(e.data.portrait);
+          this.info = e.data;
 
-<style scoped lang="scss">
-@import "@/assets/css/public.scss";
-#onself {
-  display: flex;
-  flex-flow: row;
-  background: #ffffff;
-  margin: 20px 0 30px 0;
-  .left {
-    width: 75%;
-    box-sizing: border-box;
-    padding: 10px 30px 30px 30px;
-    color: $font_main_info;
-    min-height: 85vh;
-    .self-tit {
-      font-size: 24px;
-      font-weight: 600;
-      color: $font_main;
-      letter-spacing: 2px;
-      padding: 15px;
+          this.$store.commit("getMetaInfo", {
+            title: e.data.title,
+            keywords: e.data.title,
+            description: e.data.synopsis
+          });
+        })
+        .catch();
     }
   }
-  .right {
+};
+</script>
+<style scoped lang="scss">
+.blog_content {
+  min-width: 1000px;
+  width: 80vw;
+  min-height: 90vh;
+  background: #ffffff;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  .article {
+    width: 75%;
+    padding: 20px;
+    display: flex;
+    flex-flow: column;
+    > h1 {
+      font-weight: bold;
+      font-size: 26px;
+    }
+    .tag {
+      font-size: 12px;
+      color: #7a7a7a;
+      margin-top: 7px;
+      display: flex;
+      align-items: center;
+      .classify {
+        color: #079d54;
+      }
+      > span {
+        margin-right: 15px;
+      }
+    }
+    > img {
+      margin-top: 15px;
+      width: 100%;
+      object-fit: cover;
+      max-height: 250px;
+    }
+    > hr {
+      margin: 20px 0;
+      width: 100%;
+      height: 1px;
+      background: #cccccc;
+    }
+    > section {
+      width: 100%;
+    }
+  }
+  .author {
     width: 25%;
-    height: 400px;
-    border: red 1px solid;
+    max-width: 300px;
+    min-width: 250px;
   }
 }
 </style>

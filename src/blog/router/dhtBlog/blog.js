@@ -70,6 +70,18 @@ let router = [
       },
       auth: false
     }
+  },
+  {
+    path: "/draft",
+    component: () => import("@/blog/views/blog/draft/draft.vue"),
+    meta: {
+      metaInfo: {
+        title: "草稿箱",
+        keywords: "草稿箱",
+        description: "草稿箱"
+      },
+      auth: true
+    }
   }
 ];
 export default router;

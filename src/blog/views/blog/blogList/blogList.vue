@@ -1,6 +1,12 @@
 <template>
   <div id="blogList" class="g-width">
     <div class="left">
+      <input
+        @keyup.enter="blog_list(1, 10)"
+        class="search"
+        placeholder="根据文章标题检索……"
+        v-model="keyword"
+      />
       <left-blog :list="leftBlogData"></left-blog>
     </div>
     <div class="right">
@@ -15,6 +21,7 @@ export default {
   name: "blogList",
   data() {
     return {
+      keyword: "",
       //左侧博客数据流
       leftBlogData: [],
       //右侧点击量排行
@@ -38,15 +45,17 @@ export default {
   mounted() {},
   methods: {
     // 博客列表
-    blog_list(limit = 10, page = 1) {
+    blog_list(page = 1, limit = 10) {
       const data = {
         limit: limit,
-        page: page
+        page: page,
+        keyword: this.keyword
       };
       this.axios
         .ajax({
           url: this.$api.blog().article.list,
-          data: data
+          data: data,
+          loading: true
         })
         .then(e => {
           const blog = e.data.list.map(val => {
@@ -72,6 +81,17 @@ export default {
   .left {
     width: 69%;
     box-sizing: border-box;
+    .search {
+      border: none;
+      outline: none;
+      border-bottom: #278cff 1px solid;
+      width: 100%;
+      margin-bottom: 12px;
+      padding-left: 20px;
+      font-size: 14px;
+      line-height: 30px;
+      height: 30px;
+    }
   }
   .right {
     width: 29%;

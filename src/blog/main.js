@@ -8,6 +8,8 @@ import axios from "@/common/ajax/axios-ajax";
 import VueMeta from "vue-meta";
 Vue.use(VueMeta);
 
+// 富文本引入
+import "quill/dist/quill.snow.css";
 //css导入部分
 import "../assets/css/restCss.css"; //全局css样式重置
 

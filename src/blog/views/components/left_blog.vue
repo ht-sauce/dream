@@ -56,7 +56,8 @@
           <li
             class="icon_text"
             v-if="
-              $store.state.user_info.account === $store.state.blogger.account
+              $store.state.user_info &&
+                $store.state.user_info.account === $store.state.blogger.account
             "
           >
             <span @click="del_article(index, list)">删除</span>
@@ -108,20 +109,22 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(() => {
-        this.axios
-          .ajax({
-            url: this.$api.blog().article.del,
-            data: {
-              id: list[index].id
-            },
-            loading: true
-          })
-          .then(() => {
-            list.splice(index, 1);
-          })
-          .catch();
-      });
+      })
+        .then(() => {
+          this.axios
+            .ajax({
+              url: this.$api.blog().article.del,
+              data: {
+                id: list[index].id
+              },
+              loading: true
+            })
+            .then(() => {
+              list.splice(index, 1);
+            })
+            .catch();
+        })
+        .catch();
     }
   }
 };

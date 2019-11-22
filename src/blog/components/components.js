@@ -34,7 +34,6 @@ import dhtui from "@/components/dhtVueUI/index";
 Vue.use(dhtui, { zIndex: 4000 });
 
 import cat from "@/components/livetd/index";
-
 //全局框架范围组件
 function components() {
   /*Vue.component("dht-rendering-echarts", () =>

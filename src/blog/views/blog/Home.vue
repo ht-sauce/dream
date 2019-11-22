@@ -4,7 +4,7 @@
     <navigation></navigation>
     <!--嵌套路由部分都在这里展示-->
     <transition name="page-transition">
-      <router-view style="min-height: 100vh"></router-view>
+      <router-view class="router-view"></router-view>
     </transition>
     <!--底部版权说明-->
     <tail>海天酱油的个人博客</tail>
@@ -40,5 +40,8 @@ export default {
   flex-flow: column;
   align-items: center;
   background: #e3f6ff;
+  .router-view {
+    min-height: 80vh;
+  }
 }
 </style>

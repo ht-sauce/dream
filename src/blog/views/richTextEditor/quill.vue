@@ -12,7 +12,7 @@
               >{{ draft_tips }}</span
             >
           </div>
-          <span @click="article_modify('0', true)">发布</span>
+          <span @click="release">发布</span>
           <el-popover placement="bottom" trigger="manual" v-model="visible">
             <div class="cover-img">
               <div
@@ -106,19 +106,13 @@
 import util from "@/common/tool/util.js";
 import { antiShake } from "@/common/tool/antiShakingAndThrottling.js";
 const store = require("store");
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
 import { quillEditor, Quill } from "vue-quill-editor";
 // 支持图片缩放
 import ImageResize from "quill-image-resize-module";
 Quill.register("modules/imageResize", ImageResize);
 // 拖拽上传图片
-// eslint-disable-next-line no-unused-vars
-import { container, ImageExtend, QuillWatch } from "quill-image-extend-module";
+import { ImageExtend } from "quill-image-extend-module";
 Quill.register("modules/ImageExtend", ImageExtend);
-// import { ImageDrop } from "quill-image-drop-module";
-// Quill.register("modules/imageDrop", ImageDrop);
 
 export default {
   components: {
@@ -134,6 +128,7 @@ export default {
       headers: { Authorization: user_info.sign },
       uploadImg: uploadImg,
       editorOption: {
+        theme: "snow",
         placeholder: "开始创作……",
         debug: false,
         modules: {
@@ -162,7 +157,6 @@ export default {
               }
             }
           },
-          // imageDrop: true,
           // 开启图片拖拽上传，以及自定义大小
           imageResize: {
             displayStyles: {
@@ -189,8 +183,6 @@ export default {
                 message: "图片大小超过1M"
               });
             },
-            start: () => {}, // 可选参数 自定义开始上传触发事件
-            end: () => {}, // 可选参数 自定义上传结束触发的事件，无论成功或者失败
             // 可选参数 上传失败触发的事件
             error: e => {
               console.log(e);
@@ -278,7 +270,7 @@ export default {
     save_article: antiShake(
       function() {
         if (this.id) {
-          this.article_modify("1", false);
+          this.article_modify(this.draft ? this.draft : "1", false);
         } else {
           this.create()
             .then(() => {
@@ -287,7 +279,7 @@ export default {
             .catch();
         }
       },
-      1000,
+      5000,
       false
     ),
     // 图片上传成功
@@ -376,7 +368,6 @@ export default {
     },
     // 修改文章状态，包含发布等操作，注意当draft为0的时候代表文章不再是草稿，必须发布，否则引起逻辑错误
     article_modify(draft = "1", loading = true) {
-      // 当页面存在草稿状态的时候以草稿状态为准
       let data = {
         id: this.id,
         title: this.title ? this.title : "无标题",
@@ -387,31 +378,30 @@ export default {
         synopsis: this.synopsis,
         user_id: this.$store.state.user_info.userid
       };
-      draft === "1" ? (this.draft_tips = "存储草稿中……") : "";
-      this.axios
-        .ajax({
-          url: this.$api.blog().article.modify,
-          data: data,
-          method: "post",
-          loading: loading,
-          success: draft === "0" ? "文章发布成功" : false
-        })
-        .then(() => {
-          draft === "1" ? (this.draft_tips = "存储草稿成功") : "";
-          setTimeout(() => {
-            this.draft_tips = "存储草稿";
-          }, 500);
-          if (draft === "0") {
-            // 发布成功
-            this.$router.push({ path: "/" });
-          }
-        })
-        .catch(() => {
-          draft === "1" ? (this.draft_tips = "存储草稿失败") : "";
-          setTimeout(() => {
-            this.draft_tips = "存储草稿";
-          }, 500);
-        });
+      this.draft_tips = "存储草稿中……";
+      return new Promise((suc, err) => {
+        this.axios
+          .ajax({
+            url: this.$api.blog().article.modify,
+            data: data,
+            method: "post",
+            loading: loading
+          })
+          .then(() => {
+            this.draft_tips = "存储草稿成功";
+            setTimeout(() => {
+              this.draft_tips = "存储草稿";
+            }, 500);
+            suc();
+          })
+          .catch(() => {
+            this.draft_tips = "存储草稿失败";
+            setTimeout(() => {
+              this.draft_tips = "存储草稿";
+            }, 500);
+            err();
+          });
+      });
     },
     details() {
       this.axios
@@ -437,6 +427,15 @@ export default {
               return val;
             });
           }
+        })
+        .catch();
+    },
+    // 发布文章
+    release() {
+      this.article_modify("0", true)
+        .then(() => {
+          // 发布成功
+          this.$router.push({ path: "/" });
         })
         .catch();
     }
@@ -517,6 +516,7 @@ export default {
       margin-bottom: 15px;
     }
     .quill-dht {
+      height: calc(100vh - 208px);
       /deep/ .ql-toolbar.ql-snow {
         position: fixed;
         z-index: 1;
@@ -526,6 +526,13 @@ export default {
         border-top: none;
       }
       /deep/ .ql-container {
+        font-size: 14px;
+        .ql-editor {
+          // overflow: hidden;
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
       }
     }
   }
