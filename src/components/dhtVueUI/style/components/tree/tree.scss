@@ -10,14 +10,21 @@
         flex-flow: row;
         align-items: center;
         padding-left: 18px;
-        height: 25px;
+        min-height: 25px;
         overflow: hidden;
         &:hover,
         &:active {
             background: rgba(15, 128, 255, 0.1);
         }
+        .arrow-main {
+            display: flex;
+            width: 25px;
+            height: 25px;
+            justify-content: center;
+            align-items: center;
+        }
         .arrow {
-            font-size: 12px;
+            font-size: 14px;
             color: $font_info;
             margin-right: 5px;
             transition: transform 0.5s ease;

@@ -3,14 +3,23 @@
     <div
       class="dht-tree-node-content"
       :style="{ paddingLeft: level * indent + 'px' }"
-      @click="showNode"
     >
       <!--箭头-->
-      <span
-        v-if="child.children.length > 0"
-        class="iconfont icon-jiantou arrow"
-        :style="{ transform: 'rotate(' + rotate + 'deg)' }"
-      ></span>
+      <span class="arrow-main">
+        <span
+          v-if="child.children.length > 0"
+          @click="
+            () => {
+              const show = (child.isShow = !child.isShow);
+              showNode(show, child, dataLocation);
+            }
+          "
+          class="iconfont icon-jiantou arrow"
+          :style="{
+            transform: child.isShow ? 'rotate(90deg)' : 'rotate(0deg)'
+          }"
+        ></span>
+      </span>
       <!--icon图标-->
       <span v-if="child.icon" :class="child.icon" class="icon"></span>
       <!--可自定义部分-->
@@ -19,7 +28,7 @@
     <transition-group name="dht-tree-node">
       <twig-node
         v-for="(item, index) in child.children"
-        v-show="isShow"
+        v-show="child.isShow"
         :key="getNodeKey(item, index)"
         :child="item"
         :level="level + 1"
@@ -38,21 +47,23 @@ export default {
       props: {
         node: {
           required: true
-        }
+        },
+        dataLocation: Array
       },
       render(ce) {
         const parent = this.$parent;
         const tree = parent.tree;
         const node = this.node;
+        const location = this.dataLocation;
 
         // return ce("span", node.label);
         // console.log(tree);
         if (tree.slot) {
           return tree.$scopedSlots.default
-            ? tree.$scopedSlots.default({ node })
+            ? tree.$scopedSlots.default({ node, location })
             : (parent.$scopedSlots = {
                 default: () => {
-                  return node;
+                  return { node, location };
                 }
               });
         } else {
@@ -63,9 +74,7 @@ export default {
   },
   data() {
     return {
-      tree: null,
-      rotate: 0, // 三角形标记
-      isShow: false //操作子元素关闭
+      tree: null
     };
   },
   props: {
@@ -99,17 +108,9 @@ export default {
     getNodeKey(node, index) {
       return node.id ? node.id : index;
     },
-    //打开或者关闭节点
-    showNode() {
-      if (this.child.children.length <= 0) return false;
-      //操作子元素方式开启关闭
-      if (this.isShow) {
-        this.isShow = false;
-        this.rotate = 0;
-      } else {
-        this.isShow = true;
-        this.rotate = 90;
-      }
+    //打开或者关闭节点返回数据
+    showNode(isShow, node, location) {
+      this.$emit("open", { isShow, node, location });
     }
   }
 };

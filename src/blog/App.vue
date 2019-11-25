@@ -24,6 +24,7 @@ export default {
     });
     this.classify_list_all();
     this.blogger();
+    this.getIP();
   },
   beforeMount() {},
   mounted() {},
@@ -55,6 +56,13 @@ export default {
           });
         })
         .catch();
+    },
+    // 获取用户ip信息，匿名用户有用
+    getIP() {
+      this.$store.commit("set_data", {
+        // eslint-disable-next-line no-undef
+        ip: returnCitySN
+      });
     }
   }
 };

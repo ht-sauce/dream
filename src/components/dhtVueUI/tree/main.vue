@@ -7,12 +7,18 @@
       :level="1"
       :data-location="[1, index]"
       :indent="indent"
+      @open="
+        e => {
+          $emit('open', e);
+        }
+      "
     >
     </twig-node>
   </div>
 </template>
 
 <script>
+// 前置条件没条数据都需要有isShow（是否展示当前列表），child（子项数据）
 export default {
   name: "dhtTree",
   components: {

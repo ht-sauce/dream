@@ -10,6 +10,7 @@ const state = {
     description: "这么神奇吗？都已经很难用言语来描述了"
   },
   core: "blog",
+  ip: {},
   user_info: {}, // 登录用户数据
   blogger: {}, //博主信息
   all_class: {} //文章所有分类

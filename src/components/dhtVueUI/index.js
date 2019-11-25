@@ -46,5 +46,6 @@ export default {
   //局部注册
   Img,
   Text,
-  Loading
+  Loading,
+  tree
 };

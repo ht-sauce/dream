@@ -11,6 +11,8 @@
       <div class="ql-snow">
         <section class="ql-editor" v-html="info.content"></section>
       </div>
+      <!--评论组件-->
+      <dht-discuss></dht-discuss>
     </article>
     <div class="author">
       <user-mianbane :author="info"></user-mianbane>
@@ -21,6 +23,7 @@
 <script>
 export default {
   components: {
+    dhtDiscuss: () => import("@/blog/views/components/discuss.vue"),
     userMianbane: () => import("@/blog/views/components/user_mianbane.vue")
   },
   data() {
