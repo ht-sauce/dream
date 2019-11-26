@@ -5,7 +5,7 @@
       :key="getNodeKey(item, index)"
       :child="item"
       :level="1"
-      :data-location="[1, index]"
+      :data-location="[index]"
       :indent="indent"
       @open="
         e => {

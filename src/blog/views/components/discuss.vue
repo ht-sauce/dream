@@ -15,14 +15,17 @@
         maxlength="800"
         autosize
         type="textarea"
-        v-model="reply"
+        v-model="replyMain"
       ></el-input>
-      <el-button class="reply-buttom" type="primary" @click="reply_msg(node)"
+      <el-button
+        class="reply-buttom"
+        type="primary"
+        @click="reply_msg(null, null)"
         >评论</el-button
       >
     </div>
     <dht-tree @open="is_open" v-if="discuss.length > 0" :data="discuss">
-      <template v-slot="{ node }">
+      <template v-slot="{ node, location, parentData }">
         <div class="discuss">
           <div class="head-portrait">
             <img v-if="node.img" :src="node.img" alt="" />
@@ -34,29 +37,46 @@
           </div>
           <div class="content">
             <div class="name">
-              <span>{{ node.name }}</span>
+              <span>{{ node.who }}</span>
+              <span>{{ node.location }}</span>
+              <span v-if="node.reply">@{{ node.reply }}</span>
             </div>
             <div class="comment">
               {{ node.content }}
             </div>
+            <div class="time">
+              <span>{{ node.created_at }}</span>
+            </div>
             <div class="operation">
               <div class="term">
                 <div></div>
-                <span
-                  class="el-icon-chat-line-round"
-                  @click="
-                    () => {
-                      if (reply_history !== node) {
-                        reply_history.isReply = false;
-                        node.isReply = !node.isReply;
-                        reply_history = node;
-                      } else {
-                        node.isReply = !node.isReply;
+                <div>
+                  <span
+                    class="el-icon-chat-line-round"
+                    @click="
+                      () => {
+                        if (reply_history !== node) {
+                          reply_history.isReply = false;
+                          node.isReply = !node.isReply;
+                          reply_history = node;
+                        } else {
+                          node.isReply = !node.isReply;
+                        }
                       }
-                    }
-                  "
-                  >回复</span
-                >
+                    "
+                    >回复</span
+                  >
+                  <span
+                    v-if="
+                      $store.state.user_info &&
+                        $store.state.user_info.account ===
+                          $store.state.blogger.account
+                    "
+                    class="el-icon-delete"
+                    @click="del_discuss(node, location, parentData)"
+                    >删除</span
+                  >
+                </div>
               </div>
               <div v-if="node.isReply" class="reply">
                 <el-input
@@ -68,7 +88,7 @@
                 <el-button
                   class="reply-buttom"
                   type="primary"
-                  @click="reply_msg(node)"
+                  @click="reply_msg(node, location, parentData)"
                   >评论</el-button
                 >
               </div>
@@ -83,39 +103,7 @@
 <script>
 export default {
   props: {
-    discuss: {
-      type: Array,
-      default() {
-        return [
-          {
-            img:
-              "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1574660609640&di=34eb4b3833b61b9c4ae49d0b86872e1e&imgtype=0&src=http%3A%2F%2Fpic.962.net%2Fup%2F2018-1%2F2018191570320420.jpg",
-            name: "购房款",
-            content: "法大大收费单",
-            isReply: false,
-            isShow: true,
-            children: [
-              {
-                img: "",
-                name: "",
-                isReply: false,
-                isShow: false,
-                content: "法大大收费单",
-                children: []
-              }
-            ]
-          },
-          {
-            img: "",
-            name: "",
-            isReply: false,
-            isShow: false,
-            content: "法大大收费单",
-            children: []
-          }
-        ];
-      }
-    }
+    discuss: Array
   },
   data() {
     return {
@@ -123,18 +111,50 @@ export default {
       userInfo: this.$store.state.user_info ? this.$store.state.user_info : {},
       // 记录上一次打开的回复节点
       reply_history: {},
+      replyMain: "",
       reply: "" //单条回复内容
     };
   },
   beforeCreate() {},
   created() {},
   methods: {
-    // 回复函数
-    reply_msg(node) {
-      this.$emit("reply", { reply: this.reply, node: node });
+    // 删除节点数据
+    del_discuss(node, location, parentData) {
+      this.$emit("delete", {
+        node: node,
+        location: location,
+        parentData: parentData
+      });
     },
+    // 回复函数
+    reply_msg(node, location, parentData) {
+      if (node) {
+        this.$emit("reply", {
+          reply: this.reply,
+          node: node,
+          location: location,
+          parentData: parentData
+        });
+        this.node = node;
+      } else {
+        // 主回复评论
+        this.$emit("reply", {
+          reply: this.replyMain,
+          location: location
+        });
+      }
+    },
+    // 打开关闭监听
     is_open(e) {
-      console.log(e);
+      this.$emit("open", e);
+    },
+    //清理回复的消息
+    clear_msg() {
+      if (this.node) {
+        this.node.isReply = !this.node.isReply;
+      }
+      this.reply = "";
+      this.replyMain = "";
     }
   }
 };
@@ -179,13 +199,21 @@ export default {
         font-size: 14px;
         color: #636363;
         padding-bottom: 10px;
+        > span {
+          margin-right: 7px;
+        }
       }
       .content {
         font-size: 14px;
         line-height: 20px;
       }
+      .time {
+        font-size: 12px;
+        color: #cccccc;
+        padding: 7px 0;
+      }
       .operation {
-        padding-top: 10px;
+        padding-top: 7px;
         color: #a2a2a2;
         font-size: 13px;
         &:hover {
@@ -195,6 +223,9 @@ export default {
           display: flex;
           justify-content: space-between;
           padding: 0 10px;
+          > div > span {
+            margin-left: 20px;
+          }
         }
         .reply {
           padding-top: 10px;

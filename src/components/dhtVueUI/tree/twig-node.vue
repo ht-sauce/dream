@@ -23,7 +23,12 @@
       <!--icon图标-->
       <span v-if="child.icon" :class="child.icon" class="icon"></span>
       <!--可自定义部分-->
-      <node-content :node="child"></node-content>
+      <node-content
+        :node="child"
+        v-if="show"
+        :data-location="dataLocation"
+        :parent-data="parentData"
+      ></node-content>
     </div>
     <transition-group name="dht-tree-node">
       <twig-node
@@ -31,8 +36,9 @@
         v-show="child.isShow"
         :key="getNodeKey(item, index)"
         :child="item"
+        :parent-data="child"
         :level="level + 1"
-        :data-location="[level + 1, index]"
+        :data-location="[dataLocation[0], index]"
         :indent="indent"
       ></twig-node>
     </transition-group>
@@ -48,22 +54,22 @@ export default {
         node: {
           required: true
         },
-        dataLocation: Array
+        dataLocation: Array,
+        parentData: Object // 父级数据
       },
       render(ce) {
         const parent = this.$parent;
         const tree = parent.tree;
         const node = this.node;
         const location = this.dataLocation;
+        const parentData = this.parentData;
 
-        // return ce("span", node.label);
-        // console.log(tree);
         if (tree.slot) {
           return tree.$scopedSlots.default
-            ? tree.$scopedSlots.default({ node, location })
+            ? tree.$scopedSlots.default({ node, location, parentData })
             : (parent.$scopedSlots = {
                 default: () => {
-                  return { node, location };
+                  return { node, location, parentData };
                 }
               });
         } else {
@@ -72,9 +78,11 @@ export default {
       }
     }
   },
+  computed: {},
   data() {
     return {
-      tree: null
+      tree: {},
+      show: false //控制渲染的节点数据不要过早渲染，导致slot为空
     };
   },
   props: {
@@ -83,7 +91,8 @@ export default {
       type: Number,
       default: 18
     },
-    dataLocation: Array, //数据定位，表示层级和数据位置
+    parentData: Object, // 父级数据
+    dataLocation: Array, //数据定位，属于父级的第几项数据
     level: Number, //当前层级
     child: Object //子节点数据
   },
@@ -96,13 +105,11 @@ export default {
     } else {
       this.tree = parent.$parent.tree;
     }
-
-    /*if (this.child.children.length > 0 || this.level === 1) {
-      this.isShow = true;
-    }*/
   },
   beforeMount() {},
-  mounted() {},
+  mounted() {
+    this.show = true;
+  },
   destroyed() {},
   methods: {
     getNodeKey(node, index) {

@@ -79,6 +79,11 @@ export default {
         classify: {
           list: `/noauth${prefix}/article/classify/list`
         }
+      },
+      discuss: {
+        add: `/noauth${prefix}/discuss/add`,
+        list: `/noauth${prefix}/discuss/list`,
+        del: `${prefix}/discuss/del`
       }
     };
   }
