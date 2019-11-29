@@ -18,8 +18,8 @@
       >
     </div>
     <div class="census">
-      <div>访问量：10</div>
-      <div>访问人：3</div>
+      <div>访问量：{{ onselfData.visit ? onselfData.visit.visit : 0 }}</div>
+      <div>访问人：{{ onselfData.visit ? onselfData.visit.people : 0 }}</div>
     </div>
     <div v-if="$store.state.user_info" class="writing">
       <div>

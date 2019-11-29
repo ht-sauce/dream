@@ -39,7 +39,6 @@ export default {
   display: flex;
   flex-flow: column;
   align-items: center;
-  background: #e3f6ff;
   .router-view {
     min-height: 80vh;
   }

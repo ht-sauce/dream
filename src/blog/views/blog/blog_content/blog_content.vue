@@ -91,6 +91,7 @@ export default {
             description: e.data.synopsis
           });
           this.discuss_list();
+          this.article_visit();
         })
         .catch();
     },
@@ -210,6 +211,18 @@ export default {
             })
             .catch();
         })
+        .catch();
+    },
+    // 博客访问量计算
+    article_visit() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().article.visit,
+          data: {
+            article_id: this.info.id
+          }
+        })
+        .then()
         .catch();
     }
   }

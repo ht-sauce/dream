@@ -17,10 +17,6 @@ const router = new Router({
         auth: false
       }
     },
-    {
-      path: "/test",
-      component: () => import("@/blog/views/test/test.vue")
-    },
     //担心主站访问会存在需要多种页面布局需要，将博客主站部分所有路由放在home层级下面
     {
       path: "/blog",

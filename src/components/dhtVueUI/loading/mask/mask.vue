@@ -2,7 +2,7 @@
   <div
     :class="fullscreen ? 'dhtMask-FullScreen' : 'dhtMask'"
     :style="{
-      zIndex: this.$dhtUI.zIndex,
+      zIndex: this.$dhtUI ? this.$dhtUI.zIndex : 4000,
       background: 'rgba(' + background + ')',
       fontSize: fontSize + 'px',
       color: color

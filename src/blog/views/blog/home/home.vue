@@ -20,7 +20,11 @@
               class="right-oneself-bgimg"
               :src="require('@/blog/assets/images/home/banner.png')"
             ></dht-img>
-            <dht-img class="oneself-img" :src="oneselfData.portrait"></dht-img>
+            <img
+              class="oneself-img"
+              :src="oneselfData.portrait"
+              alt="博主头像"
+            />
             <div class="right-oneself-cont">
               <div class="onself-name">
                 {{ oneselfData.nickname }}
@@ -162,9 +166,7 @@ export default {
             width: 110px;
             height: 110px;
             margin-top: -60px;
-            /deep/ .dht-showimg {
-              border-radius: 50%;
-            }
+            border-radius: 50%;
           }
           .right-oneself-cont {
             width: 100%;

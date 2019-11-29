@@ -489,12 +489,13 @@ export default {
     }
   }
   .editor {
+    background: #ffffff;
     width: 1000px;
     margin-top: 65px;
     .article-title {
       margin-bottom: 20px;
       color: #262626;
-      padding: 0;
+      padding-left: 10px;
       font-size: 24px;
       font-weight: 600;
       border: none;
@@ -507,6 +508,7 @@ export default {
       margin-top: 45px;
     }
     .classify {
+      padding-left: 10px;
       display: flex;
       align-items: center;
       > span {
@@ -525,8 +527,9 @@ export default {
         background: #ffffff;
         border-top: none;
       }
-      /deep/ .ql-container {
+      /deep/ .ql-container.ql-snow {
         font-size: 14px;
+        border: none;
         .ql-editor {
           // overflow: hidden;
           &::-webkit-scrollbar {

@@ -48,18 +48,6 @@ let router = [
     }
   },
   {
-    path: "/forum",
-    component: () => import("@/blog/views/blog/forum/forum.vue"),
-    meta: {
-      metaInfo: {
-        title: "生活讨论区",
-        keywords: "海天酱油的论坛",
-        description: "讨论聊天的地方"
-      },
-      auth: false
-    }
-  },
-  {
     path: "/blog_content",
     component: () => import("@/blog/views/blog/blog_content/blog_content.vue"),
     meta: {

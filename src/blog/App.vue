@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="blogClass">
     <!--不可变化部分-->
     <transition name="page-transition">
       <router-view />
@@ -12,7 +12,11 @@ import store from "store";
 export default {
   name: "App",
   data() {
-    return {};
+    return {
+      blogClass: {
+        background: "#b1eabf"
+      }
+    };
   },
   watch: {},
   beforeCreate() {},
@@ -25,6 +29,8 @@ export default {
     this.classify_list_all();
     this.blogger();
     this.getIP();
+    // 按页面加载计算计算
+    this.blog_visit();
   },
   beforeMount() {},
   mounted() {},
@@ -59,10 +65,31 @@ export default {
     },
     // 获取用户ip信息，匿名用户有用
     getIP() {
-      this.$store.commit("set_data", {
-        // eslint-disable-next-line no-undef
-        ip: returnCitySN
-      });
+      let isU = e => {
+        return e ? e : "";
+      };
+      this.axios
+        .ajax({
+          url: this.$api.blog().blog.ip
+        })
+        .then(e => {
+          this.$store.commit("set_data", {
+            ip: {
+              cip: isU(e.data.ip),
+              cname: isU(e.data.country) + isU(e.data.area) + isU(e.data.region)
+            }
+          });
+        })
+        .catch();
+    },
+    // 博客站点访问量统计
+    blog_visit() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().blog.visit
+        })
+        .then()
+        .catch();
     }
   }
 };
@@ -76,12 +103,12 @@ body {
   overflow-x: hidden;
 }
 #app {
-  font: 14px "Microsoft YaHei UI" sans-serif;
+  font-size: 14px;
   width: 100vw;
   color: $font_main;
   //控制页面全局的宽度
   .g-width {
-    width: 76vw;
+    width: 80vw;
     height: 100%;
   }
 }

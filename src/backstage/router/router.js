@@ -7,7 +7,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: "history",
-  base: process.env.BASE_URL + "你的项目名称",
+  base: process.env.BASE_URL + "backstage",
   routes: [
     {
       path: "/",
@@ -20,11 +20,19 @@ const router = new Router({
         auth: false
       }
       //redirect: "/home"
+    },
+    {
+      path: "/test",
+      component: () => import("../views/test.vue"),
+      meta: {
+        metaInfo: {
+          title: "测试",
+          keywords: "测试",
+          description: "测试"
+        },
+        auth: false
+      }
     }
-    /*{
-      path: "/home",
-      component: () => import("../views/Home.vue")
-    }*/
   ]
 });
 

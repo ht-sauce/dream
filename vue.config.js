@@ -15,6 +15,9 @@ const multiPageConfig = {
   },
   interface: {
     name: "接口平台"
+  },
+  backstage: {
+    name: "后台"
   }
 };
 

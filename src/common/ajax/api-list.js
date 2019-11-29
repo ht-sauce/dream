@@ -27,7 +27,11 @@ export default {
           ? "https://www.dht.red"
           : "http://127.0.0.1:7001", // 访问路径
       // 上传单个静态图片
-      upload_pictures: `${this.baseURL + prefix}/upload_pictures`
+      upload_pictures: `${this.baseURL + prefix}/upload_pictures`,
+      // 阿里云服务部分
+      aliyun: {
+        single_img_upload: `${this.baseURL + prefix}/aliyun/single_image_upload`
+      }
     };
   },
   interface() {
@@ -68,6 +72,7 @@ export default {
     const prefix = "/blog";
     return {
       article: {
+        visit: `/noauth${prefix}/article/visit`,
         draft: `${prefix}/article/draft`,
         add: `${prefix}/article/add`,
         // 文章修改，涉及到了文章发布，草稿状态改变，文章修改
@@ -84,6 +89,10 @@ export default {
         add: `/noauth${prefix}/discuss/add`,
         list: `/noauth${prefix}/discuss/list`,
         del: `${prefix}/discuss/del`
+      },
+      blog: {
+        visit: `/noauth${prefix}/blog/visit`,
+        ip: `/noauth${prefix}/blog/ip`
       }
     };
   }

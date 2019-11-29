@@ -30,8 +30,7 @@ export default {
         { title: "首页", url: "/home", isActive: true },
         { title: "关于我", url: "/onself", isActive: false },
         { title: "学海无涯", url: "/blogList", isActive: false },
-        { title: "享受生活", url: "/enjoyLife", isActive: false },
-        { title: "口下留情", url: "/forum", isActive: false }
+        { title: "享受生活", url: "/enjoyLife", isActive: false }
       ]
     };
   },
