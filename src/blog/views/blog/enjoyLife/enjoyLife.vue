@@ -68,7 +68,10 @@
                 "
                 >评论</span
               >
-              <span class="el-icon-delete" @click="dynamic_del(item.id, index)"
+              <span
+                v-if="$store.state.is_blogger"
+                class="el-icon-delete"
+                @click="dynamic_del(item.id, index)"
                 >删除</span
               >
             </div>

@@ -18,7 +18,7 @@
                 <images :preview="true" class="img-li" :src="img.url"></images>
                 <div class="footer">
                   <span>{{ img.source }}</span>
-                  <div class="button-img">
+                  <div v-if="$store.state.is_blogger" class="button-img">
                     <span @click="set_first_picture(img.url)">设置首图</span>
                     <span @click="del_img(img.id, index, imgi)">删除</span>
                   </div>

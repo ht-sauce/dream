@@ -10,7 +10,10 @@
       </template>
     </div>
     <div class="operation">
-      <span class="el-icon-delete" @click="dynamic_del(item.id, index)"
+      <span
+        class="el-icon-delete"
+        v-if="$store.state.is_blogger"
+        @click="dynamic_del(item.id, index)"
         >删除</span
       >
     </div>
