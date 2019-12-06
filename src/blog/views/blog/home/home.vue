@@ -1,18 +1,16 @@
 <template>
   <div id="bloghome">
     <!--首部大图广告-->
-    <div class="banner">
-      <home-banner></home-banner>
-    </div>
+    <div class="banner"></div>
     <!--中间主数据部分-->
     <div class="content">
       <div class="g-width">
         <!--      左边博客列表-->
         <div class="left">
           <!--避免页面太过复杂，抽离成为单独的模板文件-->
-          <left-blog :list="leftBlogData"></left-blog>
+          <blog-dynamic :list="dynamic"></blog-dynamic>
         </div>
-        <!--      右边个性推荐-->
+        <!--右边个性推荐-->
         <div class="right">
           <!--个人信息展示-->
           <div class="right-oneself">
@@ -56,72 +54,59 @@
 </template>
 
 <script>
-import leftBlog from "@/blog/views/components/left_blog";
 import RightBlog from "@/blog/views/components/right_blog";
 export default {
   name: "blogHome",
   data() {
     return {
-      //左侧博客数据流
-      leftBlogData: [
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          content: "",
-          classify: "",
-          cover: "",
-          created_at: "",
-          visit: "20"
-        }
-      ],
-      //个人面板数据
-      oneselfData: this.$store.state.blogger,
-      rightBlogData: [
-        {
-          id: 1,
-          title: "陌上花开，缓缓归矣",
-          content: "",
-          classify: "",
-          cover: "",
-          created_at: "",
-          visit: "20"
-        }
-      ]
+      rightBlogData: [],
+      dynamic: [1]
     };
   },
-  components: {
-    RightBlog,
-    leftBlog,
-    homeBanner: () => {
-      return import("../home/banner.vue");
+  computed: {
+    oneselfData() {
+      return this.$store.state.blogger;
     }
+  },
+  components: {
+    blogDynamic: () => import("./blog_dynamic.vue"),
+    RightBlog
   },
   beforeCreate() {},
   created() {
-    this.blog_list();
+    this.blog_list_rank();
+    this.dynamic_list();
   },
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},
   methods: {
-    // 博客列表
-    blog_list(limit = 10, page = 1) {
-      const data = {
-        limit: limit,
-        page: page
-      };
+    // 博客点击排行
+    blog_list_rank() {
       this.axios
         .ajax({
-          url: this.$api.blog().article.list,
-          data: data
+          url: this.$api.blog().article.click_rank
         })
         .then(e => {
-          const blog = e.data.list.map(val => {
+          const blog = e.data.map(val => {
             val.cover = val.cover ? this.$api.static().visit + val.cover : "";
             return val;
           });
           this.leftBlogData = blog;
           this.rightBlogData = blog;
+        })
+        .catch();
+    },
+    // 整站动态
+    dynamic_list() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().blog_dynamic.list,
+          loading: true
+        })
+        .then(e => {
+          console.log(e.data);
+          this.dynamic = e.data;
         })
         .catch();
     }

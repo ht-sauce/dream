@@ -11,6 +11,7 @@ const state = {
   },
   core: "blog",
   ip: {},
+  is_blogger: false, //是否博主状态
   user_info: {}, // 登录用户数据
   blogger: {}, //博主信息
   all_class: {} //文章所有分类

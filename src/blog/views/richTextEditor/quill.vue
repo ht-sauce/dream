@@ -122,7 +122,9 @@ export default {
   },
   data() {
     const user_info = store.get("user_info");
-    const uploadImg = this.$api.static().upload_pictures + "?source=文章";
+    const uploadImg =
+      this.$api.static().aliyun.single_img_upload +
+      "?source=文章&route_name=dream/article/&album_id=2";
     return {
       editor_type: "add", //编辑器类型，add代表添加文章，update代表文章修改
       headers: { Authorization: user_info.sign },
@@ -234,6 +236,8 @@ export default {
         if (storeid) {
           this.id = storeid;
           this.details();
+        } else {
+          this.create();
         }
       }
       if (editor_type === "update") {
@@ -434,10 +438,28 @@ export default {
     release() {
       this.article_modify("0", true)
         .then(() => {
+          this.add_blog_dynamic();
+          store.remove("article_id");
           // 发布成功
           this.$router.push({ path: "/" });
         })
         .catch();
+    },
+    add_blog_dynamic() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().blog_dynamic.add,
+          method: "post",
+          data: {
+            content: this.title,
+            img: "",
+            type: "1",
+            privacy: "0",
+            crux: this.id
+          }
+        })
+        .then(() => {})
+        .catch(() => {});
     }
   }
 };

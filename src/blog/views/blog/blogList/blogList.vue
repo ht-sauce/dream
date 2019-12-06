@@ -40,6 +40,7 @@ export default {
   beforeCreate() {},
   created() {
     this.blog_list();
+    this.blog_list_rank();
   },
   beforeMount() {},
   mounted() {},
@@ -63,7 +64,19 @@ export default {
             return val;
           });
           this.leftBlogData = blog;
-          this.rightBlogData = blog;
+        })
+        .catch();
+    },
+    blog_list_rank() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().article.click_rank
+        })
+        .then(e => {
+          this.rightBlogData = e.data.map(val => {
+            val.cover = val.cover ? this.$api.static().visit + val.cover : "";
+            return val;
+          });
         })
         .catch();
     }

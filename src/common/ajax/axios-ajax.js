@@ -50,7 +50,7 @@ const ajax = ({
   method = "get",
   success = false, //成功信息提示
   error = true, //错误信息提示
-  timeout = 1000
+  timeout = 60 * 1000
 }) => {
   // 数据过滤，过滤字段中空数据等
   const filter = record => {
@@ -165,9 +165,9 @@ axios.upload = options => {
     if (obj) {
       let fields = "";
       for (let key in obj) {
-        fields = fields + `${key}=${obj[key]}`;
+        fields = fields + `&${key}=${obj[key]}`;
       }
-      return "?" + fields;
+      return "?" + fields.substring(1, fields.length);
     } else {
       return "";
     }
@@ -204,7 +204,9 @@ axios.upload = options => {
         input.removeEventListener("input", watchUpload, false);
         input = null;
       };
+
       const file = event.path[0].files;
+
       const len = file.length;
       // 文件数量限制
       if (len > options.max) {

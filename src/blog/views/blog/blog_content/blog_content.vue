@@ -40,6 +40,9 @@ export default {
   beforeCreate() {},
   created() {
     const query = this.$route.query;
+    if (!query) {
+      this.$router.go(-1);
+    }
     this.details(query.article_id);
   },
   beforeMount() {},
@@ -79,7 +82,7 @@ export default {
           }
         })
         .then(e => {
-          console.log(e.data);
+          //console.log(e.data);
           e.data.classify = this.blogIconTaps(e.data.classify);
           e.data.cover = this.static_p(e.data.cover);
           e.data.portrait = this.static_p(e.data.portrait);
@@ -113,7 +116,7 @@ export default {
       } else {
         // 回复评论
         data = {
-          trunk_key: e.parentData.who, //归属于哪项评论下面
+          trunk_key: e.parentData.id, //归属于哪项评论下面
           content: e.reply,
           is_trunk: "0",
           key: this.info.id,
@@ -140,22 +143,6 @@ export default {
     // 评论列表数据
     discuss_list() {
       // 递归处理数据
-      // eslint-disable-next-line no-unused-vars
-      let recursion = e => {
-        if (e.length > 0) {
-          for (let i = 0; i < e.length; i++) {
-            e[i].isReply = false;
-            e[i].isShow = true;
-            e[i].children = e[i].children ? e[i].children : [];
-            if (e[i].children.length > 0) {
-              e[i].children = this.recursion(e[i].children);
-            }
-          }
-          return e;
-        } else {
-          return [];
-        }
-      };
       this.axios
         .ajax({
           url: this.$api.blog().discuss.list,
@@ -181,13 +168,12 @@ export default {
 
           this.discuss = new_data.map(val => {
             no_reply.map(li => {
-              if (val.who === li.trunk_key) {
+              if (val.id == li.trunk_key) {
                 val.children.push(li);
               }
             });
             return val;
           });
-          console.log(this.discuss);
         })
         .catch();
     },
@@ -235,6 +221,7 @@ export default {
   min-height: 90vh;
   background: #ffffff;
   margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   .article {

@@ -78,6 +78,7 @@
             <el-date-picker
               v-model="data.birthday"
               type="date"
+              value-format="yyyy-MM-dd"
               placeholder="选择日期"
             >
             </el-date-picker>
@@ -137,6 +138,7 @@ export default {
       uploadImg: this.$api.static().upload_pictures + "?source=头像",
       options: regionData,
       data: {
+        tag: "",
         synopsis: "", //简介
         account: "", //账号
         nickname: "", //nickname
@@ -220,6 +222,7 @@ export default {
   created() {
     // 数据初始化
     const user_info = store.get("user_info");
+    console.log(user_info);
     user_info.userInfo.province_and_city = user_info.userInfo.province_and_city
       ? user_info.userInfo.province_and_city.split(",")
       : [];

@@ -58,7 +58,11 @@ export default {
           console.log(e.data);
           e.data.portrait = this.$api.static().visit + e.data.portrait;
           this.$store.commit("set_data", {
-            blogger: e.data
+            blogger: e.data,
+            // 博主状态
+            is_blogger:
+              this.$store.state.user_info &&
+              this.$store.state.user_info.account === e.data.account
           });
         })
         .catch();

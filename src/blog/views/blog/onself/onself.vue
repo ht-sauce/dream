@@ -200,6 +200,7 @@ export default {
   min-height: 90vh;
   background: #ffffff;
   margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   .article {

@@ -53,13 +53,7 @@
               >阅读原文</router-link
             >
           </li>
-          <li
-            class="icon_text"
-            v-if="
-              $store.state.user_info &&
-                $store.state.user_info.account === $store.state.blogger.account
-            "
-          >
+          <li class="icon_text" v-if="$store.state.is_blogger">
             <span @click="del_article(index, list)">删除</span>
           </li>
         </ul>

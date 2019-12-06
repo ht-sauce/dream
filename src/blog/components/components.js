@@ -3,24 +3,34 @@ import Vue from "vue";
 
 //element ui部分
 import {
-  Popover,
   Input,
-  Upload,
   Button,
   Message,
+  MessageBox,
+  Dialog,
+  Popover,
+  Autocomplete,
+  Form,
+  FormItem,
+  Switch,
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
-  MessageBox
+  Upload
 } from "element-ui";
 const elementUI = [
-  Popover,
   Input,
-  Upload,
   Button,
+  Dialog,
+  Popover,
+  Autocomplete,
+  Form,
+  FormItem,
+  Switch,
   Checkbox,
   CheckboxButton,
-  CheckboxGroup
+  CheckboxGroup,
+  Upload
 ];
 elementUI.forEach(component => {
   Vue.use(component);

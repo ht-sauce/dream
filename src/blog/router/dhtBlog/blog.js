@@ -48,6 +48,30 @@ let router = [
     }
   },
   {
+    path: "/enjoyLife/album",
+    component: () => import("@/blog/views/blog/enjoyLife/album/album.vue"),
+    meta: {
+      metaInfo: {
+        title: "不要脸的相册",
+        keywords: "戴海天的相册",
+        description: "戴海天的相册"
+      },
+      auth: false
+    }
+  },
+  {
+    path: "/enjoyLife/album/info",
+    component: () => import("@/blog/views/blog/enjoyLife/album/album_info.vue"),
+    meta: {
+      metaInfo: {
+        title: "不要脸的相册",
+        keywords: "戴海天的相册",
+        description: "戴海天的相册"
+      },
+      auth: false
+    }
+  },
+  {
     path: "/blog_content",
     component: () => import("@/blog/views/blog/blog_content/blog_content.vue"),
     meta: {
@@ -67,6 +91,18 @@ let router = [
         title: "草稿箱",
         keywords: "草稿箱",
         description: "草稿箱"
+      },
+      auth: true
+    }
+  },
+  {
+    path: "/discuss/info",
+    component: () => import("@/blog/views/blog/enjoyLife/discuss/discuss.vue"),
+    meta: {
+      metaInfo: {
+        title: "说说",
+        keywords: "说说",
+        description: "说说"
       },
       auth: true
     }

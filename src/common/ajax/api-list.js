@@ -30,7 +30,10 @@ export default {
       upload_pictures: `${this.baseURL + prefix}/upload_pictures`,
       // 阿里云服务部分
       aliyun: {
-        single_img_upload: `${this.baseURL + prefix}/aliyun/single_image_upload`
+        single_img_upload: `${this.baseURL +
+          prefix}/aliyun/single_image_upload`,
+        del: `${prefix}/aliyun/del`,
+        list: `/noauth${prefix}/aliyun/list`
       }
     };
   },
@@ -72,6 +75,8 @@ export default {
     const prefix = "/blog";
     return {
       article: {
+        // 文章点击排行
+        click_rank: `/noauth${prefix}/article/click_rank`,
         visit: `/noauth${prefix}/article/visit`,
         draft: `${prefix}/article/draft`,
         add: `${prefix}/article/add`,
@@ -85,14 +90,38 @@ export default {
           list: `/noauth${prefix}/article/classify/list`
         }
       },
+      // 博客站点动态
+      blog_dynamic: {
+        list: `/noauth${prefix}/dynamics/list`,
+        add: `${prefix}/blog_dynamics/add`
+      },
+      // 生活动态
+      dynamic: {
+        add: `${prefix}/life_dynamics/add`,
+        del: `${prefix}/life_dynamics/del`,
+        list: `/noauth${prefix}/life_dynamics/list`
+      },
       discuss: {
         add: `/noauth${prefix}/discuss/add`,
         list: `/noauth${prefix}/discuss/list`,
-        del: `${prefix}/discuss/del`
+        del: `${prefix}/discuss/del`,
+        info: `/noauth${prefix}/discuss/info`
       },
       blog: {
         visit: `/noauth${prefix}/blog/visit`,
         ip: `/noauth${prefix}/blog/ip`
+      }
+    };
+  },
+  dht() {
+    const prefix = "/dht";
+    return {
+      album: {
+        add: `${prefix}/album/add`,
+        del: `${prefix}/album/del`,
+        modify: `${prefix}/album/modify`,
+        list: `${prefix}/album/list`, //博主使用
+        noauth_list: `/noauth${prefix}/album/list` //对外开放
       }
     };
   }
