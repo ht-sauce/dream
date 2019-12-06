@@ -15,6 +15,7 @@
       <dht-discuss
         ref="discuss"
         @reply="reply"
+        @delete="del_discuss"
         :discuss="discuss"
       ></dht-discuss>
     </article>
@@ -38,8 +39,7 @@ export default {
   },
   beforeCreate() {},
   created() {
-    const query = this.$route.query;
-    this.details(query.article_id);
+    this.details(1);
   },
   beforeMount() {},
   mounted() {},
@@ -68,18 +68,17 @@ export default {
     static_p(val) {
       return val ? this.$api.static().visit + val : null;
     },
-    // id为1为个人介绍数据
-    details() {
+    details(id) {
       this.axios
         .ajax({
           url: this.$api.blog().article.details,
           loading: true,
           data: {
-            id: 1
+            id: id
           }
         })
         .then(e => {
-          console.log(e.data);
+          //console.log(e.data);
           e.data.classify = this.blogIconTaps(e.data.classify);
           e.data.cover = this.static_p(e.data.cover);
           e.data.portrait = this.static_p(e.data.portrait);
@@ -91,6 +90,7 @@ export default {
             description: e.data.synopsis
           });
           this.discuss_list();
+          this.article_visit();
         })
         .catch();
     },
@@ -112,7 +112,7 @@ export default {
       } else {
         // 回复评论
         data = {
-          trunk_key: e.parentData.who, //归属于哪项评论下面
+          trunk_key: e.parentData.id, //归属于哪项评论下面
           content: e.reply,
           is_trunk: "0",
           key: this.info.id,
@@ -139,22 +139,6 @@ export default {
     // 评论列表数据
     discuss_list() {
       // 递归处理数据
-      // eslint-disable-next-line no-unused-vars
-      let recursion = e => {
-        if (e.length > 0) {
-          for (let i = 0; i < e.length; i++) {
-            e[i].isReply = false;
-            e[i].isShow = true;
-            e[i].children = e[i].children ? e[i].children : [];
-            if (e[i].children.length > 0) {
-              e[i].children = this.recursion(e[i].children);
-            }
-          }
-          return e;
-        } else {
-          return [];
-        }
-      };
       this.axios
         .ajax({
           url: this.$api.blog().discuss.list,
@@ -180,14 +164,47 @@ export default {
 
           this.discuss = new_data.map(val => {
             no_reply.map(li => {
-              if (val.who === li.trunk_key) {
+              if (val.id == li.trunk_key) {
                 val.children.push(li);
               }
             });
             return val;
           });
-          console.log(this.discuss);
         })
+        .catch();
+    },
+    // 删除评论
+    del_discuss(e) {
+      this.$confirm("此操作将永久删除该评论, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.axios
+            .ajax({
+              url: this.$api.blog().discuss.del,
+              data: {
+                id: e.node.id
+              }
+            })
+            .then(() => {
+              this.discuss_list();
+            })
+            .catch();
+        })
+        .catch();
+    },
+    // 博客访问量计算
+    article_visit() {
+      this.axios
+        .ajax({
+          url: this.$api.blog().article.visit,
+          data: {
+            article_id: this.info.id
+          }
+        })
+        .then()
         .catch();
     }
   }

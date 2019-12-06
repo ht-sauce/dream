@@ -8,6 +8,7 @@
         v-model="keyword"
       />
       <left-blog :list="leftBlogData"></left-blog>
+      <div class="load-many" @click="load_blog">加载更多</div>
     </div>
     <div class="right">
       <user-mianbane></user-mianbane>
@@ -25,7 +26,9 @@ export default {
       //左侧博客数据流
       leftBlogData: [],
       //右侧点击量排行
-      rightBlogData: []
+      rightBlogData: [],
+      page: 1,
+      is_load: true
     };
   },
   components: {
@@ -59,11 +62,16 @@ export default {
           loading: true
         })
         .then(e => {
-          const blog = e.data.list.map(val => {
-            val.cover = val.cover ? this.$api.static().visit + val.cover : "";
-            return val;
-          });
-          this.leftBlogData = blog;
+          if (e.data.list.length) {
+            this.page = page + 1;
+            const blog = e.data.list.map(val => {
+              val.cover = val.cover ? this.$api.static().visit + val.cover : "";
+              return val;
+            });
+            this.leftBlogData = this.leftBlogData.concat(blog);
+          } else {
+            this.is_load = false;
+          }
         })
         .catch();
     },
@@ -79,6 +87,11 @@ export default {
           });
         })
         .catch();
+    },
+    load_blog() {
+      if (this.is_load) {
+        this.blog_list(this.page);
+      }
     }
   }
 };
@@ -104,6 +117,13 @@ export default {
       font-size: 14px;
       line-height: 30px;
       height: 30px;
+    }
+    .load-many {
+      width: 100%;
+      color: #555555;
+      text-align: center;
+      line-height: 40px;
+      background: #a7ffd9;
     }
   }
   .right {

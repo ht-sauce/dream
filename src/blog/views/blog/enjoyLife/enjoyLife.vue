@@ -463,6 +463,7 @@ export default {
           font-size: 12px;
         }
         .say-something {
+          line-height: 25px;
           margin-top: 5px;
           text-indent: 20px;
         }
