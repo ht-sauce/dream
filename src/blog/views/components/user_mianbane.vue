@@ -12,7 +12,7 @@
       <div>创作：{{ onselfData.count }}</div>
       <router-link
         style="color: #409eff;"
-        v-if="$store.state.user_info"
+        v-if="$store.state.is_blogger"
         to="/draft"
         >草稿箱</router-link
       >
@@ -21,7 +21,7 @@
       <div>访问量：{{ onselfData.visit ? onselfData.visit.visit : 0 }}</div>
       <div>访问人：{{ onselfData.visit ? onselfData.visit.people : 0 }}</div>
     </div>
-    <div v-if="$store.state.user_info" class="writing">
+    <div v-if="$store.state.is_blogger" class="writing">
       <div>
         <router-link class="writing-a" to="/richTextEditor?editor_type=add"
           >创作文章</router-link

@@ -3,7 +3,7 @@
     <!--左侧功能列表-->
     <ul class="left">
       <template v-for="(item, index) in leftData">
-        <li :key="index">
+        <li v-if="item.show" :key="index">
           <router-link :to="item.url">{{ item.name }}</router-link>
         </li>
       </template>
@@ -110,8 +110,12 @@ export default {
     return {
       userInfo: this.$store.state.user_info,
       leftData: [
-        { name: "生活动态", url: "/enjoyLife?page=3" },
-        { name: "相册动态", url: "/enjoyLife/album" }
+        { name: "生活动态", url: "/enjoyLife?page=3", show: true },
+        {
+          name: "相册动态",
+          url: "/enjoyLife/album",
+          show: this.$store.state.is_blogger
+        }
       ],
       content: "",
       discuss_item: {},
