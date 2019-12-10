@@ -4,6 +4,7 @@ import Text from "./text/index"; //替代p标签
 import resizeDiv from "./resizeDiv/index"; //替代p标签
 import swiper from "./swiper/index"; //轮播组件
 import tree from "./tree/index"; //树形组件
+import Move from "./move/index"; //div移动组件
 //需要独立注册部分
 import Loading from "./loading/install"; //加载标签
 //批量注册部分
@@ -23,8 +24,8 @@ const install = function(vue, opts = {}) {
     zIndex: opts.zIndex || 2000
   };
   //指令注册部分
+  vue.use(Move.directive);
   vue.use(Loading.directive);
-  vue.use(resizeDiv.directive);
   //批量组件注册
   components.forEach(component => {
     vue.component(component.name, component);

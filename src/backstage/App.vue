@@ -15,9 +15,10 @@ export default {
   watch: {},
   beforeCreate() {},
   created() {
+    const user = store.get("user_info");
     // 将用户数据存入到vuex便于后续操作
     this.$store.commit("set_data", {
-      user_info: store.get("user_info").userInfo
+      user_info: user ? user.userInfo : null
     });
   },
   beforeMount() {},

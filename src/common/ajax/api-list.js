@@ -34,6 +34,9 @@ export default {
           prefix}/aliyun/single_image_upload`,
         del: `${prefix}/aliyun/del`,
         list: `/noauth${prefix}/aliyun/list`
+      },
+      verify: {
+        captcha: `/noauth${prefix}/verify`
       }
     };
   },

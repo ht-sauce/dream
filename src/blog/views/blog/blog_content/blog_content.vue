@@ -100,11 +100,12 @@ export default {
     },
     // 评论组件返回数据
     reply(e) {
-      // console.log(e);
+      console.log(e);
       let data;
       if (!e.node) {
         // 主评论
         data = {
+          verify: e.verify,
           content: e.reply, //评论内容
           is_trunk: "1", // 是否主评论
           key: this.info.id, //关联id
@@ -116,6 +117,7 @@ export default {
       } else {
         // 回复评论
         data = {
+          verify: e.verify,
           trunk_key: e.parentData.id, //归属于哪项评论下面
           content: e.reply,
           is_trunk: "0",

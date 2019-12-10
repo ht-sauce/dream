@@ -1,8 +1,12 @@
 <template>
-  <div class="test">
-    <div>1232131</div>
-    <button @click="ceshi_upload">测试上传</button>
-    <div>1232131</div>
+  <div class="img-magnifier">
+    <div class="main-img">
+      <img src="../../assets/img/icon/dogHead.jpg" alt="" />
+      <div v-dht-move="true" class="mask"></div>
+    </div>
+    <div class="preview">
+      <img src="../../assets/img/icon/dogHead.jpg" alt="" />
+    </div>
   </div>
 </template>
 
@@ -16,28 +20,30 @@ export default {
   beforeMount() {},
   mounted() {},
   methods: {
-    ceshi_upload() {
-      this.axios
-        .upload({
-          url: this.$api.static().aliyun.single_img_upload,
-          fdata: {
-            source: "测试"
-          }
-        })
-        .then(e => {
-          console.log("成功", e);
-        })
-        .catch(e => {
-          console.log("错误", e);
-        });
+    ceshi(e) {
+      console.log(e);
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-.test {
+.img-magnifier {
   display: flex;
-  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  .main-img {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .mask {
+      top: 0;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+    }
+  }
 }
 </style>

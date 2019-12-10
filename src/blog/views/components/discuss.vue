@@ -1,5 +1,29 @@
 <template>
   <div class="discuss-sum">
+    <el-dialog
+      class="dialo-check"
+      title="请输入验证码"
+      :visible.sync="dialogVisible"
+      width="400px"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :show-close="false"
+      @close="dialog_close"
+    >
+      <div class="dialo-verify">
+        <div class="captcha">
+          <img :src="captcha" alt="验证码" />
+          <el-button @click="create_captcha">刷新</el-button>
+        </div>
+        <el-input v-model.number="verify" clearable></el-input>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="warning" @click="dialogVisible = false"
+          >取消</el-button
+        >
+        <el-button type="primary" @click="check_captcha">发表</el-button>
+      </span>
+    </el-dialog>
     <div class="self">
       <img
         v-if="userInfo.portrait"
@@ -107,17 +131,40 @@ export default {
   },
   data() {
     return {
+      captcha:
+        this.$api.baseURL +
+        this.$api.static().verify.captcha +
+        "?k=" +
+        Math.random(),
+      dialogVisible: false,
       ip_info: this.$store.state.ip,
       userInfo: this.$store.state.user_info ? this.$store.state.user_info : {},
       // 记录上一次打开的回复节点
       reply_history: {},
       replyMain: "",
-      reply: "" //单条回复内容
+      verify: "",
+      reply: "", //单条回复内容
+      node: null,
+      location: null,
+      parentData: null
     };
   },
+  computed: {},
   beforeCreate() {},
   created() {},
   methods: {
+    dialog_close() {
+      this.node = null;
+      this.location = null;
+      this.parentData = null;
+    },
+    create_captcha() {
+      this.captcha =
+        this.$api.baseURL +
+        this.$api.static().verify.captcha +
+        "?k=" +
+        Math.random();
+    },
     // 删除节点数据
     del_discuss(node, location, parentData) {
       this.$emit("delete", {
@@ -128,21 +175,46 @@ export default {
     },
     // 回复函数
     reply_msg(node, location, parentData) {
-      if (node) {
+      if (!node) {
+        if (!this.replyMain) {
+          this.$message("未输入评论内容");
+          return false;
+        }
+      } else {
+        if (!this.reply) {
+          this.$message("未输入评论内容");
+          return false;
+        }
+      }
+      this.dialogVisible = true;
+      this.node = node;
+      this.location = location;
+      this.parentData = parentData;
+    },
+    // 最后确认提交
+    check_captcha() {
+      if (!this.verify) {
+        this.$message("未输入验证码");
+        return false;
+      }
+      this.create_captcha();
+      if (this.node) {
         this.$emit("reply", {
           reply: this.reply,
-          node: node,
-          location: location,
-          parentData: parentData
+          node: this.node,
+          location: this.location,
+          parentData: this.parentData,
+          verify: this.verify
         });
-        this.node = node;
       } else {
         // 主回复评论
         this.$emit("reply", {
           reply: this.replyMain,
-          location: location
+          location: this.location,
+          verify: this.verify
         });
       }
+      this.dialogVisible = false;
     },
     // 打开关闭监听
     is_open(e) {
@@ -162,6 +234,16 @@ export default {
 
 <style scoped lang="scss">
 .discuss-sum {
+  .dialo-verify {
+    .captcha {
+      display: flex;
+      align-items: center;
+      margin: 5px;
+      > img {
+        margin-right: 10px;
+      }
+    }
+  }
   .self {
     padding: 15px;
     background: #f1f1f1;
