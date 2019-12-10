@@ -3,9 +3,10 @@ import vue from "vue";
 // 传入参数true则控制边界不传和false则不控制边界,默认控制边界
 //主函数
 const directive = () => {
+  let expression = false;
   vue.directive("DhtMove", {
     inserted: function(el, binding) {
-      binding.value = binding.value || true;
+      expression = binding.expression || expression;
       let dragBox = el; //获取当前元素
       dragBox.onmousedown = e => {
         // 父元素宽高
@@ -22,7 +23,7 @@ const directive = () => {
           let left = e2.clientX - disX;
           let top = e2.clientY - disY;
           // 当传入true代表控制边界
-          if (binding.value) {
+          if (expression) {
             left = left > endWidth ? endWidth : left < 0 ? 0 : left;
             top = top > endHeight ? endHeight : top < 0 ? 0 : top;
           }
@@ -36,6 +37,9 @@ const directive = () => {
           document.onmouseup = null;
         };
       };
+    },
+    update(el, binding) {
+      expression = binding.expression === "true";
     },
     unbind() {}
   });

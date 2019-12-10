@@ -208,9 +208,10 @@ export default {
       synopsis: "", //文章简介
       // 图片上传类型，1文章图片上传，2封面图上传
       upload_type: 1,
-      draft: "", //当前文章是否处于草稿状态
+      draft: "1", //当前文章是否处于草稿状态
       visible: false,
-      draft_tips: "存储为草稿" //存储草稿内容修改，用以提示存储成功
+      draft_tips: "存储为草稿", //存储草稿内容修改，用以提示存储成功
+      is_release: false //是否发布状态
     };
   },
   beforeCreate() {},
@@ -267,8 +268,10 @@ export default {
     // 内容改变事件
     // 引入防抖函数避免重复的调用接口数据
     onEditorChange(e) {
-      this.synopsis = e.text ? e.text.substring(0, 300) : ""; //存储文章的简介
-      this.save_article();
+      if (!this.is_release) {
+        this.synopsis = e.text ? e.text.substring(0, 300) : ""; //存储文章的简介
+        this.save_article();
+      }
     },
     // 保存文章
     save_article: antiShake(
@@ -371,11 +374,11 @@ export default {
       });
     },
     // 修改文章状态，包含发布等操作，注意当draft为0的时候代表文章不再是草稿，必须发布，否则引起逻辑错误
-    article_modify(draft = "1", loading = true) {
+    article_modify(draft = "1", loading = true, type = 1) {
       let data = {
         id: this.id,
         title: this.title ? this.title : "无标题",
-        draft: draft,
+        draft: type === 2 ? "0" : draft,
         content: this.content,
         cover: this.cover,
         classify: this.classify.toString(),
@@ -436,8 +439,9 @@ export default {
     },
     // 发布文章
     release() {
-      this.article_modify("0", true)
+      this.article_modify("0", true, 2)
         .then(() => {
+          this.is_release = true; // 修改发布状态，避免被二次修改成草稿
           this.add_blog_dynamic();
           store.remove("article_id");
           // 发布成功

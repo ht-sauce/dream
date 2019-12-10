@@ -62,13 +62,19 @@ export default {
           loading: true
         })
         .then(e => {
-          if (e.data.list.length) {
+          if (e.data.list.length > 0) {
             this.page = page + 1;
-            const blog = e.data.list.map(val => {
-              val.cover = val.cover ? this.$api.static().visit + val.cover : "";
-              return val;
-            });
-            this.leftBlogData = this.leftBlogData.concat(blog);
+            if (page === 1) {
+              this.leftBlogData = e.data.list;
+            } else {
+              const blog = e.data.list.map(val => {
+                val.cover = val.cover
+                  ? this.$api.static().visit + val.cover
+                  : "";
+                return val;
+              });
+              this.leftBlogData = this.leftBlogData.concat(blog);
+            }
           } else {
             this.is_load = false;
           }
