@@ -197,7 +197,6 @@ export default {
         this.$message("未输入验证码");
         return false;
       }
-      this.create_captcha();
       if (this.node) {
         this.$emit("reply", {
           reply: this.reply,

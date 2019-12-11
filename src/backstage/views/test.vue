@@ -6,7 +6,7 @@
       @mouseenter="mouseenter"
       @mouseleave="mouseleave"
     >
-      <img src="../../assets/img/icon/dogHead.jpg" alt="" />
+      <img src="../../assets/img/icon/dogHead.jpg" alt />
       <div
         ref="mask"
         class="mask"
@@ -14,7 +14,7 @@
       ></div>
     </div>
     <div class="preview">
-      <img src="../../assets/img/icon/dogHead.jpg" alt="" />
+      <img src="../../assets/img/icon/dogHead.jpg" alt />
     </div>
   </div>
 </template>

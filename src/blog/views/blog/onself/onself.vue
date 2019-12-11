@@ -136,7 +136,10 @@ export default {
           this.$refs["discuss"].clear_msg();
           this.discuss_list();
         })
-        .catch();
+        .catch()
+        .finally(() => {
+          this.$refs["discuss"].create_captcha();
+        });
     },
     // 评论列表数据
     discuss_list() {
