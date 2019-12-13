@@ -9,7 +9,11 @@
       <img v-if="info.cover" :src="info.cover" alt="封面" />
       <hr />
       <div class="ql-snow">
-        <section class="ql-editor" v-html="info.content"></section>
+        <section
+          ref="article"
+          class="ql-editor"
+          v-html="info.content"
+        ></section>
       </div>
       <!--评论组件-->
       <dht-discuss
@@ -21,6 +25,17 @@
     </article>
     <div class="author">
       <user-mianbane :author="info"></user-mianbane>
+      <ul class="catalog">
+        <template v-for="(item, index) in catalog">
+          <li :key="index" :style="{ paddingLeft: item.level * 22 + 'px' }">
+            <a
+              :href="'#' + item.id"
+              :style="{ fontSize: 18 * (1 - 0.1 * item.level) + 'px' }"
+              >{{ item.title }}</a
+            >
+          </li>
+        </template>
+      </ul>
     </div>
   </div>
 </template>
@@ -34,7 +49,9 @@ export default {
   data() {
     return {
       info: {},
-      discuss: []
+      discuss: [],
+      // 目录
+      catalog: []
     };
   },
   beforeCreate() {},
@@ -91,6 +108,8 @@ export default {
           });
           this.discuss_list();
           this.article_visit();
+          // 生成文章目录
+          this.generate_catalog();
         })
         .catch();
     },
@@ -211,6 +230,28 @@ export default {
         })
         .then()
         .catch();
+    },
+    // 生成目录
+    generate_catalog() {
+      // 保证渲染成功
+      this.$nextTick(() => {
+        const article_content = this.$refs["article"];
+        const nodes = ["H1", "H2", "H3"];
+        let titles = [];
+        article_content.childNodes.forEach((e, index) => {
+          if (nodes.includes(e.nodeName)) {
+            const id = "header-" + index;
+            e.setAttribute("id", id);
+            titles.push({
+              id: id,
+              title: e.innerHTML,
+              level: Number(e.nodeName.substring(1, 2)),
+              nodeName: e.nodeName
+            });
+          }
+        });
+        this.catalog = titles;
+      });
     }
   }
 };
@@ -267,6 +308,23 @@ export default {
     width: 25%;
     max-width: 300px;
     min-width: 250px;
+    .catalog {
+      max-width: 300px;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      display: flex;
+      flex-flow: column;
+      > li {
+        width: 100%;
+        margin: 6px 0;
+        > a {
+          font-weight: 600;
+        }
+      }
+    }
   }
 }
 </style>

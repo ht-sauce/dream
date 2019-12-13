@@ -13,9 +13,7 @@
 <style lang="scss" scoped>
 #tail {
   width: 100%;
-  background: #ffffff;
   box-sizing: border-box;
-  border-top: #e8ebf2 1px solid;
   /*background: #ffffff;*/
   padding: 15px;
   color: #a5a4a4;

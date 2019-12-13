@@ -1,5 +1,6 @@
 <template>
-  <div id="app" :style="blogClass">
+  <div id="app">
+    <canvas id="canvas"></canvas>
     <!--不可变化部分-->
     <transition name="page-transition">
       <router-view />
@@ -9,16 +10,28 @@
 </template>
 <script>
 import store from "store";
+// eslint-disable-next-line no-unused-vars
+import Thpace from "@/blog/components/canvas/triangle/index";
 export default {
   name: "App",
   data() {
     return {
-      blogClass: {
-        background: "#b1eabf"
+      observer: null,
+      firedNum: 0,
+      recordOldValue: {
+        // 记录下旧的宽高数据，避免重复触发回调函数
+        width: "0",
+        height: "0"
       }
     };
   },
-  watch: {},
+  watch: {
+    recordOldValue() {
+      let canvas = document.getElementById("canvas");
+      let spaceboi = new Thpace(canvas);
+      spaceboi.start();
+    }
+  },
   beforeCreate() {},
   created() {
     const user = store.get("user_info");
@@ -33,7 +46,48 @@ export default {
     this.blog_visit();
   },
   beforeMount() {},
-  mounted() {},
+  mounted() {
+    let MutationObserver =
+      window.MutationObserver ||
+      window.WebKitMutationObserver ||
+      window.MozMutationObserver;
+    let element = document.querySelector("#app");
+    // eslint-disable-next-line no-unused-vars
+    this.observer = new MutationObserver(mutationList => {
+      /*for (let mutation of mutationList) {
+        console.log(111111, mutation);
+      }*/
+      let width = getComputedStyle(element).getPropertyValue("width");
+      let height = getComputedStyle(element).getPropertyValue("height");
+      if (
+        width === this.recordOldValue.width &&
+        height === this.recordOldValue.height
+      )
+        return;
+      this.recordOldValue = {
+        width,
+        height
+      };
+      this.firedNum += 1;
+    });
+    this.observer.observe(element, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      attributeFilter: ["style"],
+      attributeOldValue: true
+    });
+    /*let canvas = document.getElementById("canvas");
+    let spaceboi = new Thpace(canvas);
+    spaceboi.start();*/
+  },
+  beforeDestroyed() {
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer.takeRecords();
+      this.observer = null;
+    }
+  },
   methods: {
     // 文章所有分类列表
     classify_list_all() {
@@ -55,7 +109,7 @@ export default {
           url: this.$api.consumer().user.blogger
         })
         .then(e => {
-          console.log(e.data);
+          // console.log(e.data);
           e.data.portrait = this.$api.static().visit + e.data.portrait;
           this.$store.commit("set_data", {
             blogger: e.data,
@@ -110,6 +164,11 @@ body {
   font-size: 14px;
   width: 100vw;
   color: $font_main;
+  min-height: 100%;
+  #canvas {
+    position: absolute;
+    z-index: -1;
+  }
   //控制页面全局的宽度
   .g-width {
     width: 80vw;

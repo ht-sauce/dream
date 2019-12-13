@@ -105,7 +105,7 @@ export default {
           loading: true
         })
         .then(e => {
-          console.log(e.data);
+          // console.log(e.data);
           this.dynamic = e.data;
         })
         .catch();

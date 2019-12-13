@@ -274,21 +274,17 @@ export default {
       }
     },
     // 保存文章
-    save_article: antiShake(
-      function() {
-        if (this.id) {
-          this.article_modify(this.draft ? this.draft : "1", false);
-        } else {
-          this.create()
-            .then(() => {
-              this.article_modify("1", false);
-            })
-            .catch();
-        }
-      },
-      5000,
-      false
-    ),
+    save_article: antiShake(function() {
+      if (this.id) {
+        this.article_modify(this.draft ? this.draft : "1", false);
+      } else {
+        this.create()
+          .then(() => {
+            this.article_modify("1", false);
+          })
+          .catch();
+      }
+    }, 5000),
     // 图片上传成功
     handleAvatarSuccess(res) {
       console.log(res.data);
@@ -301,17 +297,13 @@ export default {
           // 获取光标所在位置
           let length = quill.getSelection().index;
           // 插入图片，res为服务器返回的图片链接地址
-          quill.insertEmbed(
-            length,
-            "image",
-            this.$api.static().visit + res.data
-          );
+          quill.insertEmbed(length, "image", res.data);
           // 调整光标到最后
           quill.setSelection(length + 1);
         }
         // 封面图片上传
         if (this.upload_type === 2) {
-          this.cover_url = this.$api.static().visit + res.data;
+          this.cover_url = res.data;
           this.cover = res.data;
           // 触发下文章保存
           this.onEditorChange();
@@ -425,9 +417,7 @@ export default {
           this.content = e.data.content;
           this.title = e.data.title;
           this.cover = e.data.cover;
-          this.cover_url = e.data.cover
-            ? this.$api.static().visit + e.data.cover
-            : "";
+          this.cover_url = e.data.cover;
           if (e.data.classify) {
             this.classify = e.data.classify.split(",").map(val => {
               val = Number(val);
