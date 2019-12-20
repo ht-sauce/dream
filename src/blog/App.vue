@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <canvas id="canvas"></canvas>
     <!--不可变化部分-->
     <transition name="page-transition">
       <router-view />
@@ -11,7 +10,6 @@
 <script>
 import store from "store";
 // eslint-disable-next-line no-unused-vars
-import Thpace from "@/blog/components/canvas/triangle/index";
 export default {
   name: "App",
   data() {
@@ -25,13 +23,7 @@ export default {
       }
     };
   },
-  watch: {
-    recordOldValue() {
-      let canvas = document.getElementById("canvas");
-      let spaceboi = new Thpace(canvas);
-      spaceboi.start();
-    }
-  },
+  watch: {},
   beforeCreate() {},
   created() {
     const user = store.get("user_info");
@@ -47,16 +39,17 @@ export default {
   },
   beforeMount() {},
   mounted() {
-    let MutationObserver =
+    // 监听元素变化
+    /*let MutationObserver =
       window.MutationObserver ||
       window.WebKitMutationObserver ||
       window.MozMutationObserver;
     let element = document.querySelector("#app");
     // eslint-disable-next-line no-unused-vars
     this.observer = new MutationObserver(mutationList => {
-      /*for (let mutation of mutationList) {
+      /!*for (let mutation of mutationList) {
         console.log(111111, mutation);
-      }*/
+      }*!/
       let width = getComputedStyle(element).getPropertyValue("width");
       let height = getComputedStyle(element).getPropertyValue("height");
       if (
@@ -76,12 +69,14 @@ export default {
       subtree: true,
       attributeFilter: ["style"],
       attributeOldValue: true
-    });
-    /*let canvas = document.getElementById("canvas");
-    let spaceboi = new Thpace(canvas);
-    spaceboi.start();*/
+    });*/
+    // 执行canvas动画
+    // let canvas = document.getElementById("canvas");
+    // let spaceboi = new Thpace(canvas);
+    // spaceboi.start();
   },
   beforeDestroyed() {
+    // 监听元素变化
     if (this.observer) {
       this.observer.disconnect();
       this.observer.takeRecords();
@@ -165,10 +160,8 @@ body {
   width: 100vw;
   color: $font_main;
   min-height: 100%;
-  #canvas {
-    position: absolute;
-    z-index: -1;
-  }
+  //background-color: #f9f9f9;
+  background-image: url("./assets/paper.png");
   //控制页面全局的宽度
   .g-width {
     width: 80vw;

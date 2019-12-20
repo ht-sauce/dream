@@ -6,10 +6,26 @@
         >git地址:https://github.com/ht-sauce</a
       >
     </div>
-    <div class="keep-on-record">浙ICP备19045987号</div>
+    <div class="keep-on-record">
+      <span style="margin-right: 10px"
+        >Copyright © 2019-{{ year.getFullYear() }} dht.red
+        AllRightsReserved</span
+      >
+      <a target="_blank" href="http://www.beian.miit.gov.cn"
+        >ICP证：浙ICP备19045987号</a
+      >
+    </div>
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      year: new Date()
+    };
+  }
+};
+</script>
 <style lang="scss" scoped>
 #tail {
   width: 100%;
