@@ -2,34 +2,8 @@
 import Vue from "vue";
 
 //element ui部分
-import {
-  Icon,
-  Popover,
-  Input,
-  Upload,
-  Button,
-  Form,
-  FormItem,
-  DatePicker,
-  Radio,
-  RadioGroup,
-  Cascader,
-  CascaderPanel
-} from "element-ui";
-const elementUI = [
-  Icon,
-  Popover,
-  Input,
-  Upload,
-  Button,
-  Form,
-  FormItem,
-  DatePicker,
-  Radio,
-  RadioGroup,
-  Cascader,
-  CascaderPanel
-];
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 Vue.prototype.$ELEMENT = { size: "small", zIndex: 3000 };
 
 import cat from "@/components/livetd/index";
@@ -40,10 +14,8 @@ Vue.use(dhtui, { zIndex: 4000 });
 
 //全局框架范围组件
 function install() {
-  elementUI.forEach(component => {
-    Vue.use(component);
-  });
   Vue.use(cat);
+  Vue.use(ElementUI);
 }
 
 //Vue.prototype.$notify = Notification;

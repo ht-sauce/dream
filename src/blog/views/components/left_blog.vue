@@ -18,7 +18,7 @@
             </h3>
             <dht-text
               :text="item.synopsis"
-              :num="250"
+              :num="190"
               class="blog_p"
             ></dht-text>
           </div>

@@ -101,7 +101,6 @@ export default {
         .then(e => {
           //console.log(e.data);
           e.data.classify = this.blogIconTaps(e.data.classify);
-          e.data.cover = this.static_p(e.data.cover);
           e.data.portrait = this.static_p(e.data.portrait);
           this.info = e.data;
 
