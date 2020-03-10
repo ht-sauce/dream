@@ -106,6 +106,30 @@ let router = [
       },
       auth: true
     }
+  },
+  {
+    path: "/tool",
+    component: () => import("@/blog/views/blog/tool/tool.vue"),
+    meta: {
+      metaInfo: {
+        title: "工具",
+        keywords: "工具",
+        description: "工具"
+      },
+      auth: false
+    }
+  },
+  {
+    path: "/tool/api_test",
+    component: () => import("@/blog/views/blog/tool/api_test.vue"),
+    meta: {
+      metaInfo: {
+        title: "api测试工具",
+        keywords: "api测试工具",
+        description: "api测试工具"
+      },
+      auth: false
+    }
   }
 ];
 export default router;

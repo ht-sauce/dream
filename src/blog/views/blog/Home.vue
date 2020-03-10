@@ -1,10 +1,10 @@
 <template>
   <div id="blog">
     <!--顶部导航部分-->
-    <navigation></navigation>
+    <navigation />
     <!--嵌套路由部分都在这里展示-->
     <transition name="page-transition">
-      <router-view class="router-view"></router-view>
+      <router-view class="router-view" />
     </transition>
     <!--底部版权说明-->
     <tail>海天酱油的个人博客</tail>
@@ -40,6 +40,7 @@ export default {
   flex-flow: column;
   align-items: center;
   .router-view {
+    width: 80vw;
     min-height: 80vh;
   }
 }

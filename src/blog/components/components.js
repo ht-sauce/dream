@@ -16,7 +16,9 @@ import {
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
-  Upload
+  Upload,
+  Select,
+  Option
 } from "element-ui";
 const elementUI = [
   Input,
@@ -30,7 +32,9 @@ const elementUI = [
   Checkbox,
   CheckboxButton,
   CheckboxGroup,
-  Upload
+  Upload,
+  Select,
+  Option
 ];
 elementUI.forEach(component => {
   Vue.use(component);

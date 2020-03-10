@@ -14,10 +14,7 @@
         </template>
       </ul>
     </div>
-    <herader-user
-      v-if="$store.state.user_info"
-      :noshow="$store.state.core"
-    ></herader-user>
+    <herader-user v-if="$store.state.user_info" :noshow="$store.state.core" />
   </div>
 </template>
 
@@ -33,7 +30,8 @@ export default {
         { title: "首页", url: "/home", isActive: false },
         { title: "关于我", url: "/onself", isActive: false },
         { title: "学海无涯", url: "/blogList", isActive: false },
-        { title: "享受生活", url: "/enjoyLife", isActive: false }
+        { title: "享受生活", url: "/enjoyLife", isActive: false },
+        { title: "工具", url: "/tool", isActive: false }
       ]
     };
   },
