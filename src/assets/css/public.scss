@@ -1,13 +1,13 @@
-$font_main_info: #47484B; //父主要字体
+$font_main_info: #47484b; //父主要字体
 $font_main: #303133; //主要字体
 $font_info: #909399; //阴影,不可编辑,提示
 $font-icon: #1abc9c; //标签字体
-$font_err: #F56C6C; //错误
-$font_warning: #E6A23C; //警告
-$font_success: #67C23A; //成功
+$font_err: #f56c6c; //错误
+$font_warning: #e6a23c; //警告
+$font_success: #67c23a; //成功
 //边框部分
-$border_main: #DCDFE6;
-$border_minor: #F2F6FC;
+$border_main: #dcdfe6;
+$border_minor: #f2f6fc;
 //背景色部分
 $background_bai: #ffffff;
 $background_hover: #e7e7e7;
@@ -17,7 +17,7 @@ $background_hover: #e7e7e7;
 }
 //页面动画过渡部分
 .page-transition-enter-active {
-  animation: slide-out 0.3s reverse;
+  animation: slide-in 0.3s reverse;
 }
 .page-transition-leave-active {
   animation: slide-in 0.3s reverse;
