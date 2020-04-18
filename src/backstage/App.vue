@@ -1,7 +1,7 @@
 <template>
   <div id="template">
     <router-view />
-    <dht-cat></dht-cat>
+    <dht-cat />
   </div>
 </template>
 <script>
