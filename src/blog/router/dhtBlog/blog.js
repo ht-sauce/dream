@@ -104,7 +104,7 @@ let router = [
         keywords: "说说",
         description: "说说"
       },
-      auth: true
+      auth: false
     }
   },
   {
