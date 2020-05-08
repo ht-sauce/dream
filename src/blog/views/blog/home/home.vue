@@ -8,7 +8,7 @@
         <!--      左边博客列表-->
         <div class="left">
           <!--避免页面太过复杂，抽离成为单独的模板文件-->
-          <blog-dynamic :list="dynamic"></blog-dynamic>
+          <blogDynamic :list="dynamic" />
         </div>
         <!--右边个性推荐-->
         <div class="right">
@@ -17,7 +17,7 @@
             <dht-img
               class="right-oneself-bgimg"
               :src="require('@/blog/assets/images/home/banner.png')"
-            ></dht-img>
+            />
             <img
               class="oneself-img"
               :src="oneselfData.portrait"
@@ -30,18 +30,15 @@
               <div class="onself-icon">
                 {{ oneselfData.tag }}
               </div>
-              <dht-text
-                class="onself-content"
-                :text="oneselfData.synopsis"
-              ></dht-text>
+              <dht-text class="onself-content" :text="oneselfData.synopsis" />
             </div>
           </div>
           <!--底部推荐-->
-          <right-blog
+          <RightBlog
             class="right-blog-list"
             title="点击排行"
             :list="rightBlogData"
-          ></right-blog>
+          />
           <!--<right-blog
             class="right-blog-list"
             title="酱油推荐"
