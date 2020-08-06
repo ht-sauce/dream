@@ -1,95 +1,95 @@
-"use strict";
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
+'use strict'
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
-import { Notification, Loading } from "element-ui";
-import apiList from "./api-list"; //接口列表数据
-const store = require("store");
-import control from "@/common/control_center/index";
+import { Notification, Loading } from 'element-ui'
+import apiList from './api-list' //接口列表数据
+const store = require('store')
+import control from '@/common/control_center/index'
 // axios全局导入设置
-Vue.use(VueAxios, axios);
-Vue.prototype.$api = apiList; //将接口列表数据绑定到vue全局
+Vue.use(VueAxios, axios)
+Vue.prototype.$api = apiList //将接口列表数据绑定到vue全局
 
 //自定义消息提示函数信息
 let customMsg = {
   //成功信息提示
   sucIfno(info) {
     Notification({
-      title: "答对了！",
-      type: "success",
-      message: info
-    });
+      title: '答对了！',
+      type: 'success',
+      message: info,
+    })
   },
   //错误信息提示
   errIfno(info) {
     Notification({
-      title: "答错了呢",
-      type: "error",
-      message: info
-    });
-  }
-};
+      title: '答错了呢',
+      type: 'error',
+      message: info,
+    })
+  },
+}
 // 授权函数封装
 const authorize = herders => {
-  const user_info = store.get("user_info");
+  const user_info = store.get('user_info')
   if (user_info && user_info.sign) {
-    herders.Authorization = user_info.sign;
-    return herders;
+    herders.Authorization = user_info.sign
+    return herders
   } else {
-    return herders;
+    return herders
   }
-};
+}
 // axios函数封装
 const ajax = ({
-  url = "",
+  url = '',
   loading = false, //加载拦截
   baseURL = apiList.baseURL,
   data = {},
-  headers = { "Content-Type": "application/json;charset=UTF-8" }, //头部信息处理
-  method = "get",
+  headers = { 'Content-Type': 'application/json;charset=UTF-8' }, //头部信息处理
+  method = 'get',
   success = false, //成功信息提示
   error = true, //错误信息提示
-  timeout = 60 * 1000
+  timeout = 60 * 1000,
 }) => {
   // 数据过滤，过滤字段中空数据等
   const filter = record => {
     for (let key in record) {
-      !record[key] && delete record[key];
+      !record[key] && delete record[key]
     }
-    return record;
-  };
+    return record
+  }
   //接口全局加载提示
-  let loadingInstance = "";
+  let loadingInstance = ''
   if (loading !== false) {
     loadingInstance = Loading.service({
       lock: true,
-      text: loading !== true ? loading : "努力加载中……",
-      spinner: "el-icon-loading",
-      background: "rgba(0, 0, 0, 0.5)"
-    });
+      text: loading !== true ? loading : '努力加载中……',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.5)',
+    })
   }
   return new Promise((suc, err) => {
     // 预处理数据部分
-    method = method.toLocaleLowerCase(); //转化为小写
-    headers = authorize(headers);
+    method = method.toLocaleLowerCase() //转化为小写
+    headers = authorize(headers)
     axios({
       url: url,
       baseURL: baseURL,
       headers: headers,
       method: method,
-      [method === "post" ? "data" : "params"]: filter(data),
-      timeout: timeout
+      [method === 'post' ? 'data' : 'params']: filter(data),
+      timeout: timeout,
     })
       .then(response => {
-        loadingInstance && loadingInstance.close();
+        loadingInstance && loadingInstance.close()
         // 刷新口令以及接口判断是否退出登录
         if (!control.refresh_sign_or_out(response)) {
-          customMsg.errIfno("数据异常，退出登录");
-          err(response);
+          customMsg.errIfno('数据异常，退出登录')
+          err(response)
         }
 
-        const res = response.data;
+        const res = response.data
         //自定义成功失败处理，code值代表后端接口数据处理成功或者失败
         // 后端返回格式
         /*data = {
@@ -98,158 +98,156 @@ const ajax = ({
           data: "" // 数据
         };*/
         if (res && res.code === 0) {
-          success !== false &&
-            customMsg.sucIfno(success === true ? "信息处理成功" : success);
+          success !== false && customMsg.sucIfno(success === true ? '信息处理成功' : success)
 
-          suc(res);
+          suc(res)
         } else {
-          error !== false &&
-            customMsg.errIfno(res.msg ? res.msg : "信息处理失败");
+          error !== false && customMsg.errIfno(res.msg ? res.msg : '信息处理失败')
 
-          err(res);
+          err(res)
         }
       })
       .catch(e => {
-        console.log(e);
-        loadingInstance && loadingInstance.close();
-        error !== false ? customMsg.errIfno("接口异常") : false;
+        console.log(e)
+        loadingInstance && loadingInstance.close()
+        error !== false ? customMsg.errIfno('接口异常') : false
         //catch代表网络异常部分和后端返回结果无关
-        err(e);
-      });
-  });
-};
+        err(e)
+      })
+  })
+}
 
 //暴露的ajax函数，进一步封装节流和防抖
-let shakeTime = "";
+let shakeTime = ''
 axios.ajax = options => {
   //参数预处理
-  let shake = options.shake || false; //不等于false直接传true或者防抖时间
+  let shake = options.shake || false //不等于false直接传true或者防抖时间
   //防抖函数处理
   if (shake === false) {
     //不进行防抖处理
     return new Promise((suc, err) => {
       ajax(options)
         .then(e => {
-          suc(e);
+          suc(e)
         })
         .catch(e => {
-          err(e);
-        });
-    });
+          err(e)
+        })
+    })
   } else {
     //进行防抖处理
     return new Promise((suc, err) => {
-      shakeTime && clearTimeout(shakeTime);
-      let callNow = !shakeTime;
+      shakeTime && clearTimeout(shakeTime)
+      let callNow = !shakeTime
       if (callNow) {
         ajax(options)
           .then(e => {
-            suc(e);
+            suc(e)
           })
           .catch(e => {
-            err(e);
-          });
+            err(e)
+          })
       }
       shakeTime = setTimeout(
         () => {
-          shakeTime = null;
+          shakeTime = null
         }, //见注解
-        shake === true ? 700 : shake
-      );
-    });
+        shake === true ? 700 : shake,
+      )
+    })
   }
-};
+}
 axios.upload = options => {
   // 对uri地址进行数据拼接
   const new_url = obj => {
     if (obj) {
-      let fields = "";
+      let fields = ''
       for (let key in obj) {
-        fields = fields + `&${key}=${obj[key]}`;
+        fields = fields + `&${key}=${obj[key]}`
       }
-      return "?" + fields.substring(1, fields.length);
+      return '?' + fields.substring(1, fields.length)
     } else {
-      return "";
+      return ''
     }
-  };
-  options.baseURL = ""; //个人处理，需要兼容之前的elementui等插件的上传
-  options.fdata = options.fdata || ""; //文件上传的url拼接地址
-  options.success = options.success || "文件上传成功";
-  options.url = options.url + new_url(options.fdata);
-  options.loading = options.loading || "文件上传中";
+  }
+  options.baseURL = '' //个人处理，需要兼容之前的elementui等插件的上传
+  options.fdata = options.fdata || '' //文件上传的url拼接地址
+  options.success = options.success || '文件上传成功'
+  options.url = options.url + new_url(options.fdata)
+  options.loading = options.loading || '文件上传中'
 
-  options.headers = options.headers || {};
-  options.headers["Content-Type"] = "multipart/form-data";
+  options.headers = options.headers || {}
+  options.headers['Content-Type'] = 'multipart/form-data'
 
-  options.method = "post";
-  options.multiple = options.multiple || false; //是否多文件,默认false
+  options.method = 'post'
+  options.multiple = options.multiple || false //是否多文件,默认false
   //文件类型验证,注意传入数组,默认["image/jpeg", "image/png"]
-  options.type = options.type || ["image/jpeg", "image/png"];
-  options.size = options.size || 5; //文件大小限制,默认5M大小
-  options.max = options.max || 5; //最多上传几个文件
+  options.type = options.type || ['image/jpeg', 'image/png']
+  options.size = options.size || 5 //文件大小限制,默认5M大小
+  options.max = options.max || 5 //最多上传几个文件
 
   //文件验证处理
-  let input = document.createElement("input");
-  input.type = "file";
-  options.multiple ? (input.multiple = "multiple") : "";
-  input.click();
+  let input = document.createElement('input')
+  input.type = 'file'
+  options.multiple ? (input.multiple = 'multiple') : ''
+  input.click()
 
   return new Promise((suc, err) => {
-    let type = options.type;
-    input.addEventListener("input", watchUpload, false);
+    let type = options.type
+    input.addEventListener('input', watchUpload, false)
     function watchUpload(event) {
       //console.log(event);
       //移除监听
       let remove = () => {
-        input.removeEventListener("input", watchUpload, false);
-        input = null;
-      };
+        input.removeEventListener('input', watchUpload, false)
+        input = null
+      }
 
-      const file = event.path[0].files;
+      const file = event.path[0].files
 
-      const len = file.length;
+      const len = file.length
       // 文件数量限制
       if (len > options.max) {
-        remove();
-        customMsg.errIfno("文件个数超过" + options.max);
+        remove()
+        customMsg.errIfno('文件个数超过' + options.max)
 
-        err(file);
-        return false;
+        err(file)
+        return false
       }
-      let formData = new FormData();
+      let formData = new FormData()
       for (let i = 0; i < len; i++) {
         // 文件大小限制
         if (options.size !== 0 && file[i].size / 1024 / 1024 > options.size) {
-          remove();
-          customMsg.errIfno(file[i].name + "文件超过" + options.size + "M");
+          remove()
+          customMsg.errIfno(file[i].name + '文件超过' + options.size + 'M')
 
-          err(file[i]);
-          return false;
+          err(file[i])
+          return false
         }
         // 文件类型限制
         if (type.length > 0 && !type.includes(file[i].type)) {
-          remove();
-          customMsg.errIfno(file[i].name + "文件类型为" + file[i].type);
+          remove()
+          customMsg.errIfno(file[i].name + '文件类型为' + file[i].type)
 
-          err(file);
-          return false;
+          err(file)
+          return false
         }
-        formData.append("dhtUpload", file[i], file[i].name);
+        formData.append('dhtUpload', file[i], file[i].name)
       }
-      options.data = formData;
+      options.data = formData
       // 最终进行文件上传
       ajax(options)
         .then(e => {
-          suc(e);
+          suc(e)
         })
         .catch(e => {
-          err(e);
-        });
+          err(e)
+        })
 
       // 没有问题下，清空监听。
-      remove();
+      remove()
     }
-  });
-};
+  })
+}
 
-export default axios;
+export default axios

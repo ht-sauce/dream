@@ -46,19 +46,11 @@
             <el-input v-model="data.phone" clearable></el-input>
           </el-form-item>
           <el-form-item label="生日" prop="birthday">
-            <el-date-picker
-              v-model="data.birthday"
-              type="date"
-              placeholder="选择日期"
-            >
+            <el-date-picker v-model="data.birthday" type="date" placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="居住地址" prop="province_and_city">
-            <el-cascader
-              :options="options"
-              v-model="data.province_and_city"
-              style="width: 400px;"
-            >
+            <el-cascader :options="options" v-model="data.province_and_city" style="width: 400px;">
             </el-cascader>
             <el-input v-model="data.address" clearable></el-input>
           </el-form-item>
@@ -71,10 +63,7 @@
         </div>
       </div>
       <div class="checkButton">
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="registerUser('ruleForm')"
+        <el-button type="primary" :loading="loading" @click="registerUser('ruleForm')"
           >确认注册</el-button
         >
         <el-button><router-link to="/">返回登录</router-link></el-button>
@@ -84,92 +73,92 @@
 </template>
 
 <script>
-import { regionData } from "element-china-area-data";
-import { userLoginPassword } from "@/common/crypto/crypto";
+import { regionData } from 'element-china-area-data'
+import { userLoginPassword } from '@/common/crypto/crypto'
 export default {
   data() {
     let englishOrNumbers = (rule, value, callback) => {
       if (!/^[0-9a-zA-Z]+$/g.test(value)) {
-        callback(new Error("只允许输入英文和数字"));
+        callback(new Error('只允许输入英文和数字'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     let twoPassword = (rule, value, callback) => {
       if (value !== this.data.password) {
-        callback(new Error("第二次密码不一致"));
+        callback(new Error('第二次密码不一致'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       options: regionData,
       data: {
-        account: "", //账号
-        nickname: "", //nickname
-        password: "",
-        password2: "",
-        portrait: "", //用户头像（用于上传）
-        portraitShow: "", //用于展示的头像地址
-        phone: "", //联系电话
-        birthday: "1994-03-29", //生日
+        account: '', //账号
+        nickname: '', //nickname
+        password: '',
+        password2: '',
+        portrait: '', //用户头像（用于上传）
+        portraitShow: '', //用于展示的头像地址
+        phone: '', //联系电话
+        birthday: '1994-03-29', //生日
         province_and_city: [], //省市区域码
-        address: "", //详细住址
-        qq: "", //qq或微信信息
-        email: "", //邮箱地址
-        sex: "男" //
+        address: '', //详细住址
+        qq: '', //qq或微信信息
+        email: '', //邮箱地址
+        sex: '男', //
       },
       rules: {
         account: [
           {
             required: true,
-            message: "账号6到20位英文或者数字",
+            message: '账号6到20位英文或者数字',
             max: 20,
             min: 3,
-            trigger: "blur"
+            trigger: 'blur',
           },
-          { validator: englishOrNumbers, trigger: "blur" }
+          { validator: englishOrNumbers, trigger: 'blur' },
         ],
         nickname: [
           {
             required: true,
-            message: "用户昵称最大10个字",
+            message: '用户昵称最大10个字',
             max: 10,
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         password: [
           {
             required: true,
-            message: "请输入密码，最小6位",
+            message: '请输入密码，最小6位',
             max: 20,
             min: 6,
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         password2: [
           {
             required: true,
-            message: "请确认密码，最小6位",
+            message: '请确认密码，最小6位',
             max: 20,
             min: 6,
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             validator: twoPassword,
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         email: [
           {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
-        ]
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change'],
+          },
+        ],
       },
-      loading: false
-    };
+      loading: false,
+    }
   },
   beforeCreate() {},
   created() {},
@@ -180,11 +169,11 @@ export default {
     registerUser(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.createUserAjax();
+          this.createUserAjax()
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     createUserAjax() {
       let data = {
@@ -198,26 +187,26 @@ export default {
         address: this.data.address, //详细住址
         qq: this.data.qq, //qq或微信信息
         email: this.data.email, //邮箱地址
-        sex: this.data.sex //
-      };
+        sex: this.data.sex, //
+      }
       this.axios
         .ajax({
           url: this.$api.consumer().user.create,
           data: data,
-          method: "post",
+          method: 'post',
           loading: true,
-          success: "用户创建成功"
+          success: '用户创建成功',
         })
         .then(e => {
-          console.log(e);
-          this.$router.push({ path: "/" });
+          console.log(e)
+          this.$router.push({ path: '/' })
         })
         .catch(e => {
-          console.log(e);
-        });
-    }
-  }
-};
+          console.log(e)
+        })
+    },
+  },
+}
 </script>
 <style lang="scss">
 .el-cascader-menu > .el-cascader-menu__wrap {

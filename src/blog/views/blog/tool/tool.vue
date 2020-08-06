@@ -13,13 +13,13 @@ export default {
   data() {
     return {
       // 工具列表
-      list: [{ title: "接口测试工具", url: "/tool/api_test" }]
-    };
+      list: [{ title: '接口测试工具', url: '/tool/api_test' }],
+    }
   },
   created() {},
   mounted() {},
-  destroyed() {}
-};
+  destroyed() {},
+}
 </script>
 
 <style scoped lang="scss">

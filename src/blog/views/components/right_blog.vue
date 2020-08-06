@@ -8,16 +8,8 @@
             <div class="li-tit">{{ item.title }}</div>
           </router-link>
           <div class="li-cont">
-            <dht-img
-              v-if="item.cover"
-              class="li-img"
-              :src="item.cover"
-            ></dht-img>
-            <dht-text
-              class="li-text"
-              :text="item.synopsis"
-              :num="70"
-            ></dht-text>
+            <dht-img v-if="item.cover" class="li-img" :src="item.cover"></dht-img>
+            <dht-text class="li-text" :text="item.synopsis" :num="70"></dht-text>
           </div>
         </li>
       </template>
@@ -27,13 +19,13 @@
 
 <script>
 export default {
-  name: "right_blog",
+  name: 'right_blog',
   data() {
-    return {};
+    return {}
   },
   props: {
     title: String,
-    list: Array
+    list: Array,
   },
   beforeCreate() {},
   created() {},
@@ -46,12 +38,12 @@ export default {
   beforeDestroy() {},
   destroyed() {},
   errorCaptured() {},
-  methods: {}
-};
+  methods: {},
+}
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 .right_blog {
   width: 100%;
   background: #ffffff;

@@ -1,11 +1,7 @@
 <template>
   <div class="img-opertion">
     <span v-if="!preview" class="el-icon-delete"></span>
-    <span
-      v-else
-      class="el-icon-picture"
-      @click="is_preview = !is_preview"
-    ></span>
+    <span v-else class="el-icon-picture" @click="is_preview = !is_preview"></span>
     <img :src="src" alt />
     <div v-if="is_preview" class="preview">
       <img
@@ -16,10 +12,7 @@
       />
       <div class="operation">
         <span class="el-icon-close" @click="is_preview = !is_preview"></span>
-        <span
-          class="el-icon-refresh-right"
-          @click="rotate = rotate + 90"
-        ></span>
+        <span class="el-icon-refresh-right" @click="rotate = rotate + 90"></span>
         <span class="el-icon-refresh-left" @click="rotate = rotate - 90"></span>
       </div>
     </div>
@@ -32,16 +25,16 @@ export default {
     src: String,
     preview: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       is_preview: false,
-      rotate: 0
-    };
-  }
-};
+      rotate: 0,
+    }
+  },
+}
 </script>
 <style scoped lang="scss">
 .img-opertion {

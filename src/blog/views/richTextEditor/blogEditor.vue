@@ -7,14 +7,14 @@
 <script>
 //自研富文本，放弃继续深入开发，改用quill
 export default {
-  name: "blogEditor",
+  name: 'blogEditor',
   data() {
-    return {};
+    return {}
   },
   components: {
     dhtRichEditor: () => {
-      return import("@/components/richTextEditor/editor.vue");
-    }
+      return import('@/components/richTextEditor/editor.vue')
+    },
   },
   beforeCreate() {},
   created() {},
@@ -26,8 +26,8 @@ export default {
   deactivated() {},
   beforeDestroy() {},
   destroyed() {},
-  errorCaptured() {}
-};
+  errorCaptured() {},
+}
 </script>
 
 <style scoped lang="scss">

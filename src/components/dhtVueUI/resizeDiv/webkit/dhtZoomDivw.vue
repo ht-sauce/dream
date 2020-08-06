@@ -16,15 +16,15 @@ pointer-events: auto;
 如果需要修改内部样式，则请使用样式覆盖的方式
 * */
 export default {
-  name: "dhtZoomDivw",
+  name: 'dhtZoomDivw',
   props: {
     //both 用户可调整元素的高度和宽度。
     //horizontal 元素宽度。
     //vertical 调整高度。
     resize: {
       type: String,
-      default: "horizontal"
-    }
-  }
-};
+      default: 'horizontal',
+    },
+  },
+}
 </script>

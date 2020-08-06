@@ -6,11 +6,7 @@
       </div>
       <div class="platform-list">
         <template v-for="(item, index) in platformList">
-          <a
-            :key="index"
-            v-if="item.type !== $store.state.core"
-            :href="item.url"
-          >
+          <a :key="index" v-if="item.type !== $store.state.core" :href="item.url">
             <span>{{ item.name }}</span>
           </a>
         </template>
@@ -23,22 +19,21 @@
 </template>
 
 <script>
-import store from "store";
+import store from 'store'
 export default {
   data() {
     return {
       platformList: [],
-      user_info: {}
-    };
+      user_info: {},
+    }
   },
   components: {
-    heraderUser: () =>
-      import("@/components/project/header_user/header-user.vue")
+    heraderUser: () => import('@/components/project/header_user/header-user.vue'),
   },
   beforeCreate() {},
   created() {
-    this.user_info = store.get("user_info").userInfo;
-    this.power_list();
+    this.user_info = store.get('user_info').userInfo
+    this.power_list()
   },
   beforeMount() {},
   mounted() {},
@@ -50,18 +45,18 @@ export default {
         .ajax({
           url: this.$api.consumer().power.items,
           data: {
-            account: this.user_info.account
-          }
+            account: this.user_info.account,
+          },
         })
         .then(e => {
-          console.log(e.data);
-          this.platformList = e.data;
-          store.set("power", e.data);
+          console.log(e.data)
+          this.platformList = e.data
+          store.set('power', e.data)
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 <style scoped lang="scss">
 .platform-head {

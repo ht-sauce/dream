@@ -5,31 +5,31 @@
   </div>
 </template>
 <script>
-import store from "store";
+import store from 'store'
 export default {
-  name: "backstage",
+  name: 'backstage',
   data() {
-    return {};
+    return {}
   },
   components: {},
   watch: {},
   beforeCreate() {},
   created() {
-    const user = store.get("user_info");
+    const user = store.get('user_info')
     // 将用户数据存入到vuex便于后续操作
-    this.$store.commit("set_data", {
-      user_info: user ? user.userInfo : null
-    });
+    this.$store.commit('set_data', {
+      user_info: user ? user.userInfo : null,
+    })
   },
   beforeMount() {},
   mounted() {},
-  methods: {}
-};
+  methods: {},
+}
 </script>
 <style lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 #template {
-  font: 14px "Microsoft YaHei UI" sans-serif;
+  font: 14px 'Microsoft YaHei UI' sans-serif;
   color: $font_main;
   width: 100%;
   height: 100%;

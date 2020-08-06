@@ -21,19 +21,18 @@
 <script>
 export default {
   components: {
-    heraderUser: () =>
-      import("@/components/project/header_user/header-user.vue")
+    heraderUser: () => import('@/components/project/header_user/header-user.vue'),
   },
   data() {
     return {
       h2List: [
-        { title: "首页", url: "/home", isActive: false },
-        { title: "关于我", url: "/onself", isActive: false },
-        { title: "学海无涯", url: "/blogList", isActive: false },
-        { title: "享受生活", url: "/enjoyLife", isActive: false },
-        { title: "工具", url: "/tool", isActive: false }
-      ]
-    };
+        { title: '首页', url: '/home', isActive: false },
+        { title: '关于我', url: '/onself', isActive: false },
+        { title: '学海无涯', url: '/blogList', isActive: false },
+        { title: '享受生活', url: '/enjoyLife', isActive: false },
+        { title: '工具', url: '/tool', isActive: false },
+      ],
+    }
   },
   beforeCreate() {},
   created() {},
@@ -41,19 +40,19 @@ export default {
     //页面跳转
     pageJump(index) {
       this.h2List.map(val => {
-        val.isActive = false;
-      });
+        val.isActive = false
+      })
       if (index) {
-        this.h2List[index].isActive = true;
-        let url = this.h2List[index].url;
-        this.$router.push({ path: url, query: { page: index } });
+        this.h2List[index].isActive = true
+        let url = this.h2List[index].url
+        this.$router.push({ path: url, query: { page: index } })
       } else {
-        this.$router.push({ path: "/" });
-        this.h2List[0].isActive = true;
+        this.$router.push({ path: '/' })
+        this.h2List[0].isActive = true
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="scss">

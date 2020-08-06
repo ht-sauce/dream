@@ -2,18 +2,13 @@
   <div id="tail">
     <slot></slot>
     <div>
-      <a target="_blank" href="https://github.com/ht-sauce"
-        >git地址:https://github.com/ht-sauce</a
-      >
+      <a target="_blank" href="https://github.com/ht-sauce">git地址:https://github.com/ht-sauce</a>
     </div>
     <div class="keep-on-record">
       <span style="margin-right: 10px"
-        >Copyright © 2019-{{ year.getFullYear() }} dht.red
-        AllRightsReserved</span
+        >Copyright © 2019-{{ year.getFullYear() }} dht.red AllRightsReserved</span
       >
-      <a target="_blank" href="http://www.beian.miit.gov.cn"
-        >ICP证：浙ICP备19045987号</a
-      >
+      <a target="_blank" href="http://www.beian.miit.gov.cn">ICP证：浙ICP备19045987号</a>
     </div>
   </div>
 </template>
@@ -21,10 +16,10 @@
 export default {
   data() {
     return {
-      year: new Date()
-    };
-  }
-};
+      year: new Date(),
+    }
+  },
+}
 </script>
 <style lang="scss" scoped>
 #tail {

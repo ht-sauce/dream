@@ -28,40 +28,40 @@
 
 <script>
 export default {
-  name: "dhtImg",
+  name: 'dhtImg',
   props: {
     lazy: {
       type: Boolean,
-      default: false
+      default: false,
     },
     src: {
       type: String,
-      default: ""
+      default: '',
     },
     //最终失败提示
     alt: {
       type: String,
-      default: "图片加载中……"
+      default: '图片加载中……',
     },
     //错误图片
     errorSrc: {
       type: String,
-      default: ""
+      default: '',
     },
     fit: {
       type: String,
-      default: "cover"
-    }
+      default: 'cover',
+    },
   },
   filters: {},
   watch: {
     //需要实时监听数据变化，否则单纯数据变化，不会重新显示图片
     src() {
-      this.isload = true;
+      this.isload = true
     },
     errorSrc() {
-      this.errload = true;
-    }
+      this.errload = true
+    },
   },
   data() {
     return {
@@ -73,72 +73,70 @@ export default {
       time: null,
       //懒加载图片展处
       lazyList: {
-        img: "",
-        errimg: ""
-      }
-    };
+        img: '',
+        errimg: '',
+      },
+    }
   },
   beforeCreate() {},
   created() {},
   beforeMount() {},
   mounted() {
     //是否懒加载展示图片
-    this.lazy && this.lazyImg();
+    this.lazy && this.lazyImg()
   },
   methods: {
     //懒加载函数
     lazyImg() {
       //启动之前先清理之前的定时器
-      clearInterval(this.time);
+      clearInterval(this.time)
       //获得当前元素
-      let dom = this.$refs.dht_img;
+      let dom = this.$refs.dht_img
       //判断元素是否显示
       let isElementInViewport = el => {
-        var rect = el.getBoundingClientRect();
+        var rect = el.getBoundingClientRect()
         return (
           rect.top >= 0 &&
           rect.left >= 0 &&
-          rect.bottom <=
-            (window.innerHeight || document.documentElement.clientHeight) &&
-          rect.right <=
-            (window.innerWidth || document.documentElement.clientWidth)
-        );
-      };
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        )
+      }
       this.time = setInterval(() => {
         //当元素显示则停止计时器
-        isElementInViewport(dom) && this.stopLazyImg();
-      }, 1000);
+        isElementInViewport(dom) && this.stopLazyImg()
+      }, 1000)
     },
     //停止计时器，让图片显示
     stopLazyImg() {
-      clearInterval(this.time);
+      clearInterval(this.time)
       //console.log("该展示图片了，并且定时器也要停止。");
       //注意让元素图片状态重新变化
-      this.isload = true;
-      this.errload = true;
+      this.isload = true
+      this.errload = true
       this.lazyList = {
         img: this.src,
-        errimg: this.errorSrc
-      };
+        errimg: this.errorSrc,
+      }
     },
     //img成功
     imgSuccess() {
-      this.isload = true;
+      this.isload = true
     },
     //img错误加载判断
     imgErr() {
-      let img = this.$refs.dht_img;
-      img ? (img.onerror = null) : ""; //控制不要一直跳动
-      this.isload = false;
+      let img = this.$refs.dht_img
+      img ? (img.onerror = null) : '' //控制不要一直跳动
+      this.isload = false
     },
     imgSuccess2() {
-      this.errload = true;
+      this.errload = true
     },
     imgErr2() {
-      let img2 = this.$refs.dht_img2;
-      img2 ? (img2.onerror = null) : ""; //控制不要一直跳动
-      this.errload = false;
-    }
-  }
-};
+      let img2 = this.$refs.dht_img2
+      img2 ? (img2.onerror = null) : '' //控制不要一直跳动
+      this.errload = false
+    },
+  },
+}
 </script>

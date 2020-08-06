@@ -1,5 +1,5 @@
-"use strict";
+'use strict'
 //import vue from "vue";
-const directive = () => {};
+const directive = () => {}
 
-export default directive;
+export default directive

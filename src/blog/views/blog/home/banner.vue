@@ -12,49 +12,49 @@
 
 <script>
 export default {
-  name: "banner",
+  name: 'banner',
   data() {
     return {
       imgList: [
         {
           backimg: {
-            background: `url(${require("../../../assets/images/home/b01.jpg")}) no-repeat center/100% 100%`
+            background: `url(${require('../../../assets/images/home/b01.jpg')}) no-repeat center/100% 100%`,
           },
-          name: "首页"
+          name: '首页',
         },
         {
           backimg: {
-            background: `url(${require("../../../assets/images/home/b02.jpg")}) no-repeat center/100% 100%`
+            background: `url(${require('../../../assets/images/home/b02.jpg')}) no-repeat center/100% 100%`,
           },
-          name: "闷骚自述"
+          name: '闷骚自述',
         },
         {
           backimg: {
-            background: `url(${require("../../../assets/images/home/b03.jpg")}) no-repeat center/100% 100%`
+            background: `url(${require('../../../assets/images/home/b03.jpg')}) no-repeat center/100% 100%`,
           },
-          name: "学海无涯"
+          name: '学海无涯',
         },
         {
           backimg: {
-            background: `url(${require("../../../assets/images/home/b04.jpg")}) no-repeat center/100% 100%`
+            background: `url(${require('../../../assets/images/home/b04.jpg')}) no-repeat center/100% 100%`,
           },
-          name: "人生旅途"
+          name: '人生旅途',
         },
         {
           backimg: {
-            background: `url(${require("../../../assets/images/home/b05.jpg")}) no-repeat center/100% 100%`
+            background: `url(${require('../../../assets/images/home/b05.jpg')}) no-repeat center/100% 100%`,
           },
-          name: "交流进步"
-        }
-      ]
-    };
+          name: '交流进步',
+        },
+      ],
+    }
   },
   beforeCreate() {},
   created() {},
   beforeMount() {},
   mounted() {},
-  methods: {}
-};
+  methods: {},
+}
 </script>
 
 <style scoped lang="scss">

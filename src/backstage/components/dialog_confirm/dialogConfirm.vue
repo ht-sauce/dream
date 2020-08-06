@@ -12,27 +12,27 @@
 export default {
   data() {
     return {
-      dialogVisible: false
-    };
+      dialogVisible: false,
+    }
   },
   methods: {
     confirm() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
       return new Promise((resolve, reject) => {
-        this.resolve = resolve;
-        this.reject = reject;
-      });
+        this.resolve = resolve
+        this.reject = reject
+      })
     },
     colse() {
-      this.dialogVisible = false;
-      this.resolve(111);
+      this.dialogVisible = false
+      this.resolve(111)
     },
     queding() {
-      this.dialogVisible = false;
-      this.reject(true);
-    }
-  }
-};
+      this.dialogVisible = false
+      this.reject(true)
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss"></style>

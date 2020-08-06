@@ -1,7 +1,7 @@
-import text from "./text.vue";
+import text from './text.vue'
 
 text.install = function(vue) {
-  vue.component(text.name, text);
-};
+  vue.component(text.name, text)
+}
 
-export default text;
+export default text

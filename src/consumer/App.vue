@@ -10,33 +10,33 @@
 </template>
 <script>
 export default {
-  name: "App",
+  name: 'App',
   data() {
     return {
-      blog: "/blog/index",
-      platform: "/dht_platform/home",
-      prefix: ""
-    };
+      blog: '/blog/index',
+      platform: '/dht_platform/home',
+      prefix: '',
+    }
   },
   components: {
     tail: () => {
-      return import("@/components/copyright/tail.vue");
-    }
+      return import('@/components/copyright/tail.vue')
+    },
   },
   beforeCreate() {},
   created() {
-    this.prefix = process.env.NODE_ENV === "production" ? "/public" : "";
+    this.prefix = process.env.NODE_ENV === 'production' ? '/public' : ''
   },
   beforeMount() {},
   mounted() {},
   beforeUpdate() {},
-  methods: {}
-};
+  methods: {},
+}
 </script>
 <style lang="scss" scoped>
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 #consumer {
-  font: 14px "Microsoft YaHei UI" sans-serif;
+  font: 14px 'Microsoft YaHei UI' sans-serif;
   color: $font_main;
   width: 100%;
   height: 100%;
@@ -44,7 +44,7 @@ export default {
   .consumer-page {
     min-height: 100vh;
     width: 100%;
-    background-image: url("./assets/images/back.jpg");
+    background-image: url('./assets/images/back.jpg');
     background-size: 100% 100%;
   }
 }

@@ -3,18 +3,8 @@
     <div class="api-address">
       <span>接口地址：</span>
       <div class="api">
-        <el-select
-          class="sel-api-type"
-          v-model="form.method"
-          placeholder="请选择"
-        >
-          <el-option
-            v-for="item in api_type"
-            :key="item"
-            :label="item"
-            :value="item"
-          >
-          </el-option>
+        <el-select class="sel-api-type" v-model="form.method" placeholder="请选择">
+          <el-option v-for="item in api_type" :key="item" :label="item" :value="item"> </el-option>
         </el-select>
         <el-input
           class="url"
@@ -42,33 +32,24 @@ export default {
   data() {
     return {
       // https://www.php.cn/website-design-ask-413913.html
-      api_type: [
-        "GET",
-        "POST",
-        "HEAD",
-        "PUT",
-        "DELETE",
-        "CONNECT",
-        "OPTIONS",
-        "TRACE"
-      ],
+      api_type: ['GET', 'POST', 'HEAD', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE'],
       // 将要组织的数据
       form: {
-        method: "GET",
-        url: ""
+        method: 'GET',
+        url: '',
       },
-      fileds: []
-    };
+      fileds: [],
+    }
   },
   created() {},
   mounted() {},
   destroyed() {},
   methods: {
     add_filed() {
-      this.fileds.push({ name: "", value: "" });
-    }
-  }
-};
+      this.fileds.push({ name: '', value: '' })
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

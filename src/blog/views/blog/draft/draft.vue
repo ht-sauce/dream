@@ -7,10 +7,9 @@
         <template v-for="(item, index) in list">
           <li :key="index">
             <h4>
-              <router-link
-                :to="'/richTextEditor?editor_type=update&id=' + item.id"
-                >{{ item.title }}</router-link
-              >
+              <router-link :to="'/richTextEditor?editor_type=update&id=' + item.id">{{
+                item.title
+              }}</router-link>
             </h4>
             <div class="synopsis">{{ item.synopsis }}</div>
             <div class="options">
@@ -30,16 +29,16 @@
 <script>
 export default {
   components: {
-    userMianbane: () => import("@/blog/views/components/user_mianbane.vue")
+    userMianbane: () => import('@/blog/views/components/user_mianbane.vue'),
   },
   data() {
     return {
-      list: []
-    };
+      list: [],
+    }
   },
   beforeCreate() {},
   created() {
-    this.draft();
+    this.draft()
   },
   methods: {
     draft() {
@@ -47,40 +46,40 @@ export default {
         .ajax({
           url: this.$api.blog().article.draft,
           data: {
-            user_id: this.$store.state.user_info.userid
+            user_id: this.$store.state.user_info.userid,
           },
-          loading: true
+          loading: true,
         })
         .then(e => {
-          console.log(e.data);
-          this.list = e.data;
+          console.log(e.data)
+          this.list = e.data
         })
-        .catch();
+        .catch()
     },
     del_article(index, list) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.axios
             .ajax({
               url: this.$api.blog().article.del,
               data: {
-                id: list[index].id
+                id: list[index].id,
               },
-              loading: true
+              loading: true,
             })
             .then(() => {
-              list.splice(index, 1);
+              list.splice(index, 1)
             })
-            .catch();
+            .catch()
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

@@ -8,34 +8,34 @@
   </div>
 </template>
 <script>
-import store from "store";
+import store from 'store'
 // eslint-disable-next-line no-unused-vars
 export default {
-  name: "App",
+  name: 'App',
   data() {
     return {
       observer: null,
       firedNum: 0,
       recordOldValue: {
         // 记录下旧的宽高数据，避免重复触发回调函数
-        width: "0",
-        height: "0"
-      }
-    };
+        width: '0',
+        height: '0',
+      },
+    }
   },
   watch: {},
   beforeCreate() {},
   created() {
-    const user = store.get("user_info");
+    const user = store.get('user_info')
     // 将用户数据存入到vuex便于后续操作
-    this.$store.commit("set_data", {
-      user_info: user ? user.userInfo : null
-    });
-    this.classify_list_all();
-    this.blogger();
-    this.getIP();
+    this.$store.commit('set_data', {
+      user_info: user ? user.userInfo : null,
+    })
+    this.classify_list_all()
+    this.blogger()
+    this.getIP()
     // 按页面加载计算计算
-    this.blog_visit();
+    this.blog_visit()
   },
   beforeMount() {},
   mounted() {
@@ -78,9 +78,9 @@ export default {
   beforeDestroyed() {
     // 监听元素变化
     if (this.observer) {
-      this.observer.disconnect();
-      this.observer.takeRecords();
-      this.observer = null;
+      this.observer.disconnect()
+      this.observer.takeRecords()
+      this.observer = null
     }
   },
   methods: {
@@ -88,67 +88,66 @@ export default {
     classify_list_all() {
       this.axios
         .ajax({
-          url: this.$api.blog().article.classify.list
+          url: this.$api.blog().article.classify.list,
         })
         .then(e => {
-          this.$store.commit("set_data", {
-            all_class: e.data
-          });
+          this.$store.commit('set_data', {
+            all_class: e.data,
+          })
         })
-        .catch();
+        .catch()
     },
     // 博主信息接口
     blogger() {
       this.axios
         .ajax({
-          url: this.$api.consumer().user.blogger
+          url: this.$api.consumer().user.blogger,
         })
         .then(e => {
           // console.log(e.data);
-          e.data.portrait = this.$api.static().visit + e.data.portrait;
-          this.$store.commit("set_data", {
+          e.data.portrait = this.$api.static().visit + e.data.portrait
+          this.$store.commit('set_data', {
             blogger: e.data,
             // 博主状态
             is_blogger:
-              this.$store.state.user_info &&
-              this.$store.state.user_info.account === e.data.account
-          });
+              this.$store.state.user_info && this.$store.state.user_info.account === e.data.account,
+          })
         })
-        .catch();
+        .catch()
     },
     // 获取用户ip信息，匿名用户有用
     getIP() {
       let isU = e => {
-        return e ? e : "";
-      };
+        return e ? e : ''
+      }
       this.axios
         .ajax({
-          url: this.$api.blog().blog.ip
+          url: this.$api.blog().blog.ip,
         })
         .then(e => {
-          this.$store.commit("set_data", {
+          this.$store.commit('set_data', {
             ip: {
               cip: isU(e.data.ip),
-              cname: isU(e.data.country) + isU(e.data.area) + isU(e.data.region)
-            }
-          });
+              cname: isU(e.data.country) + isU(e.data.area) + isU(e.data.region),
+            },
+          })
         })
-        .catch();
+        .catch()
     },
     // 博客站点访问量统计
     blog_visit() {
       this.axios
         .ajax({
-          url: this.$api.blog().blog.visit
+          url: this.$api.blog().blog.visit,
         })
         .then()
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 <style lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 //app下编写全局存在的css，进行控制
 //页面宽度布局用rem进行布局，避免因为百分比导致页面缩小页面错乱
 body {
@@ -161,7 +160,7 @@ body {
   color: $font_main;
   min-height: 100%;
   //background-color: #f9f9f9;
-  background-image: url("./assets/paper.png");
+  background-image: url('./assets/paper.png');
   //控制页面全局的宽度
   .g-width {
     width: 80vw;

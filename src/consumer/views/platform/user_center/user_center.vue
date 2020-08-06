@@ -45,12 +45,7 @@
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
             >
-              <img
-                v-if="data.portrait"
-                :src="data.portraitShow"
-                class="avatar"
-                alt="头像"
-              />
+              <img v-if="data.portrait" :src="data.portraitShow" class="avatar" alt="头像" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -58,12 +53,7 @@
             <el-input v-model="data.tag" clearable></el-input>
           </el-form-item>
           <el-form-item label="个人说明" prop="synopsis">
-            <el-input
-              type="textarea"
-              v-model="data.synopsis"
-              autosize=""
-              clearable
-            ></el-input>
+            <el-input type="textarea" v-model="data.synopsis" autosize="" clearable></el-input>
           </el-form-item>
           <el-form-item label="性别" prop="sex">
             <el-radio-group v-model="data.sex">
@@ -84,11 +74,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="居住地址" prop="province_and_city">
-            <el-cascader
-              :options="options"
-              v-model="data.province_and_city"
-              style="width: 400px;"
-            >
+            <el-cascader :options="options" v-model="data.province_and_city" style="width: 400px;">
             </el-cascader>
             <el-input v-model="data.address" clearable></el-input>
           </el-form-item>
@@ -101,10 +87,7 @@
         </div>
       </div>
       <div class="checkButton">
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="registerUser('ruleForm')"
+        <el-button type="primary" :loading="loading" @click="registerUser('ruleForm')"
           >确认修改</el-button
         >
       </div>
@@ -113,123 +96,122 @@
 </template>
 
 <script>
-import { regionData } from "element-china-area-data";
-import { userLoginPassword } from "@/common/crypto/crypto";
-import store from "store";
+import { regionData } from 'element-china-area-data'
+import { userLoginPassword } from '@/common/crypto/crypto'
+import store from 'store'
 export default {
   data() {
     let englishOrNumbers = (rule, value, callback) => {
       if (!/^[0-9a-zA-Z]+$/g.test(value)) {
-        callback(new Error("只允许输入英文和数字"));
+        callback(new Error('只允许输入英文和数字'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     let twoPassword = (rule, value, callback) => {
       if (value !== this.data.password) {
-        callback(new Error("第二次密码不一致"));
+        callback(new Error('第二次密码不一致'))
       } else {
-        callback();
+        callback()
       }
-    };
-    const user_info = store.get("user_info");
+    }
+    const user_info = store.get('user_info')
     return {
       headers: { Authorization: user_info.sign },
-      uploadImg: this.$api.static().upload_pictures + "?source=头像",
+      uploadImg: this.$api.static().upload_pictures + '?source=头像',
       options: regionData,
       data: {
-        tag: "",
-        synopsis: "", //简介
-        account: "", //账号
-        nickname: "", //nickname
-        password: "",
-        password2: "",
-        portrait: "", //用户头像（用于上传）
-        portraitShow: "", //用于展示的头像地址
-        phone: "", //联系电话
-        birthday: "1994-03-29", //生日
+        tag: '',
+        synopsis: '', //简介
+        account: '', //账号
+        nickname: '', //nickname
+        password: '',
+        password2: '',
+        portrait: '', //用户头像（用于上传）
+        portraitShow: '', //用于展示的头像地址
+        phone: '', //联系电话
+        birthday: '1994-03-29', //生日
         province_and_city: [], //省市区域码
-        address: "", //详细住址
-        qq: "", //qq或微信信息
-        email: "", //邮箱地址
-        sex: "男" //
+        address: '', //详细住址
+        qq: '', //qq或微信信息
+        email: '', //邮箱地址
+        sex: '男', //
       },
       rules: {
         account: [
           {
             required: true,
-            message: "账号6到20位英文或者数字",
+            message: '账号6到20位英文或者数字',
             max: 20,
             min: 3,
-            trigger: "blur"
+            trigger: 'blur',
           },
-          { validator: englishOrNumbers, trigger: "blur" }
+          { validator: englishOrNumbers, trigger: 'blur' },
         ],
         nickname: [
           {
             required: true,
-            message: "用户昵称最大10个字",
+            message: '用户昵称最大10个字',
             max: 10,
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         password: [
           {
-            message: "请输入密码，最小6位",
+            message: '请输入密码，最小6位',
             max: 20,
             min: 6,
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         password2: [
           {
-            message: "请确认密码，最小6位",
+            message: '请确认密码，最小6位',
             max: 20,
             min: 6,
-            trigger: "blur"
+            trigger: 'blur',
           },
           {
             validator: twoPassword,
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         email: [
           {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change'],
+          },
         ],
         synopsis: [
           {
-            message: "最大500个字",
+            message: '最大500个字',
             max: 500,
-            trigger: "blur"
-          }
+            trigger: 'blur',
+          },
         ],
         tag: [
           {
-            message: "最大100个字",
+            message: '最大100个字',
             max: 100,
-            trigger: "blur"
-          }
-        ]
+            trigger: 'blur',
+          },
+        ],
       },
-      loading: false
-    };
+      loading: false,
+    }
   },
   beforeCreate() {},
   created() {
     // 数据初始化
-    const user_info = store.get("user_info");
-    console.log(user_info);
+    const user_info = store.get('user_info')
+    console.log(user_info)
     user_info.userInfo.province_and_city = user_info.userInfo.province_and_city
-      ? user_info.userInfo.province_and_city.split(",")
-      : [];
-    this.data = Object.assign(this.data, user_info.userInfo);
+      ? user_info.userInfo.province_and_city.split(',')
+      : []
+    this.data = Object.assign(this.data, user_info.userInfo)
     // 头像处理
-    this.data.portraitShow =
-      this.$api.static().visit + user_info.userInfo.portrait;
+    this.data.portraitShow = this.$api.static().visit + user_info.userInfo.portrait
   },
   beforeMount() {},
   mounted() {},
@@ -237,33 +219,33 @@ export default {
   methods: {
     handleAvatarSuccess(res) {
       if (res.code === 0) {
-        this.data.portrait = res.data;
-        this.data.portraitShow = this.$api.static().visit + res.data;
+        this.data.portrait = res.data
+        this.data.portraitShow = this.$api.static().visit + res.data
       } else {
         // 提示信息，需引入Message
-        this.$message.error("图片上传失败");
+        this.$message.error('图片上传失败')
       }
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG和PNG 格式!");
+        this.$message.error('上传头像图片只能是 JPG和PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     },
     registerUser(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.updateUserAjax();
+          this.updateUserAjax()
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     updateUserAjax() {
       let data = {
@@ -279,30 +261,30 @@ export default {
         address: this.data.address, //详细住址
         qq: this.data.qq, //qq或微信信息
         email: this.data.email, //邮箱地址
-        sex: this.data.sex //
-      };
+        sex: this.data.sex, //
+      }
       this.axios
         .ajax({
           url: this.$api.consumer().user.update,
           data: data,
-          method: "post",
+          method: 'post',
           loading: true,
-          success: "修改成功"
+          success: '修改成功',
         })
         .then(e => {
-          console.log(e);
-          const user_info = store.get("user_info");
-          user_info.userInfo = Object.assign(user_info.userInfo, data);
-          delete user_info.userInfo.password;
-          delete user_info.userInfo.password2;
-          store.set("user_info", user_info);
+          console.log(e)
+          const user_info = store.get('user_info')
+          user_info.userInfo = Object.assign(user_info.userInfo, data)
+          delete user_info.userInfo.password
+          delete user_info.userInfo.password2
+          store.set('user_info', user_info)
         })
         .catch(e => {
-          console.log(e);
-        });
-    }
-  }
-};
+          console.log(e)
+        })
+    },
+  },
+}
 </script>
 <style lang="scss">
 .el-cascader-menu > .el-cascader-menu__wrap {

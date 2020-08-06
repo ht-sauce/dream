@@ -1,5 +1,5 @@
 //单独定义全局组件注册
-import Vue from "vue";
+import Vue from 'vue'
 
 //element ui部分
 import {
@@ -22,8 +22,8 @@ import {
   Notification,
   Select,
   Option,
-  Checkbox
-} from "element-ui";
+  Checkbox,
+} from 'element-ui'
 const elementUI = [
   Tabs,
   TabPane,
@@ -42,11 +42,11 @@ const elementUI = [
   CascaderPanel,
   Select,
   Option,
-  Checkbox
-];
-Vue.prototype.$ELEMENT = { size: "small", zIndex: 3000 };
+  Checkbox,
+]
+Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
 
-import cat from "@/components/livetd/index";
+import cat from '@/components/livetd/index'
 
 //个人开发ui组件，以插件方式开发
 // import dhtui from "@/components/dhtVueUI/index";
@@ -55,14 +55,14 @@ import cat from "@/components/livetd/index";
 //全局框架范围组件
 function install() {
   elementUI.forEach(component => {
-    Vue.use(component);
-  });
-  Vue.prototype.$notify = Notification;
-  Vue.prototype.$msgbox = MessageBox;
-  Vue.prototype.$alert = MessageBox.alert;
-  Vue.prototype.$confirm = MessageBox.confirm;
-  Vue.prototype.$prompt = MessageBox.prompt;
-  Vue.use(cat);
+    Vue.use(component)
+  })
+  Vue.prototype.$notify = Notification
+  Vue.prototype.$msgbox = MessageBox
+  Vue.prototype.$alert = MessageBox.alert
+  Vue.prototype.$confirm = MessageBox.confirm
+  Vue.prototype.$prompt = MessageBox.prompt
+  Vue.use(cat)
 }
 
-export default install;
+export default install

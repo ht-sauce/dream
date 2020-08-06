@@ -1,7 +1,7 @@
-import cat from "./cat.vue";
+import cat from './cat.vue'
 
 cat.install = function(vue) {
-  vue.component(cat.name, cat);
-};
+  vue.component(cat.name, cat)
+}
 
-export default cat;
+export default cat

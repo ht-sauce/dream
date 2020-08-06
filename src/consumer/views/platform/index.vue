@@ -10,10 +10,10 @@
 <script>
 export default {
   data() {
-    return {};
+    return {}
   },
   components: {
-    platformHead: () => import("./components/platform-head.vue")
+    platformHead: () => import('./components/platform-head.vue'),
   },
   beforeCreate() {},
   created() {},
@@ -25,8 +25,8 @@ export default {
   deactivated() {},
   beforeDestroy() {},
   destroyed() {},
-  errorCaptured() {}
-};
+  errorCaptured() {},
+}
 </script>
 
 <style scoped lang="scss">

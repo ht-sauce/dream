@@ -6,35 +6,35 @@
 
 <script>
 export default {
-  name: "dhtText",
+  name: 'dhtText',
   props: {
     text: String,
     //是否换行
     nowrap: {
       type: Boolean,
-      default: true
+      default: true,
     },
     //是否支持拷贝
     copy: {
       type: Boolean,
-      default: true
+      default: true,
     },
-    num: Number
+    num: Number,
   },
   data() {
     return {
-      nums: this.num
-    };
+      nums: this.num,
+    }
   },
   filters: {
     //字数空值显示
     textNums(val, num) {
       if (val && num > 0) {
-        return num > 0 ? val.substring(0, num) + " ..." : val;
+        return num > 0 ? val.substring(0, num) + ' ...' : val
       } else {
-        return val;
+        return val
       }
-    }
+    },
   },
   beforeCreate() {},
   created() {},
@@ -43,8 +43,8 @@ export default {
   methods: {
     //是否禁止拷贝
     iscopy(e) {
-      e.returnValue = this.copy;
-    }
-  }
-};
+      e.returnValue = this.copy
+    },
+  },
+}
 </script>

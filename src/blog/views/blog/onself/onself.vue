@@ -9,11 +9,7 @@
       <img v-if="info.cover" :src="info.cover" alt="封面" />
       <hr />
       <div class="ql-snow">
-        <section
-          ref="article"
-          class="ql-editor"
-          v-html="info.content"
-        ></section>
+        <section ref="article" class="ql-editor" v-html="info.content"></section>
       </div>
       <!--评论组件-->
       <dht-discuss
@@ -28,11 +24,9 @@
       <ul class="catalog">
         <template v-for="(item, index) in catalog">
           <li :key="index" :style="{ paddingLeft: item.level * 22 + 'px' }">
-            <a
-              :href="'#' + item.id"
-              :style="{ fontSize: 18 * (1 - 0.1 * item.level) + 'px' }"
-              >{{ item.title }}</a
-            >
+            <a :href="'#' + item.id" :style="{ fontSize: 18 * (1 - 0.1 * item.level) + 'px' }">{{
+              item.title
+            }}</a>
           </li>
         </template>
       </ul>
@@ -43,20 +37,20 @@
 <script>
 export default {
   components: {
-    dhtDiscuss: () => import("@/blog/views/components/discuss.vue"),
-    userMianbane: () => import("@/blog/views/components/user_mianbane.vue")
+    dhtDiscuss: () => import('@/blog/views/components/discuss.vue'),
+    userMianbane: () => import('@/blog/views/components/user_mianbane.vue'),
   },
   data() {
     return {
       info: {},
       discuss: [],
       // 目录
-      catalog: []
-    };
+      catalog: [],
+    }
   },
   beforeCreate() {},
   created() {
-    this.details(1);
+    this.details(1)
   },
   beforeMount() {},
   mounted() {},
@@ -64,26 +58,26 @@ export default {
     // 分类转换
     blogIconTaps(val) {
       if (!val) {
-        return val;
+        return val
       }
-      const tag = val.split(",");
-      let nval = [];
+      const tag = val.split(',')
+      let nval = []
       this.$store.state.all_class.map(v => {
         tag.map(t => {
           if (v.id === Number(t)) {
-            nval.push(v.name);
+            nval.push(v.name)
           }
-        });
-      });
-      let tags = "";
+        })
+      })
+      let tags = ''
       nval.map(li => {
-        tags = tags + " | " + li;
-        return li;
-      });
-      return tags.substring(2, tags.length);
+        tags = tags + ' | ' + li
+        return li
+      })
+      return tags.substring(2, tags.length)
     },
     static_p(val) {
-      return val ? this.$api.static().visit + val : null;
+      return val ? this.$api.static().visit + val : null
     },
     details(id) {
       this.axios
@@ -91,74 +85,74 @@ export default {
           url: this.$api.blog().article.details,
           loading: true,
           data: {
-            id: id
-          }
+            id: id,
+          },
         })
         .then(e => {
           //console.log(e.data);
-          e.data.classify = this.blogIconTaps(e.data.classify);
-          e.data.cover = this.static_p(e.data.cover);
-          e.data.portrait = this.static_p(e.data.portrait);
-          this.info = e.data;
+          e.data.classify = this.blogIconTaps(e.data.classify)
+          e.data.cover = this.static_p(e.data.cover)
+          e.data.portrait = this.static_p(e.data.portrait)
+          this.info = e.data
 
-          this.$store.commit("getMetaInfo", {
+          this.$store.commit('getMetaInfo', {
             title: e.data.title,
             keywords: e.data.title,
-            description: e.data.synopsis
-          });
-          this.discuss_list();
-          this.article_visit();
+            description: e.data.synopsis,
+          })
+          this.discuss_list()
+          this.article_visit()
           // 生成文章目录
-          this.generate_catalog();
+          this.generate_catalog()
         })
-        .catch();
+        .catch()
     },
     // 评论组件返回数据
     reply(e) {
       // console.log(e);
-      let data;
+      let data
       if (!e.node) {
         // 主评论
         data = {
           verify: e.verify,
           content: e.reply, //评论内容
-          is_trunk: "1", // 是否主评论
+          is_trunk: '1', // 是否主评论
           key: this.info.id, //关联id
-          type: "1", //评论类型，当前属于文章评论
+          type: '1', //评论类型，当前属于文章评论
           who: this.$store.state.ip.cip, //谁发的，记录ip地址
-          reply: "", // 发给谁记录ip地址
-          location: this.$store.state.ip.cname //发送人所在地区
-        };
+          reply: '', // 发给谁记录ip地址
+          location: this.$store.state.ip.cname, //发送人所在地区
+        }
       } else {
         // 回复评论
         data = {
           verify: e.verify,
           trunk_key: e.parentData.id, //归属于哪项评论下面
           content: e.reply,
-          is_trunk: "0",
+          is_trunk: '0',
           key: this.info.id,
-          type: "1",
+          type: '1',
           who: this.$store.state.ip.cip,
           reply: e.node.who,
-          location: this.$store.state.ip.cname
-        };
+          location: this.$store.state.ip.cname,
+        }
       }
       this.axios
         .ajax({
           url: this.$api.blog().discuss.add,
           data: data,
-          method: "post",
-          success: "评论成功",
-          loading: true
+          method: 'post',
+          success: '评论成功',
+          loading: true,
         })
         .then(() => {
-          this.$refs["discuss"].clear_msg();
-          this.discuss_list();
+          this.$refs['discuss'].clear_msg()
+          this.discuss_list()
         })
         .catch()
         .finally(() => {
-          this.$refs["discuss"].create_captcha();
-        });
+          this.$refs['discuss'].create_captcha()
+        })
     },
     // 评论列表数据
     discuss_list() {
@@ -168,56 +162,56 @@ export default {
           url: this.$api.blog().discuss.list,
           data: {
             id: this.info.id, //文章的id
-            type: 1 //代表文章的评论列表
-          }
+            type: 1, //代表文章的评论列表
+          },
         })
         .then(e => {
           // console.log(e.data);
-          let new_data = [];
-          let no_reply = [];
+          let new_data = []
+          let no_reply = []
           e.data.map(val => {
-            val.isReply = false;
-            val.isShow = true;
-            val.children = [];
+            val.isReply = false
+            val.isShow = true
+            val.children = []
             if (val.reply) {
-              no_reply.push(val);
+              no_reply.push(val)
             } else {
-              new_data.push(val);
+              new_data.push(val)
             }
-          });
+          })
 
           this.discuss = new_data.map(val => {
             no_reply.map(li => {
               if (val.id == li.trunk_key) {
-                val.children.push(li);
+                val.children.push(li)
               }
-            });
-            return val;
-          });
+            })
+            return val
+          })
         })
-        .catch();
+        .catch()
     },
     // 删除评论
     del_discuss(e) {
-      this.$confirm("此操作将永久删除该评论, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.axios
             .ajax({
               url: this.$api.blog().discuss.del,
               data: {
-                id: e.node.id
-              }
+                id: e.node.id,
+              },
             })
             .then(() => {
-              this.discuss_list();
+              this.discuss_list()
             })
-            .catch();
+            .catch()
         })
-        .catch();
+        .catch()
     },
     // 博客访问量计算
     article_visit() {
@@ -225,36 +219,36 @@ export default {
         .ajax({
           url: this.$api.blog().article.visit,
           data: {
-            article_id: this.info.id
-          }
+            article_id: this.info.id,
+          },
         })
         .then()
-        .catch();
+        .catch()
     },
     // 生成目录
     generate_catalog() {
       // 保证渲染成功
       this.$nextTick(() => {
-        const article_content = this.$refs["article"];
-        const nodes = ["H1", "H2", "H3"];
-        let titles = [];
+        const article_content = this.$refs['article']
+        const nodes = ['H1', 'H2', 'H3']
+        let titles = []
         article_content.childNodes.forEach((e, index) => {
           if (nodes.includes(e.nodeName)) {
-            const id = "header-" + index;
-            e.setAttribute("id", id);
+            const id = 'header-' + index
+            e.setAttribute('id', id)
             titles.push({
               id: id,
               title: e.innerHTML,
               level: Number(e.nodeName.substring(1, 2)),
-              nodeName: e.nodeName
-            });
+              nodeName: e.nodeName,
+            })
           }
-        });
-        this.catalog = titles;
-      });
-    }
-  }
-};
+        })
+        this.catalog = titles
+      })
+    },
+  },
+}
 </script>
 <style scoped lang="scss">
 .blog_content {

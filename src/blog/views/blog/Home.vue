@@ -12,17 +12,17 @@
 </template>
 <script>
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     navigation: () => {
-      return import("./navigation/head.vue");
+      return import('./navigation/head.vue')
     },
     tail: () => {
-      return import("@/components/copyright/tail.vue");
-    }
+      return import('@/components/copyright/tail.vue')
+    },
   },
   data() {
-    return {};
+    return {}
   },
   watch: {},
   beforeCreate() {},
@@ -30,8 +30,8 @@ export default {
   beforeMount() {},
   mounted() {},
   destroyed() {},
-  methods: {}
-};
+  methods: {},
+}
 </script>
 <style lang="scss" scoped>
 //注意全局列表排列和左右居中

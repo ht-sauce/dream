@@ -10,7 +10,7 @@
       :indent="indent"
       @open="
         e => {
-          $emit('open', e);
+          $emit('open', e)
         }
       "
     >
@@ -21,39 +21,39 @@
 <script>
 // 前置条件没条数据都需要有isShow（是否展示当前列表），child（子项数据）
 export default {
-  name: "dhtTree",
+  name: 'dhtTree',
   components: {
-    twigNode: () => import("./twig-node.vue")
+    twigNode: () => import('./twig-node.vue'),
   },
   props: {
     data: {
-      type: Array
+      type: Array,
     },
     indent: {
       // 每一层缩进多少像素
       type: Number,
-      default: 18
-    }
+      default: 18,
+    },
   },
   data() {
     return {
-      active: true
-    };
+      active: true,
+    }
   },
   beforeCreate() {},
   created() {
-    this.isTree = true;
+    this.isTree = true
   },
   beforeMount() {},
   mounted() {
     //是否有子元素作为模板
-    this.slot = !!this.$scopedSlots.default;
+    this.slot = !!this.$scopedSlots.default
   },
   destroyed() {},
   methods: {
     getNodeKey(node, index) {
-      return node.id ? node.id : index;
-    }
-  }
-};
+      return node.id ? node.id : index
+    },
+  },
+}
 </script>

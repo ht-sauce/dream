@@ -6,26 +6,26 @@
 
 <script>
 export default {
-  name: "dhtSwiperSideItem",
+  name: 'dhtSwiperSideItem',
   data() {
     return {
       show: false,
       defaultStyle: {},
-      itemStyle: {}
-    };
+      itemStyle: {},
+    }
   },
   watch: {},
   beforeCreate() {},
   created() {
     //元素创建和需要更新父元素属性
-    this.$parent && this.$parent.updateItems();
+    this.$parent && this.$parent.updateItems()
   },
   beforeMount() {},
   mounted() {},
   destroyed() {
     //元素销毁和需要更新父元素属性
-    this.$parent && this.$parent.updateItems();
+    this.$parent && this.$parent.updateItems()
   },
-  methods: {}
-};
+  methods: {},
+}
 </script>

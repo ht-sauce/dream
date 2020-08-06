@@ -8,9 +8,7 @@
         <template v-for="(item, index) in menu">
           <li :key="index">
             <span :class="item.icon" class="menu-icon"></span>
-            <span @click="jump_page(item.url)" class="title">{{
-              item.title
-            }}</span>
+            <span @click="jump_page(item.url)" class="title">{{ item.title }}</span>
           </li>
         </template>
       </ul>
@@ -21,13 +19,12 @@
 <script>
 export default {
   components: {
-    heraderUser: () =>
-      import("@/components/project/header_user/header-user.vue")
+    heraderUser: () => import('@/components/project/header_user/header-user.vue'),
   },
   data() {
     return {
-      menu: [{ title: "项目", icon: "el-icon-notebook-2", url: "/project" }]
-    };
+      menu: [{ title: '项目', icon: 'el-icon-notebook-2', url: '/project' }],
+    }
   },
   beforeCreate() {},
   created() {},
@@ -36,10 +33,10 @@ export default {
   destroyed() {},
   methods: {
     jump_page(url) {
-      url && this.$router.push({ path: url });
-    }
-  }
-};
+      url && this.$router.push({ path: url })
+    },
+  },
+}
 </script>
 <style>
 .user-popover {

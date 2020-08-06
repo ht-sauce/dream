@@ -20,26 +20,17 @@
               <span class="photo">{{ item.content }}</span>
               <div class="photo-list">
                 <template v-for="imgs in arrarys(item.img)">
-                  <images
-                    :key="imgs"
-                    :preview="true"
-                    :src="imgs"
-                    class="photo-li"
-                  ></images>
+                  <images :key="imgs" :preview="true" :src="imgs" class="photo-li"></images>
                 </template>
               </div>
             </template>
           </span>
         </div>
         <div class="right">
-          <router-link
-            v-if="item.type === '1'"
-            :to="'/blog_content?article_id=' + item.crux"
+          <router-link v-if="item.type === '1'" :to="'/blog_content?article_id=' + item.crux"
             >前往详情</router-link
           >
-          <router-link
-            v-if="item.type === '2'"
-            :to="'/discuss/info?discuss=' + item.crux"
+          <router-link v-if="item.type === '2'" :to="'/discuss/info?discuss=' + item.crux"
             >前往详情</router-link
           >
         </div>
@@ -51,18 +42,18 @@
 <script>
 export default {
   props: {
-    list: Array //动态列表
+    list: Array, //动态列表
   },
   components: {
-    images: () => import("../../components/img.vue")
+    images: () => import('../../components/img.vue'),
   },
   methods: {
     // 数组化
     arrarys(e) {
-      return e.split(",");
-    }
-  }
-};
+      return e.split(',')
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

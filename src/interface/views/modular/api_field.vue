@@ -50,39 +50,39 @@ export default {
     apiInfo: {
       type: Object,
       default() {
-        return {};
-      }
+        return {}
+      },
     },
     projectInfo: {
       type: Object,
       default() {
-        return {};
-      }
+        return {}
+      },
     },
     modularInfo: {
       type: Object,
       default() {
-        return {};
-      }
-    }
+        return {}
+      },
+    },
   },
   data() {
     return {
       request: [], //请求的字段列表
-      response: [] // 响应的字段列表
-    };
+      response: [], // 响应的字段列表
+    }
   },
   components: {
-    dhtTableTree: () => import("./table_tree/main.vue")
+    dhtTableTree: () => import('./table_tree/main.vue'),
   },
   watch: {
     apiInfo: {
       handler() {
-        console.log(this.apiInfo);
-        this.field_list();
+        console.log(this.apiInfo)
+        this.field_list()
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   created() {},
   methods: {
@@ -91,27 +91,27 @@ export default {
         .ajax({
           url: this.$api.interface().fields.list,
           data: {
-            api_id: this.apiInfo.id
+            api_id: this.apiInfo.id,
           },
-          loading: true
+          loading: true,
         })
         .then(e => {
-          this.request = [];
-          this.response = [];
+          this.request = []
+          this.response = []
           e.data.map(val => {
-            val.is_edit = false;
-            val.isnull = val.isnull === "1";
-            if (val.reaction === "request") {
-              this.request.push(val);
+            val.is_edit = false
+            val.isnull = val.isnull === '1'
+            if (val.reaction === 'request') {
+              this.request.push(val)
             } else {
-              this.response.push(val);
+              this.response.push(val)
             }
-          });
+          })
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

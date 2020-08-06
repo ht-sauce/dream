@@ -6,20 +6,10 @@
         <template v-if="item.rel === 'fontBigSmall'">
           <span :key="index" class="dht-editor-a dht-fontBigSmall">
             <label>
-              <input
-                maxlength="2"
-                v-model="fontSize"
-                class="dht-fontBigSmall-input"
-                type="text"
-              />
+              <input maxlength="2" v-model="fontSize" class="dht-fontBigSmall-input" type="text" />
             </label>
             <a :key="index" @click="item.event" :title="item.title">
-              <img
-                class="dht-editor-icon"
-                :src="item.iconUrl"
-                :style="item.backgroundImg"
-                alt=""
-              />
+              <img class="dht-editor-icon" :src="item.iconUrl" :style="item.backgroundImg" alt="" />
             </a>
           </span>
         </template>
@@ -33,44 +23,20 @@
             v-model="urlPopup"
           >
             <div>
-              <el-input placeholder="请输入链接地址" v-model="aUrl" clearable>
-              </el-input>
-              <el-button
-                @click="createLink"
-                style="margin-top: 15px"
-                type="primary"
+              <el-input placeholder="请输入链接地址" v-model="aUrl" clearable> </el-input>
+              <el-button @click="createLink" style="margin-top: 15px" type="primary"
                 >确定</el-button
               >
             </div>
-            <a
-              class="dht-editor-a"
-              @click="item.event"
-              slot="reference"
-              :title="item.title"
-            >
-              <img
-                class="dht-editor-icon"
-                :src="item.iconUrl"
-                :style="item.backgroundImg"
-                alt=""
-              />
+            <a class="dht-editor-a" @click="item.event" slot="reference" :title="item.title">
+              <img class="dht-editor-icon" :src="item.iconUrl" :style="item.backgroundImg" alt="" />
             </a>
           </el-popover>
         </template>
         <!--非自定义操作部分-->
         <template v-else>
-          <a
-            class="dht-editor-a"
-            :key="index"
-            @click="item.event"
-            :title="item.title"
-          >
-            <img
-              class="dht-editor-icon"
-              :src="item.iconUrl"
-              :style="item.backgroundImg"
-              alt=""
-            />
+          <a class="dht-editor-a" :key="index" @click="item.event" :title="item.title">
+            <img class="dht-editor-icon" :src="item.iconUrl" :style="item.backgroundImg" alt="" />
           </a>
         </template>
       </template>
@@ -87,173 +53,169 @@
 </template>
 
 <script>
-import {
-  execOperation,
-  getSelectionText,
-  combinationHtml
-} from "./util/coreDom";
-import { CursorAcquisition, restoreSelection } from "./util/selection";
+import { execOperation, getSelectionText, combinationHtml } from './util/coreDom'
+import { CursorAcquisition, restoreSelection } from './util/selection'
 export default {
-  name: "dhtRichEditor",
+  name: 'dhtRichEditor',
   data() {
     return {
       urlPopup: false,
-      aUrl: "", //创建连接的a标签连接
-      cloneRange: "", //临时存放的range
-      jumpUrl: "", //绑定的地址
+      aUrl: '', //创建连接的a标签连接
+      cloneRange: '', //临时存放的range
+      jumpUrl: '', //绑定的地址
       fontSize: 14, //字体大小
       //功能操作列表
       operationList: [
         {
           backgroundImg: {
-            background: "black"
+            background: 'black',
           },
-          title: "颜色选择器",
+          title: '颜色选择器',
           event: this.colorSelect,
-          rel: "dht_Editor_colorSelect"
+          rel: 'dht_Editor_colorSelect',
         },
         {
           backgroundImg: {
             //backgroundImage: `url(${require("./assets/images/Underline.png")})`,
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/fontColor.png"),
-          title: "修改当前文字颜色",
+          iconUrl: require('./assets/images/fontColor.png'),
+          title: '修改当前文字颜色',
           event: this.fontColor,
-          rel: "fontColor"
+          rel: 'fontColor',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/fontBigSmall.png"),
-          title: "修改文字字体大小",
+          iconUrl: require('./assets/images/fontBigSmall.png'),
+          title: '修改文字字体大小',
           event: this.fontBigSmall,
-          rel: "fontBigSmall"
+          rel: 'fontBigSmall',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/Thickening.png"),
-          title: "加粗",
+          iconUrl: require('./assets/images/Thickening.png'),
+          title: '加粗',
           event: this.Thickening,
-          rel: "Thickening"
+          rel: 'Thickening',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/Underline.png"),
-          title: "下划线",
+          iconUrl: require('./assets/images/Underline.png'),
+          title: '下划线',
           event: this.underline,
-          rel: "underline"
+          rel: 'underline',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/DeleteLine.png"),
-          title: "删除线",
+          iconUrl: require('./assets/images/DeleteLine.png'),
+          title: '删除线',
           event: this.strikeThrough,
-          rel: "strikeThrough"
+          rel: 'strikeThrough',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/h1.png"),
-          title: "1号字体",
+          iconUrl: require('./assets/images/h1.png'),
+          title: '1号字体',
           event: () => {
-            this.HFont(1);
+            this.HFont(1)
           },
-          rel: "H1"
+          rel: 'H1',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/h2.png"),
-          title: "2号字体",
+          iconUrl: require('./assets/images/h2.png'),
+          title: '2号字体',
           event: () => {
-            this.HFont(2);
+            this.HFont(2)
           },
-          rel: "H2"
+          rel: 'H2',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/h3.png"),
-          title: "3号字体",
+          iconUrl: require('./assets/images/h3.png'),
+          title: '3号字体',
           event: () => {
-            this.HFont(3);
+            this.HFont(3)
           },
-          rel: "H3"
+          rel: 'H3',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/textIndent.png"),
-          title: "文档缩进",
+          iconUrl: require('./assets/images/textIndent.png'),
+          title: '文档缩进',
           event: this.indent,
-          rel: "textIndent"
+          rel: 'textIndent',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/code.png"),
-          title: "插入代码块",
+          iconUrl: require('./assets/images/code.png'),
+          title: '插入代码块',
           event: this.insertPre,
-          rel: "insertCode"
+          rel: 'insertCode',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/Hyperlinks.png"),
-          title: "增加超链接",
+          iconUrl: require('./assets/images/Hyperlinks.png'),
+          title: '增加超链接',
           event: this.openCreateLink, //打开弹窗
-          rel: "Hyperlinks"
+          rel: 'Hyperlinks',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/insertImage.png"),
-          title: "插入图片",
+          iconUrl: require('./assets/images/insertImage.png'),
+          title: '插入图片',
           event: this.insertImg,
-          rel: "insertImage"
+          rel: 'insertImage',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/quanping.png"),
-          title: "全屏",
+          iconUrl: require('./assets/images/quanping.png'),
+          title: '全屏',
           event: this.FullScreen,
-          rel: "dht_Editor_FullScreen"
+          rel: 'dht_Editor_FullScreen',
         },
         {
           backgroundImg: {
-            backgroundSize: "100% 100%"
+            backgroundSize: '100% 100%',
           },
-          iconUrl: require("./assets/images/clear.png"),
-          title: "还原普通文字",
+          iconUrl: require('./assets/images/clear.png'),
+          title: '还原普通文字',
           event: this.reduction,
-          rel: "reduction"
-        }
-      ]
-    };
+          rel: 'reduction',
+        },
+      ],
+    }
   },
   beforeCreate() {},
   created() {},
   beforeMount() {},
   mounted() {
     //document.getElementById("dht-editor-content").focus();
-    document.execCommand("styleWithCSS", false, true);
+    document.execCommand('styleWithCSS', false, true)
   },
   beforeUpdate() {},
   methods: {
@@ -261,7 +223,7 @@ export default {
     //阻止默认回车事件并进行处理
     preventEnter() {
       //屏蔽默认回车，插入换行符
-      document.execCommand("insertHTML", false, `<br><br>`);
+      document.execCommand('insertHTML', false, `<br><br>`)
     },
     //撤销最近操作
     undo() {
@@ -270,181 +232,181 @@ export default {
       麻烦点：每一步操作都需要记录原情况，并且进行还原。
       可行考虑：
       每次操作都保存最近一次的全内容，然后撤销则用上一次的全内容。*/
-      execOperation("undo");
+      execOperation('undo')
     },
     //全屏
     FullScreen() {
-      alert("还没想好怎么做");
+      alert('还没想好怎么做')
       //不知道全屏干嘛暂未定义
     },
     //字体颜色修改
     fontColor() {
-      let fontColor = this.operationList[0].backgroundImg.background;
-      let bool = execOperation("foreColor", fontColor);
-      console.log(fontColor, bool);
-      return bool;
+      let fontColor = this.operationList[0].backgroundImg.background
+      let bool = execOperation('foreColor', fontColor)
+      console.log(fontColor, bool)
+      return bool
     },
     //设置字体大小
     fontBigSmall() {
       if (this.fontSize === 14 || !this.fontSize) {
-        return false;
+        return false
       }
       let style = {
-        del: "font-size", //需要剔除的老css元素
+        del: 'font-size', //需要剔除的老css元素
         css: `font-size: ${this.fontSize}px`, //新放入的css
-        node: "span" //当前插入的span，最终取决于老节点
-      };
-      let html = combinationHtml(style);
+        node: 'span', //当前插入的span，最终取决于老节点
+      }
+      let html = combinationHtml(style)
 
-      execOperation("insertHTML", html);
+      execOperation('insertHTML', html)
     },
     //颜色选择器
     colorSelect() {
-      let input = document.createElement("input");
-      let that = this;
-      input.type = "color";
-      input.click();
-      input.addEventListener("input", watchColorPicker, false);
+      let input = document.createElement('input')
+      let that = this
+      input.type = 'color'
+      input.click()
+      input.addEventListener('input', watchColorPicker, false)
       function watchColorPicker(event) {
         //console.log(event.target.value);
-        let color = event.target.value;
+        let color = event.target.value
         that.operationList[0].backgroundImg = {
-          background: color
-        };
+          background: color,
+        }
         //移除监听
-        input.removeEventListener("input", watchColorPicker, false);
-        input = "";
+        input.removeEventListener('input', watchColorPicker, false)
+        input = ''
       }
     },
     //文字加粗
     Thickening() {
-      const bool = execOperation("bold");
-      console.log(bool);
+      const bool = execOperation('bold')
+      console.log(bool)
     },
     //下划线
     underline() {
-      execOperation("underline");
+      execOperation('underline')
     },
     //删除线
     strikeThrough() {
-      execOperation("strikeThrough");
+      execOperation('strikeThrough')
     },
     //h123字体
     HFont(type) {
-      const { innerhtml, cssText } = getSelectionText();
-      let h2 = `<h2 style="${cssText} font-size: 24px; font-weight: bold;">${innerhtml}</h2>`;
-      let h3 = `<h3 style="${cssText} font-size: 20px; font-weight: bold;">${innerhtml}</h3>`;
-      let h4 = `<h4 style="${cssText} font-size: 16px; font-weight: bold;">${innerhtml}</h4>`;
-      let html = "";
+      const { innerhtml, cssText } = getSelectionText()
+      let h2 = `<h2 style="${cssText} font-size: 24px; font-weight: bold;">${innerhtml}</h2>`
+      let h3 = `<h3 style="${cssText} font-size: 20px; font-weight: bold;">${innerhtml}</h3>`
+      let h4 = `<h4 style="${cssText} font-size: 16px; font-weight: bold;">${innerhtml}</h4>`
+      let html = ''
       if (type === 1) {
-        html = h2;
+        html = h2
       }
       if (type === 2) {
-        html = h3;
+        html = h3
       }
       if (type === 3) {
-        html = h4;
+        html = h4
       }
-      execOperation("insertHTML", html);
+      execOperation('insertHTML', html)
     },
     //缩进
     indent() {
-      execOperation("indent");
+      execOperation('indent')
     },
     //创建连接
     openCreateLink() {
-      const { getRange } = CursorAcquisition();
-      this.cloneRange = getRange;
+      const { getRange } = CursorAcquisition()
+      this.cloneRange = getRange
     },
     createLink() {
       //未输入地址不能操作
       if (!this.aUrl) {
-        this.$message("还没有输入连接");
-        return false;
+        this.$message('还没有输入连接')
+        return false
       }
       let style = {
         url: this.aUrl,
-        del: "color", //需要剔除的老css元素
+        del: 'color', //需要剔除的老css元素
         css: `color: #0080FF`, //新放入的css
-        node: "a" //当前插入的span，最终取决于老节点
-      };
-      let html = combinationHtml(style, this.cloneRange);
+        node: 'a', //当前插入的span，最终取决于老节点
+      }
+      let html = combinationHtml(style, this.cloneRange)
 
       //恢复选区
-      restoreSelection(this.cloneRange);
+      restoreSelection(this.cloneRange)
 
-      execOperation("insertHTML", html, this.cloneRange);
-      this.urlPopup = false;
-      this.cloneRange = "";
+      execOperation('insertHTML', html, this.cloneRange)
+      this.urlPopup = false
+      this.cloneRange = ''
     },
     //插入代码块
     insertPre() {
-      const { getRange } = CursorAcquisition();
+      const { getRange } = CursorAcquisition()
 
       //获取需要操作的元素进行处理
-      let domst = getRange.commonAncestorContainer;
-      domst = domst.nodeType === 1 ? domst : domst.parentNode;
-      console.log(domst.nodeName);
-      if (domst.nodeName !== "PRE") {
-        let html = `<pre style="font-size:13px;font-family: Menlo,Monaco,Consolas,Courier New,monospace;margin-bottom:15px; border: #d1d4da 1px solid; border-radius: 3px; width: 100%;min-height: 35px;background: #f8f8f8; padding: 10px 10px;box-sizing: border-box;"><code></code></pre><br>`;
-        document.execCommand("insertHTML", false, html);
+      let domst = getRange.commonAncestorContainer
+      domst = domst.nodeType === 1 ? domst : domst.parentNode
+      console.log(domst.nodeName)
+      if (domst.nodeName !== 'PRE') {
+        let html = `<pre style="font-size:13px;font-family: Menlo,Monaco,Consolas,Courier New,monospace;margin-bottom:15px; border: #d1d4da 1px solid; border-radius: 3px; width: 100%;min-height: 35px;background: #f8f8f8; padding: 10px 10px;box-sizing: border-box;"><code></code></pre><br>`
+        document.execCommand('insertHTML', false, html)
       }
     },
     //插入图片
     insertImg(imgurl) {
-      document.execCommand("insertImage", false, imgurl);
+      document.execCommand('insertImage', false, imgurl)
     },
     //还原为普通文字
     reduction() {
-      const { innerhtml } = getSelectionText();
-      execOperation("insertHTML", innerhtml);
+      const { innerhtml } = getSelectionText()
+      execOperation('insertHTML', innerhtml)
     },
     //监听当前富文本的黏贴效果
     Stick(e) {
-      const { range } = CursorAcquisition();
-      let domst = range.commonAncestorContainer;
-      domst = domst.nodeType === 1 ? domst : domst.parentNode;
-      let nodeName = domst.nodeName;
+      const { range } = CursorAcquisition()
+      let domst = range.commonAncestorContainer
+      domst = domst.nodeType === 1 ? domst : domst.parentNode
+      let nodeName = domst.nodeName
 
-      let text = e.clipboardData.getData("text/plain");
+      let text = e.clipboardData.getData('text/plain')
 
       // code 中只能粘贴纯文本
       if (text) {
-        if (nodeName === "CODE" || nodeName === "PRE") {
-          document.execCommand("insertHTML", false, text);
-          return;
+        if (nodeName === 'CODE' || nodeName === 'PRE') {
+          document.execCommand('insertHTML', false, text)
+          return
         } else {
-          document.execCommand("insertHTML", false, `<p>${text}</p>`);
-          return;
+          document.execCommand('insertHTML', false, `<p>${text}</p>`)
+          return
         }
       }
       //获取图片
       if (e.clipboardData) {
-        console.log("进入图片流程");
+        console.log('进入图片流程')
         //某些chrome版本使用的是event.originalEvent
-        var clipboardData = e.clipboardData;
+        var clipboardData = e.clipboardData
         if (clipboardData.items) {
           // for chrome
           var items = clipboardData.items,
             len = items.length,
-            blob = null;
+            blob = null
           for (var i = 0; i < len; i++) {
             //判断为图片才插入
-            if (items[i].type.indexOf("image") !== -1) {
+            if (items[i].type.indexOf('image') !== -1) {
               //getAsFile() 此方法只是living standard firefox ie11 并不支持
-              blob = items[i].getAsFile();
-              let blobUrl = URL.createObjectURL(blob);
+              blob = items[i].getAsFile()
+              let blobUrl = URL.createObjectURL(blob)
               //console.log(blobUrl);
-              this.insertImg(blobUrl);
+              this.insertImg(blobUrl)
             }
           }
         }
       }
       //多插入一个回车
-      document.execCommand("insertHTML", false, `<br>`);
-    }
-  }
-};
+      document.execCommand('insertHTML', false, `<br>`)
+    },
+  },
+}
 </script>
 
 <style lang="scss">

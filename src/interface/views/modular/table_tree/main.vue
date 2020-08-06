@@ -31,18 +31,18 @@ export default {
     apiInfo: {
       type: Object,
       default() {
-        return {};
-      }
+        return {}
+      },
     },
     reaction: String,
-    treeField: Array // 渲染出现的主数据列表
+    treeField: Array, // 渲染出现的主数据列表
   },
   components: {
-    itemSon: () => import("./item.vue")
+    itemSon: () => import('./item.vue'),
   },
   data() {
     return {
-      list: this.treeField
+      list: this.treeField,
       /*[
         {
           name: "字段名称",
@@ -82,7 +82,7 @@ export default {
           is_edit: false
         }
       ]*/
-    };
+    }
   },
   beforeCreate() {},
   created() {},
@@ -91,23 +91,23 @@ export default {
   methods: {
     del_now_field(e) {
       // 删除当前条数据
-      this.treeField.splice(e[1], 1);
+      this.treeField.splice(e[1], 1)
     },
     // 添加字段
     add_field() {
       this.treeField.push({
-        name: "",
+        name: '',
         isnull: false,
-        type: "",
-        default: "",
-        remarks: "",
+        type: '',
+        default: '',
+        remarks: '',
         children: [],
         is_edit: true, //可编辑
-        button: "add" // 添加按钮独有，用于判断是否是最新增加的字段
-      });
-    }
-  }
-};
+        button: 'add', // 添加按钮独有，用于判断是否是最新增加的字段
+      })
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

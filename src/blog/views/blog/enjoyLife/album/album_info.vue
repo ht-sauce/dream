@@ -43,20 +43,20 @@ export default {
       time_list: [],
       day_list: [],
       page: 1,
-      is_load: true
-    };
+      is_load: true,
+    }
   },
   components: {
-    images: () => import("../../../components/img.vue")
+    images: () => import('../../../components/img.vue'),
   },
   created() {
-    const query = this.$route.query;
+    const query = this.$route.query
     if (!query) {
-      this.$router.go(-1);
-      return false;
+      this.$router.go(-1)
+      return false
     }
-    this.album = query;
-    this.photo_list();
+    this.album = query
+    this.photo_list()
   },
   methods: {
     photo_list(page = 1, limit = 15) {
@@ -67,21 +67,21 @@ export default {
           data: {
             page: page,
             limit: limit,
-            album_id: this.album.id
-          }
+            album_id: this.album.id,
+          },
         })
         .then(e => {
           if (e.data.length > 0) {
-            this.page = page + 1;
-            let day_list = this.day_list;
+            this.page = page + 1
+            let day_list = this.day_list
             // 先得到时间分组数据
-            let time_list = this.time_list;
+            let time_list = this.time_list
             e.data.forEach(val => {
-              const time = val.created_at.substring(0, 10);
+              const time = val.created_at.substring(0, 10)
               if (!time_list.includes(time)) {
-                time_list.push(time);
+                time_list.push(time)
               }
-            });
+            })
             // 根据时间分类得到分组
             time_list.forEach(val => {
               if (day_list.length > 0) {
@@ -90,36 +90,36 @@ export default {
                   if (val !== li.time) {
                     day_list.push({
                       time: val,
-                      img_list: []
-                    });
+                      img_list: [],
+                    })
                   }
-                });
+                })
               } else {
                 day_list.push({
                   time: val,
-                  img_list: []
-                });
+                  img_list: [],
+                })
               }
-            });
+            })
             //根据时间分类循环
             time_list.forEach((val, index) => {
               e.data.forEach(li => {
-                const time = li.created_at.substring(0, 10);
+                const time = li.created_at.substring(0, 10)
                 if (val === time) {
-                  day_list[index].img_list.push(li);
+                  day_list[index].img_list.push(li)
                 }
-              });
-            });
-            console.log(this.day_list);
+              })
+            })
+            console.log(this.day_list)
           } else {
-            this.is_load = false;
+            this.is_load = false
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     load_many() {
       if (this.is_load) {
-        this.photo_list(this.page);
+        this.photo_list(this.page)
       }
     },
     // 设置相册首图
@@ -128,16 +128,16 @@ export default {
         .ajax({
           url: this.$api.dht().album.modify,
           loading: true,
-          method: "post",
+          method: 'post',
           data: {
             id: this.album.id,
             url: url,
-            privacy: "0"
+            privacy: '0',
           },
-          success: "设置成功，回到相册首页查看"
+          success: '设置成功，回到相册首页查看',
         })
         .then(() => {})
-        .catch(() => {});
+        .catch(() => {})
     },
     del_img(id, index, imgi) {
       this.axios
@@ -145,17 +145,17 @@ export default {
           url: this.$api.static().aliyun.del,
           loading: true,
           data: {
-            id: id
+            id: id,
           },
-          success: "删除成功"
+          success: '删除成功',
         })
         .then(() => {
-          this.day_list[index].img_list.splice(imgi, 1);
+          this.day_list[index].img_list.splice(imgi, 1)
         })
-        .catch(() => {});
-    }
-  }
-};
+        .catch(() => {})
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

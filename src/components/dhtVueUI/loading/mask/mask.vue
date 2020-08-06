@@ -5,7 +5,7 @@
       zIndex: this.$dhtUI ? this.$dhtUI.zIndex : 4000,
       background: 'rgba(' + background + ')',
       fontSize: fontSize + 'px',
-      color: color
+      color: color,
     }"
   >
     <img
@@ -20,25 +20,25 @@
 
 <script>
 export default {
-  name: "dhtMask",
+  name: 'dhtMask',
   data() {
     return {
       fullscreen: false,
-      background: "0, 0, 0, 0.5",
-      text: "加载中…",
+      background: '0, 0, 0, 0.5',
+      text: '加载中…',
       iconSrc: null,
       iconWidth: null,
       iconHeight: null,
       color: null,
-      fontSize: null
-    };
+      fontSize: null,
+    }
   },
   beforeCreate() {},
   created() {},
   beforeMount() {},
   mounted() {
     if (this.fullscreen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden'
     }
   },
   beforeUpdate() {},
@@ -47,9 +47,9 @@ export default {
   deactivated() {},
   beforeDestroy() {},
   destroyed() {
-    document.body.style.overflowX = "hidden";
+    document.body.style.overflowX = 'hidden'
   },
   errorCaptured() {},
-  methods: {}
-};
+  methods: {},
+}
 </script>

@@ -1,19 +1,12 @@
 <template>
   <div class="user_mianbane">
     <div class="self">
-      <dht-img
-        v-if="onselfData"
-        class="headPortrait"
-        :src="onselfData.portrait"
-      ></dht-img>
+      <dht-img v-if="onselfData" class="headPortrait" :src="onselfData.portrait"></dht-img>
       <span>{{ onselfData.nickname }}</span>
     </div>
     <div v-if="!author" class="share">
       <div>创作：{{ onselfData.count }}</div>
-      <router-link
-        style="color: #409eff;"
-        v-if="$store.state.is_blogger"
-        to="/draft"
+      <router-link style="color: #409eff;" v-if="$store.state.is_blogger" to="/draft"
         >草稿箱</router-link
       >
     </div>
@@ -23,14 +16,10 @@
     </div>
     <div v-if="$store.state.is_blogger" class="writing">
       <div>
-        <router-link class="writing-a" to="/richTextEditor?editor_type=add"
-          >创作文章</router-link
-        >
+        <router-link class="writing-a" to="/richTextEditor?editor_type=add">创作文章</router-link>
       </div>
       <div class="editor" v-if="author">
-        <router-link
-          class="writing-a"
-          :to="'/richTextEditor?editor_type=update&id=' + author.id"
+        <router-link class="writing-a" :to="'/richTextEditor?editor_type=update&id=' + author.id"
           >编辑</router-link
         >
       </div>
@@ -45,25 +34,25 @@ export default {
     author: {
       type: Object,
       default() {
-        return null;
-      }
-    }
+        return null
+      },
+    },
   },
   computed: {
     onselfData() {
-      return !this.author ? this.$store.state.blogger : this.author;
-    }
+      return !this.author ? this.$store.state.blogger : this.author
+    },
   },
   data() {
-    return {};
+    return {}
   },
   beforeCreate() {},
-  created() {}
-};
+  created() {},
+}
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 .user_mianbane {
   width: 100%;
   display: flex;

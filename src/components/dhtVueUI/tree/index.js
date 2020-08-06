@@ -1,9 +1,9 @@
-"use strict";
-import Tree from "./main.vue";
+'use strict'
+import Tree from './main.vue'
 
 /* istanbul ignore next */
 Tree.install = function(Vue) {
-  Vue.component(Tree.name, Tree);
-};
+  Vue.component(Tree.name, Tree)
+}
 
-export default Tree;
+export default Tree

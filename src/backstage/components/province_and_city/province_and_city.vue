@@ -14,7 +14,7 @@
         :value="{
           areacode: item.areacode,
           areaname: item.areaname,
-          index: index
+          index: index,
         }"
       >
       </el-option>
@@ -34,7 +34,7 @@
         :value="{
           areacode: item.areacode,
           areaname: item.areaname,
-          index: index
+          index: index,
         }"
       >
       </el-option>
@@ -54,7 +54,7 @@
         :value="{
           areacode: item.areacode,
           areaname: item.areaname,
-          index: index
+          index: index,
         }"
       >
       </el-option>
@@ -64,19 +64,19 @@
 </template>
 
 <script>
-import address from "./address.json";
+import address from './address.json'
 export default {
   props: {
     value: {
       type: [Object, Array],
       default() {
         return {
-          province: "",
-          city: "",
-          area: ""
-        };
-      }
-    }
+          province: '',
+          city: '',
+          area: '',
+        }
+      },
+    },
   },
   watch: {
     // 监听vue值，设置默认值
@@ -84,52 +84,52 @@ export default {
       immediate: true,
       deep: true,
       handler(e) {
-        if (e.province && typeof e.province === "string") {
+        if (e.province && typeof e.province === 'string') {
           // 根据省级数据获取市数组
           address.data.map((city, ci) => {
             if (city.areaname === e.province) {
-              this.cityArray = city;
+              this.cityArray = city
               e.province = {
                 areacode: city.areacode,
                 areaname: city.areaname,
-                index: ci
-              };
+                index: ci,
+              }
               // 在得到市级数据之后，根据传入市级数据得到区数据
               if (e.city) {
                 city.subarea.map((area, ai) => {
                   if (area.areaname === e.city) {
-                    this.areaArray = area;
+                    this.areaArray = area
                     e.city = {
                       areacode: area.areacode,
                       areaname: area.areaname,
-                      index: ai
-                    };
+                      index: ai,
+                    }
                     if (e.area) {
                       this.areaArray.subarea.map((val, index) => {
                         if (val.areaname === e.area) {
                           e.area = {
                             areacode: val.areacode,
                             areaname: val.areaname,
-                            index: index
-                          };
+                            index: index,
+                          }
                         }
-                      });
+                      })
                     }
                   }
-                });
+                })
               }
             }
-          });
+          })
         }
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       province: address.data,
       cityArray: [],
-      areaArray: []
-    };
+      areaArray: [],
+    }
   },
   created() {},
   methods: {
@@ -137,22 +137,22 @@ export default {
       // 省份
       if (type === 1) {
         // 找到的市数据存入数组
-        this.cityArray = address.data[e.index];
-        this.value.city = "";
-        this.value.area = "";
-        this.areaArray = [];
+        this.cityArray = address.data[e.index]
+        this.value.city = ''
+        this.value.area = ''
+        this.areaArray = []
       }
       // 市操作
       if (type === 2) {
-        this.value.area = "";
-        this.areaArray = this.cityArray.subarea[e.index];
+        this.value.area = ''
+        this.areaArray = this.cityArray.subarea[e.index]
       }
       // 区操作
       //if (type === 3) {}
-      this.$emit("change", this.value);
-    }
-  }
-};
+      this.$emit('change', this.value)
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

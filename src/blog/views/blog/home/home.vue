@@ -18,11 +18,7 @@
               class="right-oneself-bgimg"
               :src="require('@/blog/assets/images/home/banner.png')"
             />
-            <img
-              class="oneself-img"
-              :src="oneselfData.portrait"
-              alt="博主头像"
-            />
+            <img class="oneself-img" :src="oneselfData.portrait" alt="博主头像" />
             <div class="right-oneself-cont">
               <div class="onself-name">
                 {{ oneselfData.nickname }}
@@ -34,11 +30,7 @@
             </div>
           </div>
           <!--底部推荐-->
-          <RightBlog
-            class="right-blog-list"
-            title="点击排行"
-            :list="rightBlogData"
-          />
+          <RightBlog class="right-blog-list" title="点击排行" :list="rightBlogData" />
           <!--<right-blog
             class="right-blog-list"
             title="酱油推荐"
@@ -51,28 +43,28 @@
 </template>
 
 <script>
-import RightBlog from "@/blog/views/components/right_blog";
+import RightBlog from '@/blog/views/components/right_blog'
 export default {
-  name: "blogHome",
+  name: 'blogHome',
   data() {
     return {
       rightBlogData: [],
-      dynamic: [1]
-    };
+      dynamic: [1],
+    }
   },
   computed: {
     oneselfData() {
-      return this.$store.state.blogger;
-    }
+      return this.$store.state.blogger
+    },
   },
   components: {
-    blogDynamic: () => import("./blog_dynamic.vue"),
-    RightBlog
+    blogDynamic: () => import('./blog_dynamic.vue'),
+    RightBlog,
   },
   beforeCreate() {},
   created() {
-    this.blog_list_rank();
-    this.dynamic_list();
+    this.blog_list_rank()
+    this.dynamic_list()
   },
   beforeMount() {},
   mounted() {},
@@ -82,37 +74,37 @@ export default {
     blog_list_rank() {
       this.axios
         .ajax({
-          url: this.$api.blog().article.click_rank
+          url: this.$api.blog().article.click_rank,
         })
         .then(e => {
           const blog = e.data.map(val => {
-            val.cover = val.cover ? this.$api.static().visit + val.cover : "";
-            return val;
-          });
-          this.leftBlogData = blog;
-          this.rightBlogData = blog;
+            val.cover = val.cover ? this.$api.static().visit + val.cover : ''
+            return val
+          })
+          this.leftBlogData = blog
+          this.rightBlogData = blog
         })
-        .catch();
+        .catch()
     },
     // 整站动态
     dynamic_list() {
       this.axios
         .ajax({
           url: this.$api.blog().blog_dynamic.list,
-          loading: true
+          loading: true,
         })
         .then(e => {
           // console.log(e.data);
-          this.dynamic = e.data;
+          this.dynamic = e.data
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 #bloghome {
   .content {
     margin-top: 15px;

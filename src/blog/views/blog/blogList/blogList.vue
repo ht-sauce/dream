@@ -19,31 +19,31 @@
 
 <script>
 export default {
-  name: "blogList",
+  name: 'blogList',
   data() {
     return {
-      keyword: "",
+      keyword: '',
       //左侧博客数据流
       leftBlogData: [],
       //右侧点击量排行
       rightBlogData: [],
       page: 1,
-      is_load: true
-    };
+      is_load: true,
+    }
   },
   components: {
-    userMianbane: () => import("@/blog/views/components/user_mianbane.vue"),
+    userMianbane: () => import('@/blog/views/components/user_mianbane.vue'),
     leftBlog: () => {
-      return import("@/blog/views/components/left_blog.vue");
+      return import('@/blog/views/components/left_blog.vue')
     },
     rightBlog: () => {
-      return import("@/blog/views/components/right_blog.vue");
-    }
+      return import('@/blog/views/components/right_blog.vue')
+    },
   },
   beforeCreate() {},
   created() {
-    this.blog_list();
-    this.blog_list_rank();
+    this.blog_list()
+    this.blog_list_rank()
   },
   beforeMount() {},
   mounted() {},
@@ -53,58 +53,56 @@ export default {
       const data = {
         limit: limit,
         page: page,
-        keyword: this.keyword
-      };
+        keyword: this.keyword,
+      }
       this.axios
         .ajax({
           url: this.$api.blog().article.list,
           data: data,
-          loading: true
+          loading: true,
         })
         .then(e => {
           if (e.data.list.length > 0) {
-            this.page = page + 1;
+            this.page = page + 1
             if (page === 1) {
-              this.leftBlogData = e.data.list;
+              this.leftBlogData = e.data.list
             } else {
               const blog = e.data.list.map(val => {
-                val.cover = val.cover
-                  ? this.$api.static().visit + val.cover
-                  : "";
-                return val;
-              });
-              this.leftBlogData = this.leftBlogData.concat(blog);
+                val.cover = val.cover ? this.$api.static().visit + val.cover : ''
+                return val
+              })
+              this.leftBlogData = this.leftBlogData.concat(blog)
             }
           } else {
-            this.is_load = false;
+            this.is_load = false
           }
         })
-        .catch();
+        .catch()
     },
     blog_list_rank() {
       this.axios
         .ajax({
-          url: this.$api.blog().article.click_rank
+          url: this.$api.blog().article.click_rank,
         })
         .then(e => {
           this.rightBlogData = e.data.map(val => {
-            val.cover = val.cover ? this.$api.static().visit + val.cover : "";
-            return val;
-          });
+            val.cover = val.cover ? this.$api.static().visit + val.cover : ''
+            return val
+          })
         })
-        .catch();
+        .catch()
     },
     load_blog() {
       if (this.is_load) {
-        this.blog_list(this.page);
+        this.blog_list(this.page)
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 #blogList {
   display: flex;
   flex-flow: row;

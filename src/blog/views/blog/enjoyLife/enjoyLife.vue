@@ -43,27 +43,20 @@
             <div class="say-something">{{ item.content }}</div>
             <div class="img-list">
               <template v-for="(img, imgi) in item.img_list">
-                <images
-                  :key="imgi"
-                  :preview="true"
-                  class="u-img"
-                  :src="img"
-                ></images>
+                <images :key="imgi" :preview="true" class="u-img" :src="img"></images>
               </template>
             </div>
             <div class="operation">
               <span>
-                <router-link :to="'/discuss/info?discuss=' + item.id"
-                  >全部</router-link
-                >
+                <router-link :to="'/discuss/info?discuss=' + item.id">全部</router-link>
               </span>
               <span
                 class="el-icon-chat-line-round"
                 @click="
                   () => {
-                    item.is_discuss = !item.is_discuss;
-                    discuss_item = item;
-                    discuss_list();
+                    item.is_discuss = !item.is_discuss
+                    discuss_item = item
+                    discuss_list()
                   }
                 "
                 >评论</span
@@ -79,9 +72,9 @@
               <dht-discuss
                 @reply="
                   e => {
-                    reply(e, item);
-                    discuss_item = item;
-                    discuss_list();
+                    reply(e, item)
+                    discuss_item = item
+                    discuss_list()
                   }
                 "
                 :ref="'discuss' + index"
@@ -97,104 +90,104 @@
 </template>
 
 <script>
-import util from "@/common/tool/util.js";
-const store = require("store");
+import util from '@/common/tool/util.js'
+const store = require('store')
 export default {
-  name: "enjoyLife",
+  name: 'enjoyLife',
   components: {
-    dhtDiscuss: () => import("@/blog/views/components/discuss.vue"),
+    dhtDiscuss: () => import('@/blog/views/components/discuss.vue'),
     // 图片组件
-    images: () => import("../../components/img.vue")
+    images: () => import('../../components/img.vue'),
   },
   data() {
     return {
       userInfo: this.$store.state.user_info,
       leftData: [
-        { name: "生活动态", url: "/enjoyLife?page=3", show: true },
+        { name: '生活动态', url: '/enjoyLife?page=3', show: true },
         {
-          name: "相册动态",
-          url: "/enjoyLife/album",
-          show: this.$store.state.is_blogger
-        }
+          name: '相册动态',
+          url: '/enjoyLife/album',
+          show: this.$store.state.is_blogger,
+        },
       ],
-      content: "",
+      content: '',
       discuss_item: {},
       imgList: [],
-      dynamic: [] //生活动态列表
-    };
+      dynamic: [], //生活动态列表
+    }
   },
   computed: {
     textNum() {
-      return 1100 - this.content.length;
-    }
+      return 1100 - this.content.length
+    },
   },
   created() {
-    const temporary_dynamic = store.get("temporary_dynamic");
+    const temporary_dynamic = store.get('temporary_dynamic')
     if (temporary_dynamic) {
-      this.content = temporary_dynamic.content;
-      this.imgList = temporary_dynamic.imgList;
+      this.content = temporary_dynamic.content
+      this.imgList = temporary_dynamic.imgList
     }
-    this.dynamic_list();
+    this.dynamic_list()
   },
   mounted() {
     // 动态变化textarea高度
-    this.$store.state.is_blogger && util.autoTextarea(this.$refs.textarea);
+    this.$store.state.is_blogger && util.autoTextarea(this.$refs.textarea)
   },
   methods: {
     // 临时存储动态,防止刷新丢失
     temporary_save_dynamic(type = true) {
       if (type) {
-        store.set("temporary_dynamic", {
+        store.set('temporary_dynamic', {
           content: this.content,
-          imgList: this.imgList
-        });
+          imgList: this.imgList,
+        })
       } else {
-        this.content = "";
-        this.imgList = "";
-        store.set("temporary_dynamic", {
-          content: "",
-          imgList: []
-        });
+        this.content = ''
+        this.imgList = ''
+        store.set('temporary_dynamic', {
+          content: '',
+          imgList: [],
+        })
       }
     },
     //发表动态
     release_dynamics() {
       if (this.imgList.length > 5) {
         this.$notify({
-          message: "图片不能超过5张",
-          type: "info",
-          title: "图片"
-        });
-        return false;
+          message: '图片不能超过5张',
+          type: 'info',
+          title: '图片',
+        })
+        return false
       }
-      this.$confirm("确认发表评论", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('确认发表评论', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.axios
             .ajax({
               url: this.$api.blog().dynamic.add,
               loading: true,
-              method: "post",
+              method: 'post',
               data: {
                 content: this.content,
                 user_id: this.userInfo.userid,
-                img_list: this.imgList.toString()
-              }
+                img_list: this.imgList.toString(),
+              },
             })
             .then(() => {
-              this.temporary_save_dynamic(false);
-              this.dynamic_list();
+              this.temporary_save_dynamic(false)
+              this.dynamic_list()
             })
-            .catch();
+            .catch()
         })
-        .catch();
+        .catch()
     },
     //删除当前图片
     del_img(index, rows) {
-      rows.splice(index, 1);
+      rows.splice(index, 1)
     },
     // 上传图片
     upload_img() {
@@ -203,18 +196,18 @@ export default {
           url: this.$api.static().aliyun.single_img_upload,
           fdata: {
             //上传到阿里云个人动态中
-            route_name: "dream/dynamic/",
-            source: "个人动态配图",
-            album_id: 1
-          }
+            route_name: 'dream/dynamic/',
+            source: '个人动态配图',
+            album_id: 1,
+          },
         })
         .then(e => {
-          console.log("图片", e);
-          this.imgList.push(e.data);
+          console.log('图片', e)
+          this.imgList.push(e.data)
           // 临时存储图
-          this.temporary_save_dynamic();
+          this.temporary_save_dynamic()
         })
-        .catch();
+        .catch()
     },
     // 动态列表
     dynamic_list(page = 1) {
@@ -222,106 +215,106 @@ export default {
         .ajax({
           url: this.$api.blog().dynamic.list,
           data: {
-            page: page
+            page: page,
           },
-          loading: true
+          loading: true,
         })
         .then(e => {
           this.dynamic = e.data.map(val => {
-            val.discuss = [];
-            val.is_discuss = false;
-            val.img_list = val.img_list ? val.img_list.split(",") : "";
-            return val;
-          });
+            val.discuss = []
+            val.is_discuss = false
+            val.img_list = val.img_list ? val.img_list.split(',') : ''
+            return val
+          })
         })
-        .catch();
+        .catch()
     },
     // 删除当前动态
     dynamic_del(id, index) {
-      this.$confirm("此操作将永久删除该动态, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该动态, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.axios
             .ajax({
               url: this.$api.blog().dynamic.del,
               data: {
-                id: id
+                id: id,
               },
-              loading: true
+              loading: true,
             })
             .then(() => {
-              this.dynamic.splice(index, 1);
+              this.dynamic.splice(index, 1)
             })
-            .catch();
+            .catch()
         })
-        .catch();
+        .catch()
     },
     // 评论组件返回数据
     reply(e, item) {
-      let data;
+      let data
       if (!e.node) {
         // 主评论
         data = {
           verify: e.verify,
           content: e.reply, //评论内容
-          is_trunk: "1", // 是否主评论
+          is_trunk: '1', // 是否主评论
           key: item.id, //关联id
-          type: "2", //评论类型，当前属于文章评论
+          type: '2', //评论类型，当前属于文章评论
           who: this.$store.state.ip.cip, //谁发的，记录ip地址
-          reply: "", // 发给谁记录ip地址
-          location: this.$store.state.ip.cname //发送人所在地区
-        };
+          reply: '', // 发给谁记录ip地址
+          location: this.$store.state.ip.cname, //发送人所在地区
+        }
       } else {
         // 回复评论
         data = {
           verify: e.verify,
           trunk_key: e.parentData.id, //归属于哪项评论下面
           content: e.reply,
-          is_trunk: "0",
+          is_trunk: '0',
           key: item.id,
-          type: "2",
+          type: '2',
           who: this.$store.state.ip.cip,
           reply: e.node.who,
-          location: this.$store.state.ip.cname
-        };
+          location: this.$store.state.ip.cname,
+        }
       }
       this.axios
         .ajax({
           url: this.$api.blog().discuss.add,
           data: data,
-          method: "post",
-          success: "评论成功",
-          loading: true
+          method: 'post',
+          success: '评论成功',
+          loading: true,
         })
         .then(() => {
-          this.discuss_list();
+          this.discuss_list()
         })
-        .catch();
+        .catch()
     },
     // 删除评论
     del_discuss(e) {
-      this.$confirm("此操作将永久删除该评论, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.axios
             .ajax({
               url: this.$api.blog().discuss.del,
               data: {
-                id: e.node.id
-              }
+                id: e.node.id,
+              },
             })
             .then(() => {
-              this.discuss_list();
+              this.discuss_list()
             })
-            .catch();
+            .catch()
         })
-        .catch();
+        .catch()
     },
     // 评论列表数据
     discuss_list() {
@@ -330,41 +323,41 @@ export default {
           url: this.$api.blog().discuss.list,
           data: {
             id: this.discuss_item.id, //文章的id
-            type: 2 //代表动态评论列表
-          }
+            type: 2, //代表动态评论列表
+          },
         })
         .then(e => {
           // console.log(e.data);
-          let new_data = [];
-          let no_reply = [];
+          let new_data = []
+          let no_reply = []
           e.data.map(val => {
-            val.isReply = false;
-            val.isShow = true;
-            val.children = [];
+            val.isReply = false
+            val.isShow = true
+            val.children = []
             if (val.reply) {
-              no_reply.push(val);
+              no_reply.push(val)
             } else {
-              new_data.push(val);
+              new_data.push(val)
             }
-          });
+          })
 
           this.discuss_item.discuss = new_data.map(val => {
             no_reply.map(li => {
               if (val.id == li.trunk_key) {
-                val.children.push(li);
+                val.children.push(li)
               }
-            });
-            return val;
-          });
+            })
+            return val
+          })
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 #enjoyLife {
   width: 80%;
   min-width: 1000px;
@@ -416,9 +409,8 @@ export default {
       border-bottom: #f1f1f1 1px solid;
       margin-bottom: 10px;
       > textarea {
-        font-family: -apple-system, system-ui, BlinkMacSystemFont,
-          Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial,
-          sans-serif;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
+          Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
         text-rendering: optimizeLegibility;
         width: 100%;
         color: $font_main;
@@ -436,8 +428,7 @@ export default {
         // 纸页效果
         position: relative;
         border: 1px solid #efefef;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27),
-          0 0 40px rgba(0, 0, 0, 0.06) inset;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.06) inset;
       }
       .word-number {
         position: absolute;

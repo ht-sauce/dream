@@ -30,21 +30,13 @@
               v-model="source"
               clearable
             ></el-input>
-            <el-button type="success" @click="clear_success_img"
-              >清空已成功上传</el-button
-            >
-            <el-button type="danger" @click="upload_img_list = []"
-              >清空</el-button
-            >
+            <el-button type="success" @click="clear_success_img">清空已成功上传</el-button>
+            <el-button type="danger" @click="upload_img_list = []">清空</el-button>
           </div>
           <div style="width: 100%; height: 57px;"></div>
           <ul class="file-list">
             <li class="upload-button">
-              <input
-                type="file"
-                multiple="multiple"
-                @change="temporary_file_upload"
-              />
+              <input type="file" multiple="multiple" @change="temporary_file_upload" />
               <span class="icon el-icon-plus"></span>
               <span>上传图片</span>
             </li>
@@ -64,12 +56,8 @@
           </ul>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button type="warning" @click="dialogVisible = false"
-            >取消</el-button
-          >
-          <el-button type="primary" @click="upload_file_list"
-            >上传图片</el-button
-          >
+          <el-button type="warning" @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="upload_file_list">上传图片</el-button>
         </span>
       </template>
       <template v-if="form.type === 2 || form.type === 3">
@@ -84,27 +72,15 @@
             <el-input v-model="album.name" clearable></el-input>
           </el-form-item>
           <el-form-item prop="privacy">
-            <el-switch
-              v-model="album.privacy"
-              active-text="是隐私"
-              inactive-text="不是隐私相册"
-            >
+            <el-switch v-model="album.privacy" active-text="是隐私" inactive-text="不是隐私相册">
             </el-switch>
           </el-form-item>
           <el-form-item>
-            <el-button type="warning" @click="dialogVisible = false"
-              >取消</el-button
-            >
-            <el-button
-              v-if="form.type === 2"
-              type="primary"
-              @click="album_valdate"
+            <el-button type="warning" @click="dialogVisible = false">取消</el-button>
+            <el-button v-if="form.type === 2" type="primary" @click="album_valdate"
               >创建相册</el-button
             >
-            <el-button
-              v-if="form.type === 3"
-              type="primary"
-              @click="album_valdate"
+            <el-button v-if="form.type === 3" type="primary" @click="album_valdate"
               >修改相册</el-button
             >
           </el-form-item>
@@ -125,9 +101,7 @@
             <img v-else src="../../../../../assets/img/icon/dogHead.jpg" alt />
             <div v-if="$store.state.is_blogger" class="album-li-button">
               <span class="el-icon-edit" @click="update_album(item)">修改</span>
-              <span class="el-icon-delete" @click="delete_album(item.id)"
-                >删除</span
-              >
+              <span class="el-icon-delete" @click="delete_album(item.id)">删除</span>
             </div>
           </div>
           <div @click="jump_info(item)" class="album-name">
@@ -144,28 +118,28 @@ export default {
   data() {
     return {
       album: {
-        name: "",
-        privacy: false
+        name: '',
+        privacy: false,
       },
       album_rules: {
-        name: [{ required: true }]
+        name: [{ required: true }],
       },
       form: {
         type: 1, //1图片上传，2，添加相册，3，修改相册
-        title: "上传图片",
-        width: "80%"
+        title: '上传图片',
+        width: '80%',
       },
       dialogVisible: false,
       upload_img_list: [], // 待上传的图片列表
       album_type: [], // 相册列表
-      album_id: "", //选择得相册
-      source: "", // 相册图片备注
-      select_album_type: "" //已选择的图片分类
-    };
+      album_id: '', //选择得相册
+      source: '', // 相册图片备注
+      select_album_type: '', //已选择的图片分类
+    }
   },
   beforeCreate() {},
   created() {
-    this.album_list();
+    this.album_list()
   },
   beforeMount() {},
   mounted() {},
@@ -173,187 +147,184 @@ export default {
     // 进入相册详情页面
     jump_info(e) {
       this.$router.push({
-        path: "/enjoyLife/album/info",
-        query: { id: e.id, name: e.name }
-      });
+        path: '/enjoyLife/album/info',
+        query: { id: e.id, name: e.name },
+      })
     },
     // 清理已经成功上传的图片
     clear_success_img() {
-      let clear = [];
+      let clear = []
       this.upload_img_list.forEach((val, index) => {
         if (val.upload) {
-          clear.push(index);
+          clear.push(index)
         }
-      });
+      })
       clear.map(val => {
-        this.upload_img_list.splice(val, 1);
-      });
+        this.upload_img_list.splice(val, 1)
+      })
     },
     // 选择的相册
     selecl_album(e) {
-      this.album_id = e;
+      this.album_id = e
     },
     dialog_close() {
-      this.select_album_type = "";
-      this.upload_img_list = [];
-      this.dialogVisible = false;
-      this.album_id = "";
+      this.select_album_type = ''
+      this.upload_img_list = []
+      this.dialogVisible = false
+      this.album_id = ''
     },
     // 查询符合条件得相册
     querySearch(queryString, cb) {
-      var album_type = this.album_type;
+      var album_type = this.album_type
       var results = queryString
         ? album_type.filter(e => {
-            return e.name.indexOf(queryString) === 0;
+            return e.name.indexOf(queryString) === 0
           })
-        : album_type;
-      cb(results);
+        : album_type
+      cb(results)
     },
     // 文件上传弹窗处理数据
     temporary_file_upload(e) {
-      console.log(this.album_id);
+      console.log(this.album_id)
       if (!this.album_id) {
-        this.$message("请先选择相册");
-        return false;
+        this.$message('请先选择相册')
+        return false
       }
-      let files = e.target.files;
-      const len = files.length;
+      let files = e.target.files
+      const len = files.length
       if (!len || len < 1) {
-        this.$message("请选择图片");
-        return false;
+        this.$message('请选择图片')
+        return false
       }
-      const type = ["image/jpeg", "image/png", "image/gif"];
+      const type = ['image/jpeg', 'image/png', 'image/gif']
       // 提示信息
       const tips = msg => {
         this.$message({
           message: msg,
-          type: "warnging",
-          duration: 2500
-        });
-      };
+          type: 'warnging',
+          duration: 2500,
+        })
+      }
       if (len > 30) {
-        tips("上传超过30张");
-        return false;
+        tips('上传超过30张')
+        return false
       }
       // 获取最新的文件列表数据
-      let files_name = [];
+      let files_name = []
       for (let j = 0; j < this.upload_img_list.length; j++) {
-        files_name.push(this.upload_img_list[j].name);
+        files_name.push(this.upload_img_list[j].name)
       }
       for (let i = 0; i < len; i++) {
         // 数据拦截
         if (files[i].size / 1024 / 1024 > 5) {
-          tips("文件大小超过5M");
-          return false;
+          tips('文件大小超过5M')
+          return false
         }
         if (len > 0 && !type.includes(files[i].type.toLocaleLowerCase())) {
-          tips("文件不是jpg，png，gif");
-          return false;
+          tips('文件不是jpg，png，gif')
+          return false
         }
         // 数据处理
-        let file_name = files[i].name;
+        let file_name = files[i].name
         // 拦截已存在的文件
         if (!files_name.includes(file_name)) {
-          let formData = new FormData();
-          formData.append("lifeUpload", files[i], file_name);
+          let formData = new FormData()
+          formData.append('lifeUpload', files[i], file_name)
           this.upload_img_list.push({
             url: URL.createObjectURL(files[i]),
             file: formData,
             name: file_name,
-            upload: false
-          });
+            upload: false,
+          })
         }
       }
-      files_name = null;
+      files_name = null
     },
     // 上传图片
     add_photo_button() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
       this.form = {
         type: 1, //1图片上传，2，添加相册，3，修改相册
-        title: "上传图片",
-        width: "80%"
-      };
+        title: '上传图片',
+        width: '80%',
+      }
     },
     //添加相册
     add_album() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
       this.form = {
         type: 2, //1图片上传，2，添加相册，3，修改相册
-        title: "添加相册",
-        width: "40%"
-      };
+        title: '添加相册',
+        width: '40%',
+      }
     },
     //修改相册
     update_album(row) {
-      this.dialogVisible = true;
+      this.dialogVisible = true
       this.form = {
         type: 3, //1图片上传，2，添加相册，3，修改相册
-        title: "修改相册",
-        width: "40%"
-      };
-      row.privacy = row.privacy === "1";
-      this.album = row;
+        title: '修改相册',
+        width: '40%',
+      }
+      row.privacy = row.privacy === '1'
+      this.album = row
     },
     //删除相册
     delete_album(id) {
-      this.$confirm("删除相册将会导致相册下面图片不可见", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('删除相册将会导致相册下面图片不可见', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       }).then(() => {
         this.axios
           .ajax({
             url: this.$api.dht().album.del,
             data: {
-              id: id
+              id: id,
             },
-            loading: true
+            loading: true,
           })
           .then(() => {
-            this.album_list();
+            this.album_list()
           })
-          .catch();
-      });
+          .catch()
+      })
     },
     // 相册提交验证
     album_valdate() {
-      this.$refs["albumForm"].validate(valid => {
+      this.$refs['albumForm'].validate(valid => {
         if (valid) {
-          this.addAndUpdate();
+          this.addAndUpdate()
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     // 添加和修改ajax函数
     addAndUpdate() {
-      let type = this.form.type;
+      let type = this.form.type
       let data = {
         name: this.album.name,
-        privacy: this.album.privacy ? "1" : "0"
-      };
+        privacy: this.album.privacy ? '1' : '0',
+      }
       if (type === 3) {
         // 修改相册
-        data.id = this.album.id; // 修改增加相册id
+        data.id = this.album.id // 修改增加相册id
       }
       this.axios
         .ajax({
-          url:
-            type === 2
-              ? this.$api.dht().album.add
-              : this.$api.dht().album.modify,
+          url: type === 2 ? this.$api.dht().album.add : this.$api.dht().album.modify,
           loading: true,
-          method: type === 2 ? "get" : "post",
+          method: type === 2 ? 'get' : 'post',
           data: data,
-          success: type === 2 ? "添加成功" : "修改成功"
+          success: type === 2 ? '添加成功' : '修改成功',
         })
         .then(() => {
-          this.dialogVisible = false;
-          this.$refs["albumForm"].resetFields();
-          this.album_list();
+          this.dialogVisible = false
+          this.$refs['albumForm'].resetFields()
+          this.album_list()
         })
-        .catch();
+        .catch()
     },
     // 相册列表
     album_list() {
@@ -362,12 +333,12 @@ export default {
           url: this.$store.state.is_blogger
             ? this.$api.dht().album.list
             : this.$api.dht().album.noauth_list,
-          loading: true
+          loading: true,
         })
         .then(e => {
-          this.album_type = e.data;
+          this.album_type = e.data
         })
-        .catch();
+        .catch()
     },
     // 批量上传图片
     async upload_file_list() {
@@ -375,77 +346,75 @@ export default {
             file: formData,
             name: file_name,
             upload: false*/
-      const len = this.upload_img_list.length;
+      const len = this.upload_img_list.length
       if (len < 1) {
-        this.$message("请选择图片");
-        return false;
+        this.$message('请选择图片')
+        return false
       }
 
       const url_data = {
-        source: this.source ? this.source : "相册",
-        route_name: "dream/life/",
-        album_id: this.album_id.id
-      };
+        source: this.source ? this.source : '相册',
+        route_name: 'dream/life/',
+        album_id: this.album_id.id,
+      }
 
       // 对uri地址进行数据拼接
       const new_url = obj => {
         if (obj) {
-          let fields = "";
+          let fields = ''
           for (let key in obj) {
-            fields = fields + `&${key}=${obj[key]}`;
+            fields = fields + `&${key}=${obj[key]}`
           }
-          return "?" + fields.substring(1, fields.length);
+          return '?' + fields.substring(1, fields.length)
         } else {
-          return "";
+          return ''
         }
-      };
-      let success_img = []; //上传成功的图片列表
+      }
+      let success_img = [] //上传成功的图片列表
       for (let i = 0; i < len; i++) {
         const upload = () => {
           return new Promise(suc => {
             this.axios
               .ajax({
-                baseURL: "",
-                loading: "上传图片中",
-                url:
-                  this.$api.static().aliyun.single_img_upload +
-                  new_url(url_data),
+                baseURL: '',
+                loading: '上传图片中',
+                url: this.$api.static().aliyun.single_img_upload + new_url(url_data),
                 data: this.upload_img_list[i].file,
-                method: "post",
+                method: 'post',
                 headers: {
-                  "Content-Type": "multipart/form-data"
-                }
+                  'Content-Type': 'multipart/form-data',
+                },
               })
               .then(e => {
-                this.upload_img_list[i].upload = true;
-                success_img.push(e.data);
-                suc();
+                this.upload_img_list[i].upload = true
+                success_img.push(e.data)
+                suc()
               })
               .catch(() => {
-                suc();
-              });
-          });
-        };
-        await upload();
+                suc()
+              })
+          })
+        }
+        await upload()
       }
-      if (success_img.length < 1) return false;
+      if (success_img.length < 1) return false
       this.axios
         .ajax({
           url: this.$api.blog().blog_dynamic.add,
-          method: "post",
+          method: 'post',
           data: {
-            content: this.album_id.name + "相册新增了图片",
+            content: this.album_id.name + '相册新增了图片',
             img: success_img.slice(0, 5).toString(),
-            type: "3",
+            type: '3',
             privacy: this.album_id.privacy,
-            crux: this.album_id.id
-          }
+            crux: this.album_id.id,
+          },
         })
         .then(() => {})
-        .catch(() => {});
-    }
-  }
-};
+        .catch(() => {})
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

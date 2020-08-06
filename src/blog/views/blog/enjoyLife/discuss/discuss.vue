@@ -21,7 +21,7 @@
       <dht-discuss
         @reply="
           e => {
-            reply(e, item);
+            reply(e, item)
           }
         "
         ref="discuss"
@@ -37,22 +37,22 @@ export default {
   data() {
     return {
       item: {
-        discuss: []
-      }
-    };
+        discuss: [],
+      },
+    }
   },
   components: {
-    dhtDiscuss: () => import("@/blog/views/components/discuss.vue"),
+    dhtDiscuss: () => import('@/blog/views/components/discuss.vue'),
     // 图片组件
-    images: () => import("../../../components/img.vue")
+    images: () => import('../../../components/img.vue'),
   },
   beforeCreate() {},
   created() {
-    const id = this.$route.query.discuss;
+    const id = this.$route.query.discuss
     if (!id) {
-      this.$router.go(-1);
+      this.$router.go(-1)
     }
-    this.discuss_info(id);
+    this.discuss_info(id)
   },
   methods: {
     discuss_info(id) {
@@ -61,86 +61,86 @@ export default {
           url: this.$api.blog().discuss.info,
           loading: true,
           data: {
-            id: id
-          }
+            id: id,
+          },
         })
         .then(e => {
           if (e.data) {
-            e.data.discuss = [];
-            e.data.img_list = e.data.img_list ? e.data.img_list.split(",") : [];
-            this.item = e.data;
-            this.discuss_list();
+            e.data.discuss = []
+            e.data.img_list = e.data.img_list ? e.data.img_list.split(',') : []
+            this.item = e.data
+            this.discuss_list()
           } else {
             this.$message({
-              message: "评论已删除",
-              type: "info"
-            });
-            this.$router.go(-1);
+              message: '评论已删除',
+              type: 'info',
+            })
+            this.$router.go(-1)
           }
         })
-        .catch();
+        .catch()
     },
     // 评论组件返回数据
     reply(e, item) {
-      let data;
+      let data
       if (!e.node) {
         // 主评论
         data = {
           content: e.reply, //评论内容
-          is_trunk: "1", // 是否主评论
+          is_trunk: '1', // 是否主评论
           key: item.id, //关联id
-          type: "2", //评论类型，当前属于文章评论
+          type: '2', //评论类型，当前属于文章评论
           who: this.$store.state.ip.cip, //谁发的，记录ip地址
-          reply: "", // 发给谁记录ip地址
-          location: this.$store.state.ip.cname //发送人所在地区
-        };
+          reply: '', // 发给谁记录ip地址
+          location: this.$store.state.ip.cname, //发送人所在地区
+        }
       } else {
         // 回复评论
         data = {
           trunk_key: e.parentData.id, //归属于哪项评论下面
           content: e.reply,
-          is_trunk: "0",
+          is_trunk: '0',
           key: item.id,
-          type: "2",
+          type: '2',
           who: this.$store.state.ip.cip,
           reply: e.node.who,
-          location: this.$store.state.ip.cname
-        };
+          location: this.$store.state.ip.cname,
+        }
       }
       this.axios
         .ajax({
           url: this.$api.blog().discuss.add,
           data: data,
-          method: "post",
-          success: "评论成功",
-          loading: true
+          method: 'post',
+          success: '评论成功',
+          loading: true,
         })
         .then(() => {
-          this.discuss_list();
+          this.discuss_list()
         })
-        .catch();
+        .catch()
     },
     // 删除评论
     del_discuss(e) {
-      this.$confirm("此操作将永久删除该评论, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该评论, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.axios
             .ajax({
               url: this.$api.blog().discuss.del,
               data: {
-                id: e.node.id
-              }
+                id: e.node.id,
+              },
             })
             .then(() => {
-              this.discuss_list();
+              this.discuss_list()
             })
-            .catch();
+            .catch()
         })
-        .catch();
+        .catch()
     },
     // 评论列表数据
     discuss_list() {
@@ -149,37 +149,37 @@ export default {
           url: this.$api.blog().discuss.list,
           data: {
             id: this.item.id, //文章的id
-            type: 2 //代表动态评论列表
-          }
+            type: 2, //代表动态评论列表
+          },
         })
         .then(e => {
           // console.log(e.data);
-          let new_data = [];
-          let no_reply = [];
+          let new_data = []
+          let no_reply = []
           e.data.map(val => {
-            val.isReply = false;
-            val.isShow = true;
-            val.children = [];
+            val.isReply = false
+            val.isShow = true
+            val.children = []
             if (val.reply) {
-              no_reply.push(val);
+              no_reply.push(val)
             } else {
-              new_data.push(val);
+              new_data.push(val)
             }
-          });
+          })
 
           this.item.discuss = new_data.map(val => {
             no_reply.map(li => {
               if (val.id == li.trunk_key) {
-                val.children.push(li);
+                val.children.push(li)
               }
-            });
-            return val;
-          });
+            })
+            return val
+          })
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

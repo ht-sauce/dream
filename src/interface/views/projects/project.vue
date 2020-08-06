@@ -21,23 +21,13 @@
           <el-input v-model="project.prefix"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
-          <el-input
-            type="textarea"
-            :rows="5"
-            v-model="project.remarks"
-          ></el-input>
+          <el-input type="textarea" :rows="5" v-model="project.remarks"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button
-            v-if="dialog.type === 1"
-            type="primary"
-            @click="form_data('ruleForm')"
+          <el-button v-if="dialog.type === 1" type="primary" @click="form_data('ruleForm')"
             >确认新建项目</el-button
           >
-          <el-button
-            v-if="dialog.type === 2"
-            type="warning"
-            @click="form_data('ruleForm')"
+          <el-button v-if="dialog.type === 2" type="warning" @click="form_data('ruleForm')"
             >确认修改项目</el-button
           >
         </el-form-item>
@@ -72,13 +62,8 @@
               style="color: #ff9e14;"
               >修改</span
             >
-            <span @click="look_project(item.name)" class="el-icon-document"
-              >详情</span
-            >
-            <span
-              @click="delete_project(item.name)"
-              class="el-icon-delete"
-              style="color: #ff191f;"
+            <span @click="look_project(item.name)" class="el-icon-document">详情</span>
+            <span @click="delete_project(item.name)" class="el-icon-delete" style="color: #ff191f;"
               >删除</span
             >
           </div>
@@ -90,101 +75,101 @@
 
 <script>
 export default {
-  name: "modular",
+  name: 'modular',
   data() {
     return {
-      keyword: "",
+      keyword: '',
       dialog: {
         show: false,
-        title: "新建项目",
+        title: '新建项目',
         type: 1, // 1新增，2修改，3详情
-        width: "50%"
+        width: '50%',
       },
       project: {
-        name: "",
-        prefix: "",
-        remarks: ""
+        name: '',
+        prefix: '',
+        remarks: '',
       },
       rules: {
         name: [
-          { required: true, message: "请输入项目名称", trigger: "blur" },
-          { min: 3, max: 30, message: "长度在 3 到 30 个字", trigger: "blur" }
+          { required: true, message: '请输入项目名称', trigger: 'blur' },
+          { min: 3, max: 30, message: '长度在 3 到 30 个字', trigger: 'blur' },
         ],
-        prefix: [{ max: 50, message: "最多50个字", trigger: "blur" }],
-        remarks: [{ max: 200, message: "最多200个字", trigger: "blur" }]
+        prefix: [{ max: 50, message: '最多50个字', trigger: 'blur' }],
+        remarks: [{ max: 200, message: '最多200个字', trigger: 'blur' }],
       },
-      project_list: []
-    };
+      project_list: [],
+    }
   },
   beforeCreate() {},
   created() {
-    this.item_list();
+    this.item_list()
   },
   methods: {
     // 搜索关键字
     search() {
-      console.log(this.keyword);
-      this.item_list();
+      console.log(this.keyword)
+      this.item_list()
     },
     // 弹窗关闭事件
     dialog_close() {
-      this.$refs["ruleForm"] && this.$refs["ruleForm"].resetFields();
+      this.$refs['ruleForm'] && this.$refs['ruleForm'].resetFields()
     },
     // 新建项目按钮
     add_project_button() {
       this.dialog = {
         show: true,
-        title: "新建项目",
+        title: '新建项目',
         type: 1, // 1新增，2修改
-        width: "50%"
-      };
+        width: '50%',
+      }
     },
     // 表单数据验证
     form_data(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           // 新增
-          if (this.dialog.type === 1) this.add_project_ajax();
+          if (this.dialog.type === 1) this.add_project_ajax()
           // 修改
-          if (this.dialog.type === 2) this.update_project_ajax();
+          if (this.dialog.type === 2) this.update_project_ajax()
         }
-      });
+      })
     },
     // 新建项目接口
     add_project_ajax() {
       let data = {
         name: this.project.name,
         prefix: this.project.prefix,
-        remarks: this.project.remarks
-      };
+        remarks: this.project.remarks,
+      }
       this.axios
         .ajax({
           url: this.$api.interface().project.add,
           data: data,
-          method: "post"
+          method: 'post',
         })
         .then(res => {
-          console.log(res);
-          this.dialog.show = false;
-          this.item_list();
+          console.log(res)
+          this.dialog.show = false
+          this.item_list()
         })
-        .catch();
+        .catch()
     },
     // 项目列表接口
     item_list() {
       let data = {
-        name: this.keyword
-      };
+        name: this.keyword,
+      }
       this.axios
         .ajax({
           url: this.$api.interface().project.list,
-          data: data
+          data: data,
         })
         .then(res => {
-          console.log(res);
-          this.project_list = res.data;
+          console.log(res)
+          this.project_list = res.data
         })
-        .catch();
+        .catch()
     },
     // 修改项目
     update_project_button(name) {
@@ -192,13 +177,13 @@ export default {
         .then(e => {
           this.dialog = {
             show: true,
-            title: "修改项目",
+            title: '修改项目',
             type: 2, // 1新增，2修改
-            width: "50%"
-          };
-          this.project = e.data;
+            width: '50%',
+          }
+          this.project = e.data
         })
-        .catch();
+        .catch()
     },
     // 修改项目接口
     update_project_ajax() {
@@ -206,20 +191,20 @@ export default {
         id: this.project.id,
         name: this.project.name,
         prefix: this.project.prefix,
-        remarks: this.project.remarks
-      };
+        remarks: this.project.remarks,
+      }
       this.axios
         .ajax({
           url: this.$api.interface().project.modify,
           data: data,
-          method: "post"
+          method: 'post',
         })
         .then(res => {
-          console.log(res);
-          this.dialog.show = false;
-          this.item_list();
+          console.log(res)
+          this.dialog.show = false
+          this.item_list()
         })
-        .catch();
+        .catch()
     },
     // 查看项目
     look_project(name) {
@@ -227,62 +212,62 @@ export default {
         .then(e => {
           this.dialog = {
             show: true,
-            title: "项目详情",
+            title: '项目详情',
             type: 3, // 1新增，2修改
-            width: "50%"
-          };
-          this.project = e.data;
+            width: '50%',
+          }
+          this.project = e.data
         })
-        .catch();
+        .catch()
     },
     // 项目详情接口
     project_details_ajax(name) {
       let data = {
-        name: name
-      };
+        name: name,
+      }
       return new Promise((suc, err) => {
         this.axios
           .ajax({
             url: this.$api.interface().project.info,
             data: data,
-            loading: true
+            loading: true,
           })
           .then(e => {
-            suc(e);
+            suc(e)
           })
-          .catch(() => err());
-      });
+          .catch(() => err())
+      })
     },
     // 删除
     delete_project(name) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       }).then(() => {
         this.axios
           .ajax({
             url: this.$api.interface().project.delete,
             data: {
-              name: name
+              name: name,
             },
-            loading: true
+            loading: true,
           })
           .then(this.item_list())
-          .catch();
-      });
+          .catch()
+      })
     },
     // 进入项目
     get_into_project(name) {
       this.project_details_ajax(name)
         .then(e => {
-          this.$store.commit("set_data", { modular_params: e.data });
-          this.$router.push({ path: "/modular" });
+          this.$store.commit('set_data', { modular_params: e.data })
+          this.$router.push({ path: '/modular' })
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

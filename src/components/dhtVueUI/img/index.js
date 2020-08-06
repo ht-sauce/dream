@@ -1,7 +1,7 @@
-import img from "./img.vue";
+import img from './img.vue'
 
 img.install = function(vue) {
-  vue.component(img.name, img);
-};
+  vue.component(img.name, img)
+}
 
-export default img;
+export default img

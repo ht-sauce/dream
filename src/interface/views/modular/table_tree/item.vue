@@ -1,14 +1,9 @@
 <template>
   <div class="dht-item">
-    <div
-      class="dht-item-li"
-      :class="{ 'dht-item-li-modify': children.is_edit }"
-    >
+    <div class="dht-item-li" :class="{ 'dht-item-li-modify': children.is_edit }">
       <div style="width: 100px;">
         <span v-if="!children.is_edit">
-          <span class="el-icon-edit modify" @click="edit_state(children, true)"
-            >修改</span
-          >
+          <span class="el-icon-edit modify" @click="edit_state(children, true)">修改</span>
           <!--暂时不拓展子项数据部分-->
           <!--<span class="el-icon-plus cancal" style="margin-left: 15px;"
             >添加</span
@@ -48,11 +43,7 @@
         />
       </div>
       <div style="width: 100px;" class="is-null">
-        <el-checkbox
-          v-if="!children.is_edit"
-          v-model="children.isnull"
-          disabled
-        ></el-checkbox>
+        <el-checkbox v-if="!children.is_edit" v-model="children.isnull" disabled></el-checkbox>
         <el-checkbox v-else v-model="children.isnull"></el-checkbox>
       </div>
       <div style="width: 120px;">
@@ -76,19 +67,11 @@
       </div>
       <div style="width: 200px;">
         <span v-if="!children.is_edit">{{ children.default }}</span>
-        <textarea
-          @keyup="autoHeight"
-          v-else
-          v-model="children.default"
-        ></textarea>
+        <textarea @keyup="autoHeight" v-else v-model="children.default"></textarea>
       </div>
       <div style="width: 100%;">
         <span v-if="!children.is_edit">{{ children.remarks }}</span>
-        <textarea
-          @keyup="autoHeight"
-          v-else
-          v-model="children.remarks"
-        ></textarea>
+        <textarea @keyup="autoHeight" v-else v-model="children.remarks"></textarea>
       </div>
     </div>
     <template v-for="(item, index) in children.children">
@@ -105,46 +88,46 @@
 
 <script>
 // 引入验证信息模块
-import schema from "async-validator";
+import schema from 'async-validator'
 export default {
-  name: "itemSon",
+  name: 'itemSon',
   props: {
     apiInfo: {
       type: Object,
       default() {
-        return {};
-      }
+        return {}
+      },
     },
     dataLocation: Array, //数据定位，表示层级和数据位置
     reaction: String,
     children: Object,
-    level: Number //当前层级
+    level: Number, //当前层级
   },
   data() {
     return {
       options: [
         {
-          value: "String",
-          label: "String"
+          value: 'String',
+          label: 'String',
         },
         {
-          value: "Number",
-          label: "Number"
+          value: 'Number',
+          label: 'Number',
         },
         {
-          value: "Boolean",
-          label: "Boolean"
+          value: 'Boolean',
+          label: 'Boolean',
         },
         {
-          value: "Array",
-          label: "Array"
+          value: 'Array',
+          label: 'Array',
         },
         {
-          value: "Object",
-          label: "Object"
-        }
-      ]
-    };
+          value: 'Object',
+          label: 'Object',
+        },
+      ],
+    }
   },
   beforeCreate() {},
   created() {},
@@ -154,19 +137,19 @@ export default {
     del_now_field(e) {
       // 删除当前条数据
       if (this.children.children && this.children.children.length > 1) {
-        this.children.children.splice(e[1], 1);
+        this.children.children.splice(e[1], 1)
       }
     },
     // textarea自动增加高度
     autoHeight(elem) {
-      let el = elem.srcElement;
-      el.style.height = "auto";
-      el.scrollTop = 0; //防抖动
-      el.style.height = el.scrollHeight + "px";
+      let el = elem.srcElement
+      el.style.height = 'auto'
+      el.scrollTop = 0 //防抖动
+      el.style.height = el.scrollHeight + 'px'
     },
     // 可编辑切换
     edit_state(children, tOrf) {
-      children.is_edit = tOrf;
+      children.is_edit = tOrf
     },
     // 规则校验函数
     rules(type) {
@@ -176,67 +159,67 @@ export default {
         api_id: this.apiInfo.id,
         reaction: this.reaction,
         name: this.children.name,
-        isnull: this.children.isnull ? "1" : "0",
+        isnull: this.children.isnull ? '1' : '0',
         type: this.children.type,
         default: this.children.default,
-        remarks: this.children.remarks
-      };
-      let rule;
-      if (type === "add") {
-        rule = {
-          api_id: { required: true, message: "没有接口id，出现异常，退出重试" },
-          reaction: { required: true, message: "没有接口响应类型" },
-          name: { required: true, message: "请填写接口名称" },
-          isnull: { required: true, message: "请填写接口名称" },
-          type: { required: true, message: "请填写接口类型" },
-          default: { max: 200, message: "默认值过长" },
-          remarks: { max: 200, message: "备注超长" }
-        };
+        remarks: this.children.remarks,
       }
-      if (type === "save") {
+      let rule
+      if (type === 'add') {
         rule = {
-          id: { required: true, message: "没有接口id，出现异常，退出重试" },
-          api_id: { required: true, message: "没有接口id，出现异常，退出重试" },
-          reaction: { required: true, message: "没有接口响应类型" },
-          name: { required: true, message: "请填写接口名称" },
-          isnull: { required: true, message: "请填写接口名称" },
-          type: { required: true, message: "请填写接口类型" },
-          default: { max: 200, message: "默认值过长" },
-          remarks: { max: 200, message: "备注超长" }
-        };
+          api_id: { required: true, message: '没有接口id，出现异常，退出重试' },
+          reaction: { required: true, message: '没有接口响应类型' },
+          name: { required: true, message: '请填写接口名称' },
+          isnull: { required: true, message: '请填写接口名称' },
+          type: { required: true, message: '请填写接口类型' },
+          default: { max: 200, message: '默认值过长' },
+          remarks: { max: 200, message: '备注超长' },
+        }
       }
-      if (type === "del") {
+      if (type === 'save') {
+        rule = {
+          id: { required: true, message: '没有接口id，出现异常，退出重试' },
+          api_id: { required: true, message: '没有接口id，出现异常，退出重试' },
+          reaction: { required: true, message: '没有接口响应类型' },
+          name: { required: true, message: '请填写接口名称' },
+          isnull: { required: true, message: '请填写接口名称' },
+          type: { required: true, message: '请填写接口类型' },
+          default: { max: 200, message: '默认值过长' },
+          remarks: { max: 200, message: '备注超长' },
+        }
+      }
+      if (type === 'del') {
         data = {
-          id: this.children.id
-        };
-        rule = {};
+          id: this.children.id,
+        }
+        rule = {}
       }
 
-      const validator = new schema(rule);
+      const validator = new schema(rule)
       validator
         .validate(data)
         .then(() => {
-          if (type === "add") {
+          if (type === 'add') {
             // 添加数据
-            this.add_field(data);
+            this.add_field(data)
           }
-          if (type === "save") {
+          if (type === 'save') {
             // 修改数据
-            this.update_field(data);
+            this.update_field(data)
           }
-          if (type === "del") {
+          if (type === 'del') {
             // 删除数据
-            this.del_field(data);
+            this.del_field(data)
           }
         })
         .catch(e => {
-          console.log(e.errors);
+          console.log(e.errors)
           this.$notify({
             message: e.errors[0].message,
-            type: "warning",
-            title: e.errors[0].field
-          });
-        });
+            type: 'warning',
+            title: e.errors[0].field,
+          })
+        })
     },
     // 添加字段
     add_field(data) {
@@ -244,63 +227,63 @@ export default {
         .ajax({
           url: this.$api.interface().fields.add,
           data: data,
-          method: "post",
-          loading: true
+          method: 'post',
+          loading: true,
         })
         .then(e => {
-          console.log(e.data);
-          this.children.is_edit = false;
-          this.children.id = e.data;
+          console.log(e.data)
+          this.children.is_edit = false
+          this.children.id = e.data
         })
-        .catch();
+        .catch()
     },
     del_field(data) {
       this.axios
         .ajax({
           url: this.$api.interface().fields.del,
           data: data,
-          loading: true
+          loading: true,
         })
         .then(() => {
           // 返回给父级，删除当前这条数据
-          this.$emit("del", this.dataLocation);
+          this.$emit('del', this.dataLocation)
         })
-        .catch();
+        .catch()
     },
     update_field(data) {
       this.axios
         .ajax({
           url: this.$api.interface().fields.modify,
           data: data,
-          method: "post",
-          loading: true
+          method: 'post',
+          loading: true,
         })
         .then(() => {
-          this.children.is_edit = false;
+          this.children.is_edit = false
         })
-        .catch();
+        .catch()
     },
     //返回的事件数据
     re_event(data, type) {
-      if (type === "save" && this.children.id) {
-        console.log("修改保存数据");
-        this.rules("save");
+      if (type === 'save' && this.children.id) {
+        console.log('修改保存数据')
+        this.rules('save')
       }
-      if (type === "save" && !this.children.id) {
-        console.log("新增数据");
-        this.rules("add");
+      if (type === 'save' && !this.children.id) {
+        console.log('新增数据')
+        this.rules('add')
       }
-      if (type === "del") {
-        console.log("删除数据");
+      if (type === 'del') {
+        console.log('删除数据')
         if (!this.children.id) {
-          this.$emit("del", this.dataLocation);
-          return;
+          this.$emit('del', this.dataLocation)
+          return
         }
-        this.rules("del");
+        this.rules('del')
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">

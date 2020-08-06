@@ -4,11 +4,7 @@
       <li :key="index">
         <div class="top">
           <router-link :to="'/blog_content?article_id=' + item.id">
-            <dht-img
-              v-if="item.cover"
-              class="blog_img"
-              :src="item.cover"
-            ></dht-img>
+            <dht-img v-if="item.cover" class="blog_img" :src="item.cover"></dht-img>
           </router-link>
           <div class="top-text">
             <h3>
@@ -16,11 +12,7 @@
                 item.title
               }}</router-link>
             </h3>
-            <dht-text
-              :text="item.synopsis"
-              :num="190"
-              class="blog_p"
-            ></dht-text>
+            <dht-text :text="item.synopsis" :num="190" class="blog_p"></dht-text>
           </div>
         </div>
         <!--底部标签-->
@@ -47,9 +39,7 @@
             <span class="icon_text">( {{ item.visit }} )</span>
           </li>
           <li class="icon_text">
-            <router-link
-              class="icon_text"
-              :to="'/blog_content?article_id=' + item.id"
+            <router-link class="icon_text" :to="'/blog_content?article_id=' + item.id"
               >阅读原文</router-link
             >
           </li>
@@ -64,14 +54,14 @@
 
 <script>
 export default {
-  name: "left_blog",
+  name: 'left_blog',
   props: {
-    list: Array
+    list: Array,
   },
   data() {
     return {
-      all_class: this.$store.state.all_class
-    };
+      all_class: this.$store.state.all_class,
+    }
   },
   beforeCreate() {},
   created() {},
@@ -80,52 +70,52 @@ export default {
   methods: {
     blogIconTaps(val) {
       if (!val) {
-        return val;
+        return val
       }
-      const tag = val.split(",");
-      let nval = [];
+      const tag = val.split(',')
+      let nval = []
       this.$store.state.all_class.map(v => {
         tag.map(t => {
           if (v.id === Number(t)) {
-            nval.push(v.name);
+            nval.push(v.name)
           }
-        });
-      });
-      let tags = "";
+        })
+      })
+      let tags = ''
       nval.map(li => {
-        tags = tags + " | " + li;
-        return li;
-      });
-      return tags.substring(2, tags.length);
+        tags = tags + ' | ' + li
+        return li
+      })
+      return tags.substring(2, tags.length)
     },
     del_article(index, list) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this.axios
             .ajax({
               url: this.$api.blog().article.del,
               data: {
-                id: list[index].id
+                id: list[index].id,
               },
-              loading: true
+              loading: true,
             })
             .then(() => {
-              list.splice(index, 1);
+              list.splice(index, 1)
             })
-            .catch();
+            .catch()
         })
-        .catch();
-    }
-  }
-};
+        .catch()
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 .left_blog {
   > li {
     width: 100%;

@@ -1,17 +1,7 @@
 <template>
-  <el-popover
-    placement="bottom"
-    popper-class="user-popover"
-    width="150"
-    trigger="hover"
-  >
+  <el-popover placement="bottom" popper-class="user-popover" width="150" trigger="hover">
     <div slot="reference" class="user-info">
-      <img
-        v-if="user.portrait"
-        :alt="user.nickname"
-        :src="user.portrait"
-        class="portrait"
-      />
+      <img v-if="user.portrait" :alt="user.nickname" :src="user.portrait" class="portrait" />
       <span v-else class="el-icon-user-solid portrait"></span>
       <span>{{ user.nickname }}</span>
     </div>
@@ -29,63 +19,63 @@
       </template>
       <div @click="logout" class="reference-content-li">
         <span class="reference-content-li-icon el-icon-s-unfold"></span>
-        <span>{{ user.nickname ? "退出" : "登录" }}</span>
+        <span>{{ user.nickname ? '退出' : '登录' }}</span>
       </div>
     </div>
   </el-popover>
 </template>
 
 <script>
-import control from "@/common/control_center/index";
-import store from "store";
+import control from '@/common/control_center/index'
+import store from 'store'
 export default {
   props: {
     power: {
       type: Array,
       default() {
-        return [];
-      }
+        return []
+      },
     },
     noshow: String,
     ispower: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       user: {},
-      powers: this.power
-    };
+      powers: this.power,
+    }
   },
   created() {
-    const user = store.get("user_info");
-    let user_info;
+    const user = store.get('user_info')
+    let user_info
     if (!user) {
-      return false;
+      return false
     }
-    user_info = user.userInfo;
-    user_info.portrait = this.$api.static().visit + user_info.portrait;
-    this.user = user_info;
+    user_info = user.userInfo
+    user_info.portrait = this.$api.static().visit + user_info.portrait
+    this.user = user_info
 
     if (this.ispower) {
-      let items = store.get("power").map(val => {
-        val.title = val.name;
+      let items = store.get('power').map(val => {
+        val.title = val.name
         val.event = () => {
-          window.location.href = val.url;
-        };
-        return val;
-      });
-      this.powers = this.powers.concat(items);
+          window.location.href = val.url
+        }
+        return val
+      })
+      this.powers = this.powers.concat(items)
     }
   },
   methods: {
     // 退出登录
     logout() {
-      control.logout();
-    }
-  }
-};
+      control.logout()
+    },
+  },
+}
 </script>
 <style>
 .user-popover {

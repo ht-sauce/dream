@@ -10,33 +10,33 @@
   </div>
 </template>
 <script>
-import store from "store";
+import store from 'store'
 export default {
-  name: "interface",
+  name: 'interface',
   data() {
-    return {};
+    return {}
   },
   components: {
-    interfaceHead: () => import("@/interface/components/header/header.vue"),
-    bottom: () => import("@/components/copyright/tail.vue")
+    interfaceHead: () => import('@/interface/components/header/header.vue'),
+    bottom: () => import('@/components/copyright/tail.vue'),
   },
   watch: {},
   beforeCreate() {},
   created() {
     // 将用户数据存入到vuex便于后续操作
-    this.$store.commit("set_data", {
-      user_info: store.get("user_info").userInfo
-    });
+    this.$store.commit('set_data', {
+      user_info: store.get('user_info').userInfo,
+    })
   },
   beforeMount() {},
   mounted() {},
-  methods: {}
-};
+  methods: {},
+}
 </script>
 <style lang="scss">
-@import "@/assets/css/public.scss";
+@import '@/assets/css/public.scss';
 #interface {
-  font: 14px "Microsoft YaHei UI" sans-serif;
+  font: 14px 'Microsoft YaHei UI' sans-serif;
   color: $font_main;
   width: 100%;
   height: 100%;
