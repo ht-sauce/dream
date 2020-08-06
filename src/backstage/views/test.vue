@@ -1,7 +1,25 @@
 <template>
-  <div class="test">
-    <el-button @click="ceshi">测试</el-button>
-    <DialogConfirm ref="DialogConfirm" />
+  <div>
+    <rich-operate class="test">
+      <rich-operate-itme>
+        <div class="ceshi"></div>
+      </rich-operate-itme>
+      <rich-operate-itme>
+        <div class="ceshi"></div>
+      </rich-operate-itme>
+      <rich-operate-itme>
+        <div class="ceshi"></div>
+      </rich-operate-itme>
+      <rich-operate-itme>
+        <div class="ceshi"></div>
+      </rich-operate-itme>
+      <rich-operate-itme>
+        <div class="ceshi"></div>
+      </rich-operate-itme>
+      <rich-operate-itme>
+        <div class="ceshi"></div>
+      </rich-operate-itme>
+    </rich-operate>
   </div>
 </template>
 
@@ -12,24 +30,25 @@ export default {
   },
   created() {},
   components: {
-    DialogConfirm: () => import('@/backstage/components/dialog_confirm/dialogConfirm.vue'),
+    RichOperate: () => import('@/components/CustomCom/RichOperate/index'),
+    RichOperateItme: () => import('@/components/CustomCom/RichOperate/item'),
   },
-  methods: {
-    ceshi() {
-      const Confirm = this.$refs['DialogConfirm']
-      Confirm.confirm()
-        .then(e => {
-          console.log(e)
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    },
-  },
+  methods: {},
 }
 </script>
 
 <style scoped lang="scss">
 .test {
+  margin-left: 500px;
+  display: flex;
+  width: 500px;
+  flex-wrap: wrap;
+  background: #fff;
+}
+.ceshi {
+  width: 200px;
+  height: 50px;
+  margin: 5px;
+  box-shadow: #1a87ff 0 0 5px;
 }
 </style>

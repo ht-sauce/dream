@@ -2,8 +2,41 @@
 import Vue from 'vue'
 
 //element ui部分
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import {
+  Input,
+  Button,
+  Dialog,
+  Popover,
+  Autocomplete,
+  Form,
+  FormItem,
+  Switch,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup,
+  Upload,
+  Select,
+  Option,
+} from 'element-ui'
+const elementUI = [
+  Input,
+  Button,
+  Dialog,
+  Popover,
+  Autocomplete,
+  Form,
+  FormItem,
+  Switch,
+  Checkbox,
+  CheckboxButton,
+  CheckboxGroup,
+  Upload,
+  Select,
+  Option,
+]
+elementUI.forEach(component => {
+  Vue.use(component)
+})
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 }
 
 import cat from '@/components/livetd/index'
@@ -15,7 +48,6 @@ Vue.use(dhtui, { zIndex: 4000 })
 //全局框架范围组件
 function install() {
   Vue.use(cat)
-  Vue.use(ElementUI)
 }
 
 //Vue.prototype.$notify = Notification;
