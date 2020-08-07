@@ -1,6 +1,7 @@
 <template>
   <div>
-    <rich-operate class="test">
+    <div class="ceshi2" @click="dataAdd"></div>
+    <rich-operate switch :index="5" class="test">
       <rich-operate-itme :value="shiyan">
         <div class="ceshi"></div>
       </rich-operate-itme>
@@ -20,7 +21,6 @@
         <div class="ceshi"></div>
       </rich-operate-itme>
     </rich-operate>
-    <div class="ceshi" @click="dataAdd"></div>
   </div>
 </template>
 
@@ -54,10 +54,14 @@ export default {
   flex-wrap: wrap;
   background: #fff;
 }
-.ceshi {
+.ceshi,
+.ceshi2 {
   width: 200px;
   height: 50px;
   margin: 5px;
   box-shadow: #1a87ff 0 0 5px;
+}
+.ceshi2 {
+  height: 100px;
 }
 </style>
