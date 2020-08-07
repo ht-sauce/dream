@@ -11,16 +11,27 @@ export default {
   provide() {
     return {
       // 添加节点数据
-      setList: ({
+      dhtSetList: ({
         bindData = null, // 绑定数据
         self = null, // 本身
         select = false, // 是否被选中
       }) => {
-        this.list.push({
-          bindData,
-          self,
-          select,
+        let alike = false
+        // 判断是否已经存在数据列表内部
+        this.list.forEach(item => {
+          if (item.self === self) {
+            item.bindData = bindData
+            alike = true
+          }
         })
+        if (!alike) {
+          this.list.push({
+            bindData,
+            self,
+            select,
+          })
+        }
+        // console.log(this.list, this.list.length)
       },
     }
   },
@@ -48,6 +59,7 @@ export default {
     })
   },
   mounted() {
+    // 初始
     this.list[0].select = true
     this.sendEmit({ item: this.list[0], index: 0 })
   },
@@ -69,8 +81,8 @@ export default {
     },
     // 移动点
     move(type) {
-      if (type === 'top') console.log(type)
-      if (type === 'bottom') console.log(type)
+      if (type === 'top') this.topOrbottomMove(type)
+      if (type === 'bottom') this.topOrbottomMove(type)
       if (type === 'left') this.leftOrRightMove(type)
       if (type === 'right') this.leftOrRightMove(type)
     },
@@ -96,8 +108,18 @@ export default {
       this.currentIndex = nextIndex
       this.sendEmit({ item: list[nextIndex], index: nextIndex })
     },
+    // 上下移动
+    topOrbottomMove(type) {
+      if (type === 'top') {
+        console.log(type)
+      }
+      if (type === 'bottom') {
+        console.log(type)
+      }
+    },
     // 统一返回给外界当前数据
     sendEmit({ item, index }) {
+      console.log(item.self.$el)
       // 操作当前选中的dom或者实例
       const dom = this.list[index].self.$el
       dom.style.background = this.background

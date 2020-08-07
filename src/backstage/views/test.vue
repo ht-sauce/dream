@@ -1,7 +1,7 @@
 <template>
   <div>
     <rich-operate class="test">
-      <rich-operate-itme>
+      <rich-operate-itme :value="shiyan">
         <div class="ceshi"></div>
       </rich-operate-itme>
       <rich-operate-itme>
@@ -20,20 +20,29 @@
         <div class="ceshi"></div>
       </rich-operate-itme>
     </rich-operate>
+    <div class="ceshi" @click="dataAdd"></div>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {}
+    return {
+      shiyan: 1,
+    }
   },
   created() {},
   components: {
     RichOperate: () => import('@/components/CustomCom/RichOperate/index'),
     RichOperateItme: () => import('@/components/CustomCom/RichOperate/item'),
+    // vt: () => import('./vt'),
   },
-  methods: {},
+  methods: {
+    ceshi() {},
+    dataAdd() {
+      this.shiyan++
+    },
+  },
 }
 </script>
 

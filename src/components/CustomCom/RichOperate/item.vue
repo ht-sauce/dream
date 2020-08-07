@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'RichOperateItem',
-  inject: ['setList'],
+  inject: ['dhtSetList'],
   props: {
     value: null, // 当前绑定的数据
   },
@@ -22,7 +22,7 @@ export default {
       immediate: true,
       handler(value) {
         // 设置绑定的初始数据
-        this.setList({
+        this.dhtSetList({
           bindData: value, // 绑定数据
           self: this, // 本身
           select: false, // 是否被选中
