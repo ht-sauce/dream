@@ -140,14 +140,17 @@ export default {
       let currentIndex = this.lastTimeLi() // 上一次的index,也是当前的index
       const list = this.list
       const currentLi = list[currentIndex]
-      const currentY = currentLi.self.$el.getBoundingClientRect().y
+      const currentLiDom = currentLi.self.$el.getBoundingClientRect()
+      const currentY = currentLiDom.y
+      const currentX = currentLiDom.x
 
       const relativeList = []
       list.forEach((item, index) => {
-        const { y } = item.self.$el.getBoundingClientRect()
+        const { y, x } = item.self.$el.getBoundingClientRect()
         relativeList.push({
           li: item,
           y: currentY - y,
+          x: Math.abs(currentX - x),
           index,
         })
       })
@@ -161,7 +164,13 @@ export default {
           this.sendEmit({ item: list[currentIndex], index: currentIndex })
         } else {
           topEliminate.sort((a, b) => a.y - b.y)
-          console.log(topEliminate)
+          const xArr = topEliminate.filter(item => item.y === topEliminate[0].y)
+          if (xArr.length > 1) {
+            xArr.sort((a, b) => a.x - b.x)
+            this.sendEmit({ item: xArr[0], index: xArr[0].index })
+          } else {
+            this.sendEmit({ item: xArr[0], index: xArr[0].index })
+          }
         }
       }
       if (type === 'bottom') {
@@ -171,8 +180,14 @@ export default {
           // 最终发送确认值
           this.sendEmit({ item: list[currentIndex], index: currentIndex })
         } else {
-          bottomEliminate.sort((a, b) => a.y - b.y)
-          console.log(bottomEliminate)
+          bottomEliminate.sort((a, b) => b.y - a.y)
+          const xArr = bottomEliminate.filter(item => item.y === bottomEliminate[0].y)
+          if (xArr.length > 1) {
+            xArr.sort((a, b) => a.x - b.x)
+            this.sendEmit({ item: xArr[0], index: xArr[0].index })
+          } else {
+            this.sendEmit({ item: xArr[0], index: xArr[0].index })
+          }
         }
       }
     },
