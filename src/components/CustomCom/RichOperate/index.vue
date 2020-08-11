@@ -36,6 +36,13 @@ export default {
     }
   },
   props: {
+    // 结构为上下左右，传入0为关闭，传入对应键位则为设置键位响应
+    keyPress: {
+      type: Array,
+      default() {
+        return [38, 40, 37, 39] // 上下左右
+      },
+    },
     // 初始index
     index: {
       type: Number,
@@ -93,15 +100,12 @@ export default {
     // 键盘监听事件
     onKeyDown(e) {
       const code = e.keyCode
+      const [top, bottom, left, right] = this.keyPress
       const type = {
-        38: 'top', // 上
-        40: 'bottom', // 下
-        37: 'left', // 左
-        39: 'right', // 右
-        87: 'top', // w
-        65: 'left', // a
-        83: 'bottom', // s
-        68: 'right', // d
+        [top]: 'top', // 上
+        [bottom]: 'bottom', // 下
+        [left]: 'left', // 左
+        [right]: 'right', // 右
       }
       this.move(type[code])
     },
@@ -139,6 +143,7 @@ export default {
     topOrbottomMove(type) {
       let currentIndex = this.lastTimeLi() // 上一次的index,也是当前的index
       const list = this.list
+      // 当前
       const currentLi = list[currentIndex]
       const currentLiDom = currentLi.self.$el.getBoundingClientRect()
       const currentY = currentLiDom.y

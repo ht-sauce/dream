@@ -33,8 +33,3 @@ export default {
   mounted() {},
 }
 </script>
-
-<style scoped lang="scss">
-.rich-operate-item {
-}
-</style>
