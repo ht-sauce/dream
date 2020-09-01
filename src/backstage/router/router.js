@@ -33,6 +33,18 @@ const router = new Router({
         auth: false,
       },
     },
+    {
+      path: '/quill',
+      component: () => import('../views/Quill.vue'),
+      meta: {
+        metaInfo: {
+          title: '测试',
+          keywords: '测试',
+          description: '测试',
+        },
+        auth: false,
+      },
+    },
   ],
 })
 
