@@ -125,7 +125,7 @@ export default {
             container: [
               ['bold', 'italic', 'underline', 'strike'], // toggled buttons
               ['blockquote', 'code-block'],
-              [{ header: 1 }, { header: 2 }], // custom button values
+              [{ header: 2 }, { header: 3 }], // custom button values
               [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
               [{ direction: 'rtl' }], // text direction
               [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
