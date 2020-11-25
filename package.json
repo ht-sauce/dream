@@ -14,7 +14,7 @@
     "delaunator": "^4.0.1",
     "element-china-area-data": "^4.1.2",
     "element-ui": "^2.11.1",
-    "highlight.js": "^9.16.2",
+    "highlight.js": "^10.1.2",
     "quill": "latest",
     "quill-image-drop-module": "^1.0.3",
     "quill-image-resize-module": "^3.0.0",
