@@ -45,6 +45,18 @@ const router = new Router({
         auth: false,
       },
     },
+    {
+      path: '/test2',
+      component: () => import('../views/test2.vue'),
+      meta: {
+        metaInfo: {
+          title: '测试',
+          keywords: '测试',
+          description: '测试',
+        },
+        auth: false,
+      },
+    },
   ],
 })
 

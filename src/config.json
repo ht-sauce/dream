@@ -1,0 +1,8 @@
+{
+  "fileDomain": "https://psy.guiji.ai",
+  "api": {
+    "knowledge": "/psy",
+    "minapp":"/weixin-api",
+    "userconfig": "/customer-api"
+  }
+}

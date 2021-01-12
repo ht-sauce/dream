@@ -3,7 +3,7 @@ import vue from 'vue'
 // 传入参数true则控制边界不传和false则不控制边界,默认控制边界
 //主函数
 const directive = () => {
-  let expression = false
+  let expression = true
   vue.directive('DhtMove', {
     inserted: function(el, binding) {
       expression = binding.expression || expression

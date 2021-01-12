@@ -52,7 +52,6 @@ router.beforeEach((to, from, next) => {
   next()
 })
 //后置守卫
-// eslint-disable-next-line no-unused-vars
 router.afterEach((to, from) => {
   control.go_home(to.meta.auth)
 })
