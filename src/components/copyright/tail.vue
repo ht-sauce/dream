@@ -8,7 +8,7 @@
       <span style="margin-right: 10px"
         >Copyright © 2019-{{ year.getFullYear() }} dht.red AllRightsReserved</span
       >
-      <a target="_blank" href="http://www.beian.miit.gov.cn">ICP证：浙ICP备19045987号</a>
+      <a target="_blank" href="http://beian.miit.gov.cn">ICP证：浙ICP备19045987号-1</a>
     </div>
   </div>
 </template>
